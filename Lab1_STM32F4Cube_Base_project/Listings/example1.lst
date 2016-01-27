@@ -1,0 +1,47 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000                 AREA             myCode, CODE, READONLY
+    2 00000000                 EXPORT           example1
+    3 00000000         example1
+    4 00000000 F04F 0119       MOV              R1, #25
+    5 00000004 F04F 024B       MOV              R2, #75
+    6 00000008 4411            ADD              R1, R2, R1
+    7 0000000A 4770            BX               LR
+    8 0000000C                 END
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
+erwork --depend=.\objects\example1.d -o.\objects\example1.o -IC:\Lab1_STM32F4Cu
+be_Base_project\RTE -IC:\Lab1_STM32F4Cube_Base_project\RTE\Device\STM32F407VGTx
+ -IC:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include -IC:\Keil_v5\ARM\PACK\Keil
+\STM32F4xx_DFP\2.7.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include -IC:\Keil_v5\ARM
+\PACK\Keil\STM32F4xx_DFP\2.7.0\Drivers\STM32F4xx_HAL_Driver\Inc --predefine="__
+MICROLIB SETA 1" --predefine="__UVISION_VERSION SETA 515" --predefine="_RTE_ SE
+TA 1" --predefine="STM32F407xx SETA 1" --list=.\listings\example1.lst Sources\e
+xample1.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+example1 00000000
+
+Symbol: example1
+   Definitions
+      At line 3 in file Sources\example1.s
+   Uses
+      At line 2 in file Sources\example1.s
+Comment: example1 used once
+myCode 00000000
+
+Symbol: myCode
+   Definitions
+      At line 1 in file Sources\example1.s
+   Uses
+      None
+Comment: myCode unused
+2 symbols
+337 symbols in table
