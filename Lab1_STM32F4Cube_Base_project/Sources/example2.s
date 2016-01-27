@@ -1,0 +1,8 @@
+	AREA myCode, CODE, READONLY
+	EXPORT example2
+example2
+	VLDR.f32 S1, =2.5
+	VLDR.f32 S2, =7.5
+	VADD.f32 S1, S2, S1
+	BX LR
+	END

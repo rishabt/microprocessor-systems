@@ -1,0 +1,72 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000                 AREA             myData, DATA, READWRITE
+    2 00000000                 EXPORT           myString1
+    3 00000000                 EXPORT           myString2
+    4 00000000 01 02 03 
+              04 05    myString1
+                               DCB              1,2,3,4,5
+    5 00000005 AB AB AB 
+              AB AB AB 
+              AB AB AB 
+              AB AB AB 
+              AB AB AB 
+              AB AB AB 
+              AB AB AB 
+              AB AB AB 
+              AB AB AB 
+              AB AB AB 
+              AB AB AB 
+              AB AB AB 
+              AB AB AB 
+              AB AB AB 
+              AB AB AB 
+              AB AB AB 
+              AB AB    myString2
+                               FILL             50,0xAB
+    6 00000037                 END
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
+erwork --depend=.\objects\data_example.d -o.\objects\data_example.o -IC:\Lab1_S
+TM32F4Cube_Base_project\RTE -IC:\Lab1_STM32F4Cube_Base_project\RTE\Device\STM32
+F407VGTx -IC:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include -IC:\Keil_v5\ARM\P
+ACK\Keil\STM32F4xx_DFP\2.7.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include -IC:\Kei
+l_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.7.0\Drivers\STM32F4xx_HAL_Driver\Inc --prede
+fine="__MICROLIB SETA 1" --predefine="__UVISION_VERSION SETA 515" --predefine="
+_RTE_ SETA 1" --predefine="STM32F407xx SETA 1" --list=.\listings\data_example.l
+st Sources\data_example.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+myData 00000000
+
+Symbol: myData
+   Definitions
+      At line 1 in file Sources\data_example.s
+   Uses
+      None
+Comment: myData unused
+myString1 00000000
+
+Symbol: myString1
+   Definitions
+      At line 4 in file Sources\data_example.s
+   Uses
+      At line 2 in file Sources\data_example.s
+Comment: myString1 used once
+myString2 00000005
+
+Symbol: myString2
+   Definitions
+      At line 5 in file Sources\data_example.s
+   Uses
+      At line 3 in file Sources\data_example.s
+Comment: myString2 used once
+3 symbols
+337 symbols in table

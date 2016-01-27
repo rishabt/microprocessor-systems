@@ -186,12 +186,23 @@ Reset_Handler    PROC
                  EXPORT  Reset_Handler             [WEAK]
         ;IMPORT  SystemInit
         ;IMPORT  __main
-				IMPORT example1
-					
+				;IMPORT example1
+				;IMPORT example2
+				IMPORT example4
                  ;LDR     R0, =SystemInit
                  ;BLX     R0
                  ;LDR     R0, =__main
-                 LDR		 R0, =example1
+
+								 ; BEGIN enabling FPU ;
+								 ;LDR.W		R0, =0xE000ED88
+								 ;LDR			R1, [R0]
+								 ;ORR			R1, R1, #(0xF << 20)
+								 ;STR			R1, [R0]
+								 ;DSB
+								 ;ISB
+								 ; END enabling FPU ;
+								 
+								 LDR		 R0, =example4
 								 BLX      R0
 								 NOP
                  ENDP

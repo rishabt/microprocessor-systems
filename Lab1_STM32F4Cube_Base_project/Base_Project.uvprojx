@@ -127,7 +127,7 @@
           <Simulator>
             <UseSimulator>1</UseSimulator>
             <LoadApplicationAtStartup>1</LoadApplicationAtStartup>
-            <RunToMain>1</RunToMain>
+            <RunToMain>0</RunToMain>
             <RestoreBreakpoints>1</RestoreBreakpoints>
             <RestoreWatchpoints>1</RestoreWatchpoints>
             <RestoreMemoryDisplay>1</RestoreMemoryDisplay>
@@ -432,6 +432,21 @@
               <FileType>2</FileType>
               <FilePath>.\Sources\example1.s</FilePath>
             </File>
+            <File>
+              <FileName>example2.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\Sources\example2.s</FilePath>
+            </File>
+            <File>
+              <FileName>data_example.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\Sources\data_example.s</FilePath>
+            </File>
+            <File>
+              <FileName>example3.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\Sources\example3.s</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -445,7 +460,14 @@
   </Targets>
 
   <RTE>
-    <apis/>
+    <apis>
+      <api Cclass="Device" Cgroup="STM32Cube Framework" exclusive="1">
+        <package name="STM32F4xx_DFP" schemaVersion="1.3" url="http://www.keil.com/pack" vendor="Keil" version="2.7.0"/>
+        <targetInfos>
+          <targetInfo name="Lab 1"/>
+        </targetInfos>
+      </api>
+    </apis>
     <components>
       <component Cclass="CMSIS" Cgroup="CORE" Cvendor="ARM" Cversion="4.3.0" condition="Cortex-M Device">
         <package name="CMSIS" schemaVersion="1.3" url="http://www.keil.com/pack/" vendor="ARM" version="4.5.0"/>
@@ -459,6 +481,60 @@
           <targetInfo name="Lab 1"/>
         </targetInfos>
       </component>
+      <component Cclass="Device" Cgroup="STM32Cube Framework" Csub="Classic" Cvendor="Keil" Cversion="1.4.2" condition="STM32F4 Framework Classic">
+        <package name="STM32F4xx_DFP" schemaVersion="1.3" url="http://www.keil.com/pack" vendor="Keil" version="2.7.0"/>
+        <targetInfos>
+          <targetInfo name="Lab 1"/>
+        </targetInfos>
+      </component>
+      <component Cclass="Device" Cgroup="STM32Cube HAL" Csub="ADC" Cvendor="Keil" Cversion="1.4.2" condition="STM32F4 HAL DMA">
+        <package name="STM32F4xx_DFP" schemaVersion="1.3" url="http://www.keil.com/pack" vendor="Keil" version="2.7.0"/>
+        <targetInfos>
+          <targetInfo name="Lab 1"/>
+        </targetInfos>
+      </component>
+      <component Cclass="Device" Cgroup="STM32Cube HAL" Csub="Common" Cvendor="Keil" Cversion="1.4.2" condition="STM32F4 HAL Common">
+        <package name="STM32F4xx_DFP" schemaVersion="1.3" url="http://www.keil.com/pack" vendor="Keil" version="2.7.0"/>
+        <targetInfos>
+          <targetInfo name="Lab 1"/>
+        </targetInfos>
+      </component>
+      <component Cclass="Device" Cgroup="STM32Cube HAL" Csub="Cortex" Cvendor="Keil" Cversion="1.4.2" condition="STM32F4 HAL">
+        <package name="STM32F4xx_DFP" schemaVersion="1.3" url="http://www.keil.com/pack" vendor="Keil" version="2.7.0"/>
+        <targetInfos>
+          <targetInfo name="Lab 1"/>
+        </targetInfos>
+      </component>
+      <component Cclass="Device" Cgroup="STM32Cube HAL" Csub="DMA" Cvendor="Keil" Cversion="1.4.2" condition="STM32F4 HAL">
+        <package name="STM32F4xx_DFP" schemaVersion="1.3" url="http://www.keil.com/pack" vendor="Keil" version="2.7.0"/>
+        <targetInfos>
+          <targetInfo name="Lab 1"/>
+        </targetInfos>
+      </component>
+      <component Cclass="Device" Cgroup="STM32Cube HAL" Csub="Flash" Cvendor="Keil" Cversion="1.4.2" condition="STM32F4 HAL">
+        <package name="STM32F4xx_DFP" schemaVersion="1.3" url="http://www.keil.com/pack" vendor="Keil" version="2.7.0"/>
+        <targetInfos>
+          <targetInfo name="Lab 1"/>
+        </targetInfos>
+      </component>
+      <component Cclass="Device" Cgroup="STM32Cube HAL" Csub="GPIO" Cvendor="Keil" Cversion="1.4.2" condition="STM32F4 HAL">
+        <package name="STM32F4xx_DFP" schemaVersion="1.3" url="http://www.keil.com/pack" vendor="Keil" version="2.7.0"/>
+        <targetInfos>
+          <targetInfo name="Lab 1"/>
+        </targetInfos>
+      </component>
+      <component Cclass="Device" Cgroup="STM32Cube HAL" Csub="PWR" Cvendor="Keil" Cversion="1.4.2" condition="STM32F4 HAL">
+        <package name="STM32F4xx_DFP" schemaVersion="1.3" url="http://www.keil.com/pack" vendor="Keil" version="2.7.0"/>
+        <targetInfos>
+          <targetInfo name="Lab 1"/>
+        </targetInfos>
+      </component>
+      <component Cclass="Device" Cgroup="STM32Cube HAL" Csub="RCC" Cvendor="Keil" Cversion="1.4.2" condition="STM32F4 HAL GPIO">
+        <package name="STM32F4xx_DFP" schemaVersion="1.3" url="http://www.keil.com/pack" vendor="Keil" version="2.7.0"/>
+        <targetInfos>
+          <targetInfo name="Lab 1"/>
+        </targetInfos>
+      </component>
       <component Cclass="Device" Cgroup="Startup" Cvendor="Keil" Cversion="2.4.2" condition="STM32F4 CMSIS">
         <package name="STM32F4xx_DFP" schemaVersion="1.3" url="http://www.keil.com/pack" vendor="Keil" version="2.7.0"/>
         <targetInfos>
@@ -467,9 +543,25 @@
       </component>
     </components>
     <files>
+      <file attr="config" category="header" name="CMSIS\Driver\Config\RTE_Device.h" version="2.3.0">
+        <instance index="0">RTE\Device\STM32F407VGTx\RTE_Device.h</instance>
+        <component Cclass="Device" Cgroup="STM32Cube Framework" Csub="Classic" Cvendor="Keil" Cversion="1.4.2" condition="STM32F4 Framework Classic"/>
+        <package name="STM32F4xx_DFP" schemaVersion="1.3" url="http://www.keil.com/pack" vendor="Keil" version="2.7.0"/>
+        <targetInfos>
+          <targetInfo name="Lab 1"/>
+        </targetInfos>
+      </file>
       <file attr="config" category="source" condition="STM32F407xx_ARMCC" name="Drivers\CMSIS\Device\ST\STM32F4xx\Source\Templates\arm\startup_stm32f407xx.s" version="2.4.2">
         <instance index="0">RTE\Device\STM32F407VGTx\startup_stm32f407xx.s</instance>
         <component Cclass="Device" Cgroup="Startup" Cvendor="Keil" Cversion="2.4.2" condition="STM32F4 CMSIS"/>
+        <package name="STM32F4xx_DFP" schemaVersion="1.3" url="http://www.keil.com/pack" vendor="Keil" version="2.7.0"/>
+        <targetInfos>
+          <targetInfo name="Lab 1"/>
+        </targetInfos>
+      </file>
+      <file attr="config" category="header" name="MDK\Templates\Inc\stm32f4xx_hal_conf.h">
+        <instance index="0">RTE\Device\STM32F407VGTx\stm32f4xx_hal_conf.h</instance>
+        <component Cclass="Device" Cgroup="STM32Cube Framework" Csub="Classic" Cvendor="Keil" Cversion="1.4.2" condition="STM32F4 Framework Classic"/>
         <package name="STM32F4xx_DFP" schemaVersion="1.3" url="http://www.keil.com/pack" vendor="Keil" version="2.7.0"/>
         <targetInfos>
           <targetInfo name="Lab 1"/>

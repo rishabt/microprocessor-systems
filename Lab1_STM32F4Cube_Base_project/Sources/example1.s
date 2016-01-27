@@ -1,5 +1,5 @@
 	AREA myCode, CODE, READONLY
-	EXPORT example1
+	EXPORT example1	
 example1
 	MOV R1, #25
 	MOV R2, #75
