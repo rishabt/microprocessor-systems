@@ -1,0 +1,46 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000                 AREA             myCode, CODE, READONLY
+    2 00000000                 EXPORT           Kalmanfilter_asm
+    3 00000000         Kalmanfilter_asm
+    4 00000000         
+    5 00000000         
+    6 00000000                 END
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
+erwork --depend=.\objects\kalmanfilter_asm.d -o.\objects\kalmanfilter_asm.o -IC
+:\microprocessor-systems\Lab1_STM32F4Cube_Base_project\RTE -IC:\microprocessor-
+systems\Lab1_STM32F4Cube_Base_project\RTE\Device\STM32F407VGTx -IC:\Keil_v5\ARM
+\PACK\ARM\CMSIS\4.5.0\CMSIS\Include -IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.
+7.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include -IC:\Keil_v5\ARM\PACK\Keil\STM32F
+4xx_DFP\2.7.0\Drivers\STM32F4xx_HAL_Driver\Inc --predefine="__MICROLIB SETA 1" 
+--predefine="__UVISION_VERSION SETA 515" --predefine="_RTE_ SETA 1" --predefine
+="STM32F407xx SETA 1" --list=.\listings\kalmanfilter_asm.lst Sources\Kalmanfilt
+er_asm.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+Kalmanfilter_asm 00000000
+
+Symbol: Kalmanfilter_asm
+   Definitions
+      At line 3 in file Sources\Kalmanfilter_asm.s
+   Uses
+      At line 2 in file Sources\Kalmanfilter_asm.s
+Comment: Kalmanfilter_asm used once
+myCode 00000000
+
+Symbol: myCode
+   Definitions
+      At line 1 in file Sources\Kalmanfilter_asm.s
+   Uses
+      None
+Comment: myCode unused
+2 symbols
+336 symbols in table

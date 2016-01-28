@@ -447,6 +447,11 @@
               <FileType>2</FileType>
               <FilePath>.\Sources\example3.s</FilePath>
             </File>
+            <File>
+              <FileName>Kalmanfilter_asm.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\Sources\Kalmanfilter_asm.s</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

@@ -30,14 +30,14 @@ ARM Macro Assembler    Page 1
                                FILL             50,0xAB
     6 00000037                 END
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
-erwork --depend=.\objects\data_example.d -o.\objects\data_example.o -IC:\Lab1_S
-TM32F4Cube_Base_project\RTE -IC:\Lab1_STM32F4Cube_Base_project\RTE\Device\STM32
-F407VGTx -IC:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include -IC:\Keil_v5\ARM\P
-ACK\Keil\STM32F4xx_DFP\2.7.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include -IC:\Kei
-l_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.7.0\Drivers\STM32F4xx_HAL_Driver\Inc --prede
-fine="__MICROLIB SETA 1" --predefine="__UVISION_VERSION SETA 515" --predefine="
-_RTE_ SETA 1" --predefine="STM32F407xx SETA 1" --list=.\listings\data_example.l
-st Sources\data_example.s
+erwork --depend=.\objects\data_example.d -o.\objects\data_example.o -IC:\microp
+rocessor-systems\Lab1_STM32F4Cube_Base_project\RTE -IC:\microprocessor-systems\
+Lab1_STM32F4Cube_Base_project\RTE\Device\STM32F407VGTx -IC:\Keil_v5\ARM\PACK\AR
+M\CMSIS\4.5.0\CMSIS\Include -IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.7.0\Driv
+ers\CMSIS\Device\ST\STM32F4xx\Include -IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\
+2.7.0\Drivers\STM32F4xx_HAL_Driver\Inc --predefine="__MICROLIB SETA 1" --predef
+ine="__UVISION_VERSION SETA 515" --predefine="_RTE_ SETA 1" --predefine="STM32F
+407xx SETA 1" --list=.\listings\data_example.lst Sources\data_example.s
 
 
 
