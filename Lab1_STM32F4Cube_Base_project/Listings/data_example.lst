@@ -5,12 +5,10 @@ ARM Macro Assembler    Page 1
 
 
     1 00000000                 AREA             myData, DATA, READWRITE
-    2 00000000                 EXPORT           myString1
-    3 00000000                 EXPORT           myString2
-    4 00000000 01 02 03 
-              04 05    myString1
-                               DCB              1,2,3,4,5
-    5 00000005 AB AB AB 
+    2 00000000 07 09 03 
+              08       myString1
+                               DCB              7,9,3,8
+    3 00000004 AB AB AB 
               AB AB AB 
               AB AB AB 
               AB AB AB 
@@ -28,7 +26,9 @@ ARM Macro Assembler    Page 1
               AB AB AB 
               AB AB    myString2
                                FILL             50,0xAB
-    6 00000037                 END
+    4 00000036                 EXPORT           myString1
+    5 00000036                 EXPORT           myString2
+    6 00000036                 END
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
 erwork --depend=.\objects\data_example.d -o.\objects\data_example.o -IC:\microp
 rocessor-systems\Lab1_STM32F4Cube_Base_project\RTE -IC:\microprocessor-systems\
@@ -56,17 +56,17 @@ myString1 00000000
 
 Symbol: myString1
    Definitions
-      At line 4 in file Sources\data_example.s
-   Uses
       At line 2 in file Sources\data_example.s
+   Uses
+      At line 4 in file Sources\data_example.s
 Comment: myString1 used once
-myString2 00000005
+myString2 00000004
 
 Symbol: myString2
    Definitions
-      At line 5 in file Sources\data_example.s
-   Uses
       At line 3 in file Sources\data_example.s
+   Uses
+      At line 5 in file Sources\data_example.s
 Comment: myString2 used once
 3 symbols
 337 symbols in table

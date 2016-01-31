@@ -3,12 +3,12 @@
 	IMPORT myString2
 	EXPORT example4
 example4
-	LDR R0, =myString3
+	LDR R0, =myString1
 	LDR R1, [R0]
-	LDR R2, =myString1
-	STR R1, [R2]
+	MOV R2, #8
+	STR R2, [R0]
 	BX LR
 		
 	ALIGN
-myString3	DCB	1,2,3,4
+myString3	DCFS	1.1,2.2,3.3,4.4,5.5
 	END

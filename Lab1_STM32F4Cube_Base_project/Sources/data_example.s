@@ -1,6 +1,6 @@
 	AREA myData, DATA, READWRITE
+myString1	DCB		7,9,3,8
+myString2	FILL 50,0xAB
 	EXPORT myString1
 	EXPORT myString2
-myString1	DCB	1,2,3,4,5
-myString2	FILL 50,0xAB
 	END

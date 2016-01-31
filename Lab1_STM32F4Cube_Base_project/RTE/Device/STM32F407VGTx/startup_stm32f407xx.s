@@ -186,7 +186,7 @@ Reset_Handler    PROC
                  EXPORT  Reset_Handler             [WEAK]
         ;IMPORT  SystemInit
         ;IMPORT  __main
-				IMPORT Kalmanfilter_testbench_asm
+				IMPORT example4
 
 								 ; BEGIN enabling FPU ;
 								 LDR.W		R0, =0xE000ED88
@@ -203,8 +203,8 @@ Reset_Handler    PROC
                  ;LDR     R0, =__main
 								 ;BX			 R0
                  
-								 LDR			R0, Kalmanfilter_testbench_asm
-								 BX
+								 LDR			R0, =example4
+								 BX				R0
 								 
 								 ENDP
 

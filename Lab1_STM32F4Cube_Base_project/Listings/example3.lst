@@ -9,18 +9,20 @@ ARM Macro Assembler    Page 1
     3 00000000                 IMPORT           myString2
     4 00000000                 EXPORT           example4
     5 00000000         example4
-    6 00000000 4803            LDR              R0, =myString3
+    6 00000000 4807            LDR              R0, =myString1
     7 00000002 6801            LDR              R1, [R0]
-    8 00000004 4A03            LDR              R2, =myString1
-    9 00000006 6011            STR              R1, [R2]
-   10 00000008 4770            BX               LR
-   11 0000000A         
-   12 0000000A 00 00           ALIGN
-   13 0000000C 01 02 03 
-              04       myString3
-                               DCB              1,2,3,4
-   14 00000010                 END
-              00000000 
+    8 00000004 F04F 0208       MOV              R2, #8
+    9 00000008 6002            STR              R2, [R0]
+   10 0000000A 4770            BX               LR
+   11 0000000C         
+   12 0000000C                 ALIGN
+   13 0000000C 3F8CCCCD 
+              400CCCCD 
+              40533333 
+              408CCCCD 
+              40B00000 myString3
+                               DCFS             1.1,2.2,3.3,4.4,5.5
+   14 00000020                 END
               00000000 
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
 erwork --depend=.\objects\example3.d -o.\objects\example3.o -IC:\microprocessor
@@ -59,8 +61,8 @@ Symbol: myString3
    Definitions
       At line 13 in file Sources\example3.s
    Uses
-      At line 6 in file Sources\example3.s
-Comment: myString3 used once
+      None
+Comment: myString3 unused
 3 symbols
 
 
@@ -74,7 +76,7 @@ Symbol: myString1
    Definitions
       At line 2 in file Sources\example3.s
    Uses
-      At line 8 in file Sources\example3.s
+      At line 6 in file Sources\example3.s
 Comment: myString1 used once
 myString2 00000000
 
