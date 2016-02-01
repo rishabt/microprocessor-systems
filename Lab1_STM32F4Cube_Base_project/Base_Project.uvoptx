@@ -129,7 +129,7 @@
         <uSim>1</uSim>
         <uTrg>0</uTrg>
         <sLdApp>1</sLdApp>
-        <sGomain>1</sGomain>
+        <sGomain>0</sGomain>
         <sRbreak>1</sRbreak>
         <sRwatch>1</sRwatch>
         <sRmem>1</sRmem>
@@ -191,34 +191,66 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-          <LineNumber>0</LineNumber>
-          <EnabledFlag>0</EnabledFlag>
-          <Address>134218492</Address>
+          <LineNumber>53</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>134222348</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-          <Filename></Filename>
+          <Filename>.\Sources\Kalmanfilter_testbench_asm.s</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>0x080002FC</Expression>
+          <Expression>\\Base_Project\Sources/Kalmanfilter_testbench_asm.s\53</Expression>
         </Bp>
         <Bp>
           <Number>1</Number>
           <Type>0</Type>
-          <LineNumber>22</LineNumber>
+          <LineNumber>205</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>0</Address>
+          <Address>134218476</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>0</BreakIfRCount>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>RTE\Device\STM32F407VGTx\startup_stm32f407xx.s</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\Base_Project\RTE/Device/STM32F407VGTx/startup_stm32f407xx.s\205</Expression>
+        </Bp>
+        <Bp>
+          <Number>2</Number>
+          <Type>0</Type>
+          <LineNumber>56</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>134218342</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
           <Filename>.\Sources\main.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression></Expression>
+          <Expression>\\Base_Project\Sources/main.c\56</Expression>
+        </Bp>
+        <Bp>
+          <Number>3</Number>
+          <Type>0</Type>
+          <LineNumber>229</LineNumber>
+          <EnabledFlag>0</EnabledFlag>
+          <Address>134218486</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>RTE\Device\STM32F407VGTx\startup_stm32f407xx.s</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\Base_Project\RTE/Device/STM32F407VGTx/startup_stm32f407xx.s\229</Expression>
         </Bp>
       </Breakpoint>
       <WatchWindow1>
@@ -232,7 +264,7 @@
         <Mm>
           <WinNumber>1</WinNumber>
           <SubType>0</SubType>
-          <ItemText>0x08000210</ItemText>
+          <ItemText>0x20000034</ItemText>
           <AccSizeX>0</AccSizeX>
         </Mm>
       </MemoryWindow1>
@@ -259,7 +291,7 @@
         <aLa>0</aLa>
         <aPa1>0</aPa1>
         <AscS4>0</AscS4>
-        <aSer4>0</aSer4>
+        <aSer4>1</aSer4>
         <StkLoc>0</StkLoc>
         <TrcWin>0</TrcWin>
         <newCpu>0</newCpu>
@@ -330,8 +362,8 @@
       <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\Sources\example1.s</PathWithFileName>
-      <FilenameWithoutPath>example1.s</FilenameWithoutPath>
+      <PathWithFileName>.\Sources\Kalmanfilter_asm.s</PathWithFileName>
+      <FilenameWithoutPath>Kalmanfilter_asm.s</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -343,8 +375,8 @@
       <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\Sources\example2.s</PathWithFileName>
-      <FilenameWithoutPath>example2.s</FilenameWithoutPath>
+      <PathWithFileName>.\Sources\Kalmanfilter_testbench_asm.s</PathWithFileName>
+      <FilenameWithoutPath>Kalmanfilter_testbench_asm.s</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -356,34 +388,8 @@
       <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\Sources\data_example.s</PathWithFileName>
-      <FilenameWithoutPath>data_example.s</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>1</GroupNumber>
-      <FileNumber>7</FileNumber>
-      <FileType>2</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>.\Sources\example3.s</PathWithFileName>
-      <FilenameWithoutPath>example3.s</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>1</GroupNumber>
-      <FileNumber>8</FileNumber>
-      <FileType>2</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>.\Sources\Kalmanfilter_asm.s</PathWithFileName>
-      <FilenameWithoutPath>Kalmanfilter_asm.s</FilenameWithoutPath>
+      <PathWithFileName>.\Sources\data.s</PathWithFileName>
+      <FilenameWithoutPath>data.s</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>

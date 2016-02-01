@@ -127,7 +127,7 @@
           <Simulator>
             <UseSimulator>1</UseSimulator>
             <LoadApplicationAtStartup>1</LoadApplicationAtStartup>
-            <RunToMain>1</RunToMain>
+            <RunToMain>0</RunToMain>
             <RestoreBreakpoints>1</RestoreBreakpoints>
             <RestoreWatchpoints>1</RestoreWatchpoints>
             <RestoreMemoryDisplay>1</RestoreMemoryDisplay>
@@ -428,29 +428,19 @@
               <FilePath>.\Sources\fput_debug.c</FilePath>
             </File>
             <File>
-              <FileName>example1.s</FileName>
-              <FileType>2</FileType>
-              <FilePath>.\Sources\example1.s</FilePath>
-            </File>
-            <File>
-              <FileName>example2.s</FileName>
-              <FileType>2</FileType>
-              <FilePath>.\Sources\example2.s</FilePath>
-            </File>
-            <File>
-              <FileName>data_example.s</FileName>
-              <FileType>2</FileType>
-              <FilePath>.\Sources\data_example.s</FilePath>
-            </File>
-            <File>
-              <FileName>example3.s</FileName>
-              <FileType>2</FileType>
-              <FilePath>.\Sources\example3.s</FilePath>
-            </File>
-            <File>
               <FileName>Kalmanfilter_asm.s</FileName>
               <FileType>2</FileType>
               <FilePath>.\Sources\Kalmanfilter_asm.s</FilePath>
+            </File>
+            <File>
+              <FileName>Kalmanfilter_testbench_asm.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\Sources\Kalmanfilter_testbench_asm.s</FilePath>
+            </File>
+            <File>
+              <FileName>data.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\Sources\data.s</FilePath>
             </File>
           </Files>
         </Group>

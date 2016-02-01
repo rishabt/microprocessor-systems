@@ -5,8 +5,136 @@ ARM Macro Assembler    Page 1
 
 
     1 00000000                 AREA             myCode, CODE, READONLY
-    2 00000000         
-    3 00000000                 END
+    2 00000000                 IMPORT           Kalmanfilter_asm
+    3 00000000                 IMPORT           input_array_base_address
+    4 00000000                 IMPORT           output_array_base_address
+    5 00000000                 IMPORT           kalman_state_base_address
+    6 00000000                 IMPORT           test_status_base_address
+    7 00000000         
+    8 00000000                 EXPORT           Kalmanfilter_testbench_asm
+    9 00000000         
+   10 00000000         Kalmanfilter_testbench_asm
+   11 00000000 E006            B                test_general_case
+   12 00000002 E05C    finish_test_general
+                               B                test_all_zero_inputs
+   13 00000004 BF00    finish_test_all_zero_inputs
+                               NOP
+   14 00000006         
+   15 00000006         fail_test_general
+   16 00000006 F04F 0100       MOV              R1, #0
+   17 0000000A 4832            LDR              R0, =test_status_base_address ;
+                                                             Test Status Addres
+                                                            s
+   18 0000000C 6001            STR              R1, [R0]    ; Set test status t
+                                                            o fail
+   19 0000000E E7F8            B                finish_test_general
+   20 00000010         
+   21 00000010         test_general_case
+   22 00000010 4831            LDR              R0, =input_array_base_address ;
+                                                             Input array base a
+                                                            ddress
+   23 00000012 EEBF 0A00       VMOV.F32         S0, #-1.0
+   24 00000016 ED80 0A00       VSTR.F32         S0, [R0]
+   25 0000001A EEB4 0A00       VMOV.F32         S0, #0.125
+   26 0000001E ED80 0A01       VSTR.F32         S0, [R0, #0x04]
+   27 00000022 EEB3 0A0F       VMOV.F32         S0, #31
+   28 00000026 ED80 0A02       VSTR.F32         S0, [R0, #0x08]
+   29 0000002A EEB7 0A01       VMOV.F32         S0, #1.0625
+   30 0000002E ED80 0A03       VSTR.F32         S0, [R0, #0x0C]
+   31 00000032         
+   32 00000032 492A            LDR              R1, =output_array_base_address 
+                                                            ; Output array base
+                                                             address
+   33 00000034         
+   34 00000034 4A2A            LDR              R2, =kalman_state_base_address 
+                                                            ; Kalman state base
+                                                             address
+   35 00000036 EEBA 0A0F       VMOV.F32         S0, #-15.5
+   36 0000003A ED82 0A00       VSTR.F32         S0, [R2]    ; q
+   37 0000003E EEB0 0A02       VMOV.F32         S0, #2.25
+   38 00000042 ED82 0A01       VSTR.F32         S0, [R2, #0x04] ; r
+   39 00000046 EEBE 0A03       VMOV.F32         S0, #-0.59375
+   40 0000004A ED82 0A02       VSTR.F32         S0, [R2, #0x08] ; x
+   41 0000004E EEBD 0A03       VMOV.F32         S0, #-0.296875
+   42 00000052 ED82 0A03       VSTR.F32         S0, [R2, #0x0C] ; p
+   43 00000056 EEBF 0A05       VMOV.F32         S0, #-1.3125
+   44 0000005A ED82 0A04       VSTR.F32         S0, [R2, #0x10] ; q
+   45 0000005E         
+   46 0000005E F04F 0304       MOV              R3, #0x04   ; Load array length
+                                                            
+   47 00000062         
+
+
+
+ARM Macro Assembler    Page 2 
+
+
+   48 00000062 F7FF FFFE       BL               Kalmanfilter_asm
+   49 00000066 BF00            NOP
+   50 00000068         
+   51 00000068 481E            LDR              R0, =test_general_result
+   52 0000006A 491C            LDR              R1, =output_array_base_address
+   53 0000006C ED90 0A00       VLDR.F32         S0, [R0]
+   54 00000070 EDD1 0A00       VLDR.F32         S1, [R1]
+   55 00000074 EEB4 0A60       VCMP.F32         S0, S1
+   56 00000078 EEF1 FA10       VMRS             APSR_nzcv, FPSCR
+   57 0000007C D1C3            BNE              fail_test_general
+   58 0000007E         
+   59 0000007E ED90 0A01       VLDR.F32         S0, [R0, #0x04]
+   60 00000082 EDD1 0A01       VLDR.F32         S1, [R1, #0x04]
+   61 00000086 EEB4 0A60       VCMP.F32         S0, S1
+   62 0000008A EEF1 FA10       VMRS             APSR_nzcv, FPSCR
+   63 0000008E D1BA            BNE              fail_test_general
+   64 00000090         
+   65 00000090 ED90 0A02       VLDR.F32         S0, [R0, #0x08]
+   66 00000094 EDD1 0A02       VLDR.F32         S1, [R1, #0x08]
+   67 00000098 EEB4 0A60       VCMP.F32         S0, S1
+   68 0000009C EEF1 FA10       VMRS             APSR_nzcv, FPSCR
+   69 000000A0 D1B1            BNE              fail_test_general
+   70 000000A2         
+   71 000000A2 ED90 0A03       VLDR.F32         S0, [R0, #0x0C]
+   72 000000A6 EDD1 0A03       VLDR.F32         S1, [R1, #0x0C]
+   73 000000AA EEB4 0A60       VCMP.F32         S0, S1
+   74 000000AE EEF1 FA10       VMRS             APSR_nzcv, FPSCR
+   75 000000B2 D1A8            BNE              fail_test_general
+   76 000000B4         
+   77 000000B4 F04F 0101       MOV              R1, #1
+   78 000000B8 4806            LDR              R0, =test_status_base_address ;
+                                                             Test Status Addres
+                                                            s
+   79 000000BA 6001            STR              R1, [R0]    ; Set test to succe
+                                                            ss
+   80 000000BC E7A1            B                finish_test_general
+   81 000000BE         
+   82 000000BE         test_all_zero_inputs
+   83 000000BE BF00            NOP
+   84 000000C0 BF00            NOP
+   85 000000C2         
+   86 000000C2         test_all_negative_inputs
+   87 000000C2         test_single_input
+   88 000000C2         test_largest_inputs
+   89 000000C2         test_empty_input
+   90 000000C2         
+   91 000000C2 00 00           ALIGN
+   92 000000C4 BF88A2FE 
+              3EC146C4 
+              42163165 
+              C0D7BB18 test_general_result
+                               DCFS             0xBF88A2FE,0x3EC146C4,0x4216316
+5,0xC0D7BB18
+   93 000000D4         
+   94 000000D4                 END
+              00000000 
+              00000000 
+              00000000 
+              00000000 
+
+
+
+ARM Macro Assembler    Page 3 
+
+
+              00000000 
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
 erwork --depend=.\objects\kalmanfilter_testbench_asm.d -o.\objects\kalmanfilter
 _testbench_asm.o -IC:\microprocessor-systems\Lab1_STM32F4Cube_Base_project\RTE 
@@ -23,6 +151,42 @@ nch_asm.lst Sources\Kalmanfilter_testbench_asm.s
 ARM Macro Assembler    Page 1 Alphabetic symbol ordering
 Relocatable symbols
 
+Kalmanfilter_testbench_asm 00000000
+
+Symbol: Kalmanfilter_testbench_asm
+   Definitions
+      At line 10 in file Sources\Kalmanfilter_testbench_asm.s
+   Uses
+      At line 8 in file Sources\Kalmanfilter_testbench_asm.s
+Comment: Kalmanfilter_testbench_asm used once
+fail_test_general 00000006
+
+Symbol: fail_test_general
+   Definitions
+      At line 15 in file Sources\Kalmanfilter_testbench_asm.s
+   Uses
+      At line 57 in file Sources\Kalmanfilter_testbench_asm.s
+      At line 63 in file Sources\Kalmanfilter_testbench_asm.s
+      At line 69 in file Sources\Kalmanfilter_testbench_asm.s
+      At line 75 in file Sources\Kalmanfilter_testbench_asm.s
+
+finish_test_all_zero_inputs 00000004
+
+Symbol: finish_test_all_zero_inputs
+   Definitions
+      At line 13 in file Sources\Kalmanfilter_testbench_asm.s
+   Uses
+      None
+Comment: finish_test_all_zero_inputs unused
+finish_test_general 00000002
+
+Symbol: finish_test_general
+   Definitions
+      At line 12 in file Sources\Kalmanfilter_testbench_asm.s
+   Uses
+      At line 19 in file Sources\Kalmanfilter_testbench_asm.s
+      At line 80 in file Sources\Kalmanfilter_testbench_asm.s
+
 myCode 00000000
 
 Symbol: myCode
@@ -31,5 +195,116 @@ Symbol: myCode
    Uses
       None
 Comment: myCode unused
-1 symbol
-335 symbols in table
+test_all_negative_inputs 000000C2
+
+Symbol: test_all_negative_inputs
+   Definitions
+      At line 86 in file Sources\Kalmanfilter_testbench_asm.s
+   Uses
+      None
+Comment: test_all_negative_inputs unused
+test_all_zero_inputs 000000BE
+
+Symbol: test_all_zero_inputs
+   Definitions
+      At line 82 in file Sources\Kalmanfilter_testbench_asm.s
+   Uses
+      At line 12 in file Sources\Kalmanfilter_testbench_asm.s
+
+
+
+ARM Macro Assembler    Page 2 Alphabetic symbol ordering
+Relocatable symbols
+
+Comment: test_all_zero_inputs used once
+test_empty_input 000000C2
+
+Symbol: test_empty_input
+   Definitions
+      At line 89 in file Sources\Kalmanfilter_testbench_asm.s
+   Uses
+      None
+Comment: test_empty_input unused
+test_general_case 00000010
+
+Symbol: test_general_case
+   Definitions
+      At line 21 in file Sources\Kalmanfilter_testbench_asm.s
+   Uses
+      At line 11 in file Sources\Kalmanfilter_testbench_asm.s
+Comment: test_general_case used once
+test_general_result 000000C4
+
+Symbol: test_general_result
+   Definitions
+      At line 92 in file Sources\Kalmanfilter_testbench_asm.s
+   Uses
+      At line 51 in file Sources\Kalmanfilter_testbench_asm.s
+Comment: test_general_result used once
+test_largest_inputs 000000C2
+
+Symbol: test_largest_inputs
+   Definitions
+      At line 88 in file Sources\Kalmanfilter_testbench_asm.s
+   Uses
+      None
+Comment: test_largest_inputs unused
+test_single_input 000000C2
+
+Symbol: test_single_input
+   Definitions
+      At line 87 in file Sources\Kalmanfilter_testbench_asm.s
+   Uses
+      None
+Comment: test_single_input unused
+12 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+External symbols
+
+Kalmanfilter_asm 00000000
+
+Symbol: Kalmanfilter_asm
+   Definitions
+      At line 2 in file Sources\Kalmanfilter_testbench_asm.s
+   Uses
+      At line 48 in file Sources\Kalmanfilter_testbench_asm.s
+Comment: Kalmanfilter_asm used once
+input_array_base_address 00000000
+
+Symbol: input_array_base_address
+   Definitions
+      At line 3 in file Sources\Kalmanfilter_testbench_asm.s
+   Uses
+      At line 22 in file Sources\Kalmanfilter_testbench_asm.s
+Comment: input_array_base_address used once
+kalman_state_base_address 00000000
+
+Symbol: kalman_state_base_address
+   Definitions
+      At line 5 in file Sources\Kalmanfilter_testbench_asm.s
+   Uses
+      At line 34 in file Sources\Kalmanfilter_testbench_asm.s
+Comment: kalman_state_base_address used once
+output_array_base_address 00000000
+
+Symbol: output_array_base_address
+   Definitions
+      At line 4 in file Sources\Kalmanfilter_testbench_asm.s
+   Uses
+      At line 32 in file Sources\Kalmanfilter_testbench_asm.s
+      At line 52 in file Sources\Kalmanfilter_testbench_asm.s
+
+test_status_base_address 00000000
+
+Symbol: test_status_base_address
+   Definitions
+      At line 6 in file Sources\Kalmanfilter_testbench_asm.s
+   Uses
+      At line 17 in file Sources\Kalmanfilter_testbench_asm.s
+      At line 78 in file Sources\Kalmanfilter_testbench_asm.s
+
+5 symbols
+354 symbols in table

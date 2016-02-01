@@ -6,72 +6,77 @@ ARM Macro Assembler    Page 1
 
     1 00000000                 AREA             myCode, CODE, READONLY
     2 00000000                 EXPORT           Kalmanfilter_asm
-    3 00000000         Kalmanfilter_asm
-    4 00000000         ; R0 --> Input array base address ;
-    5 00000000         ; R1 --> Output array base address ;
-    6 00000000         ; R2 --> Kalman state base address : q, r, x, p, k ;
-    7 00000000         ; R3 --> Length of input array : int ;
-    8 00000000         ; R4 --> i
-    9 00000000         ; S0 --> State variable : x
-   10 00000000         
-   11 00000000         ; S1 --> q
-   12 00000000         ; S2 --> r
-   13 00000000         ; S3 --> p
-   14 00000000         ; S4 --> k
-   15 00000000         ; S5 --> R0[i]
-   16 00000000         ; S6 --> tmp
-   17 00000000         
-   18 00000000         ; S9 --> 1.0
-   19 00000000         
-   20 00000000 EDD2 0A00       VLDR             S1, [R2]    ; load q
-   21 00000004 ED92 1A01       VLDR             S2, [R2, #0X04] ; load r
-   22 00000008 EDD2 1A03       VLDR             S3, [R2, #0X0C] ; load p
-   23 0000000C ED92 2A04       VLDR             S4, [R2, #0X10] ; load k
-   24 00000010         
-   25 00000010 ED92 0A02       VLDR             S0, [R2, #0X08] ; load x_(i-1)
-   26 00000014         
-   27 00000014 EEF7 4A00       VMOV.F32         S9, #1.0
-   28 00000018 F04F 0400       LDR              R4, =0x0    ; i = 0
-   29 0000001C         
-   30 0000001C         loop
-   31 0000001C EB00 0504       ADD              R5, R0, R4  ; tmp = R0[i] addre
+    3 00000000         
+    4 00000000         
+    5 00000000         ;------------------Register Allocation----------------;
+    6 00000000         ; R0 --> Input array base address           ;
+    7 00000000         ; R1 --> Output array base address           ;
+    8 00000000         ; R2 --> Kalman state base address : q, r, x, p, k   ;
+    9 00000000         ; R3 --> Length of input array : int          ;
+   10 00000000         ; R4 --> int i                    ;
+   11 00000000         ; S0 --> State variable : x              ;
+   12 00000000         ; S1 --> q                      ;
+   13 00000000         ; S2 --> r                      ;
+   14 00000000         ; S3 --> p                      ;
+   15 00000000         ; S4 --> k                      ;
+   16 00000000         ; S5 --> R0[i]                    ;
+   17 00000000         ; S6 --> tmp                     ;
+   18 00000000         ; S9 --> 1.0                     ;
+   19 00000000         ;-----------------------------------------------------;
+   20 00000000         Kalmanfilter_asm
+   21 00000000         
+   22 00000000         ;----------------------INIT-----------------------;
+   23 00000000 EDD2 0A00       VLDR             S1, [R2]    ; load q
+   24 00000004 ED92 1A01       VLDR             S2, [R2, #0X04] ; load r
+   25 00000008 EDD2 1A03       VLDR             S3, [R2, #0X0C] ; load p
+   26 0000000C ED92 2A04       VLDR             S4, [R2, #0X10] ; load k
+   27 00000010 ED92 0A02       VLDR             S0, [R2, #0X08] ; load x_(i-1) 
+                                                            (last state of x)
+   28 00000014 EEF7 4A00       VMOV.F32         S9, #1.0    ; constant register
+                                                             '1'
+   29 00000018 F04F 0400       LDR              R4, =0x0    ; int i = 0
+   30 0000001C         
+   31 0000001C         loop
+   32 0000001C EB00 0504       ADD              R5, R0, R4  ; tmp = R0[i] addre
                                                             ss
-   32 00000020 EDD5 2A00       VLDR             S5, [R5]    ; Get value of R0[i
+   33 00000020 EDD5 2A00       VLDR             S5, [R5]    ; Get value of R0[i
                                                             ]
-   33 00000024         ; Update Filter State ;
-   34 00000024 EE71 1AA0       VADD.F32         S3, S3, S1  ; p = p+q
-   35 00000028 EE31 3A81       VADD.F32         S6, S3, S2  ; tmp = p+r
-   36 0000002C EE81 2A83       VDIV.F32         S4, S3, S6  ; k = p/tmp
-   37 00000030 EE32 3AC0       VSUB.F32         S6, S5, S0  ; tmp = input[i] - 
+   34 00000024         
+   35 00000024         ;-----------------Update Filter State--------------;
+   36 00000024 EE71 1AA0       VADD.F32         S3, S3, S1  ; p = p+q
+   37 00000028 EE31 3A81       VADD.F32         S6, S3, S2  ; tmp = p+r
+   38 0000002C EE81 2A83       VDIV.F32         S4, S3, S6  ; k = p/tmp
+   39 00000030 EE32 3AC0       VSUB.F32         S6, S5, S0  ; tmp = input[i] - 
                                                             x_(i-1)
-   38 00000034 EE23 3A02       VMUL.F32         S6, S6, S4  ; tmp = tmp * k
-   39 00000038 EE30 0A03       VADD.F32         S0, S0, S6  ; x = x_(i-1) + tmp
+   40 00000034 EE23 3A02       VMUL.F32         S6, S6, S4  ; tmp = tmp * k
+   41 00000038 EE30 0A03       VADD.F32         S0, S0, S6  ; x = x_(i-1) + tmp
                                                             
-   40 0000003C EE34 3AC2       VSUB.F32         S6, S9, S4  ; tmp = 1 - k
-   41 00000040 EE61 1A83       VMUL.F32         S3, S3, S6  ; p = p * tmp
-   42 00000044         ; Save value to output array ;
-   43 00000044 EB01 0504       ADD              R5, R1, R4  ; tmp = R1[i] addre
+   42 0000003C EE34 3AC2       VSUB.F32         S6, S9, S4  ; tmp = 1 - k
+   43 00000040 EE61 1A83       VMUL.F32         S3, S3, S6  ; p = p * tmp
+   44 00000044         
+   45 00000044         ;----------Save value to output array---------------;
+   46 00000044 EB01 0504       ADD              R5, R1, R4  ; tmp = R1[i] addre
                                                             ss
-   44 00000048 ED85 0A00       VSTR.F32         S0, [R5]    ; Output[i] = S0
-   45 0000004C F104 0404       ADD              R4, R4, #0x04 ; increment i
-   46 00000050         
-   47 00000050 EA4F 0594       LSR              R5, R4, #0x02 ; divide i by 4 t
+   47 00000048 ED85 0A00       VSTR.F32         S0, [R5]    ; Output[i] = S0
+   48 0000004C F104 0404       ADD              R4, R4, #0x04 ; increment i
+   49 00000050         
+   50 00000050 EA4F 0594       LSR              R5, R4, #0x02 ; divide i by 4 t
                                                             o normalize to inde
                                                             x
-   48 00000054 1AED            SUBS             R5, R5, R3  ; subtract and upda
-                                                            te CPSR
-   49 00000056 D1E1            BNE              loop        ; if i != length (i
-                                                            n other words i<Len
-                                                            gth) loop
 
 
 
 ARM Macro Assembler    Page 2 
 
 
-   50 00000058 4770            BX               LR
-   51 0000005A         
-   52 0000005A                 END
+   51 00000054 1AED            SUBS             R5, R5, R3  ; subtract and upda
+                                                            te CPSR
+   52 00000056 D1E1            BNE              loop        ; if i != length (i
+                                                            n other words i<Len
+                                                            gth) loop
+   53 00000058 4770            BX               LR
+   54 0000005A         
+   55 0000005A                 END
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
 erwork --depend=.\objects\kalmanfilter_asm.d -o.\objects\kalmanfilter_asm.o -IC
 :\microprocessor-systems\Lab1_STM32F4Cube_Base_project\RTE -IC:\microprocessor-
@@ -92,7 +97,7 @@ Kalmanfilter_asm 00000000
 
 Symbol: Kalmanfilter_asm
    Definitions
-      At line 3 in file Sources\Kalmanfilter_asm.s
+      At line 20 in file Sources\Kalmanfilter_asm.s
    Uses
       At line 2 in file Sources\Kalmanfilter_asm.s
 Comment: Kalmanfilter_asm used once
@@ -100,9 +105,9 @@ loop 0000001C
 
 Symbol: loop
    Definitions
-      At line 30 in file Sources\Kalmanfilter_asm.s
+      At line 31 in file Sources\Kalmanfilter_asm.s
    Uses
-      At line 49 in file Sources\Kalmanfilter_asm.s
+      At line 52 in file Sources\Kalmanfilter_asm.s
 Comment: loop used once
 myCode 00000000
 

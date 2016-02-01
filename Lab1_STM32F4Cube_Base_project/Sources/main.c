@@ -31,18 +31,18 @@ int Kalmanfilter_C(float* InputArray, float* OutputArray, kalman_state* kstate, 
 
 int main()
 {
-	float input[5] = {10.0, 12.0, 13.0, 14.0, 15.0};
-	float output[5];
-	int length = 5;
+	float input[4] = {-1, 0.125, 31.0, 1.0625};
+	float output[4];
+	int length = 4;
 	
 	int i;
 	
 	kalman_state ks;
-	ks.q = 1;
-	ks.r = 2;
-	ks.x = 3;
-	ks.p = 4;
-	ks.k = 6;
+	ks.q = -15.5;
+	ks.r = 2.25;
+	ks.x = -0.59375;
+	ks.p = -0.296875;
+	ks.k = -1.3125;
 	
 	//float *a, *b;
 	//a = &balance[0];

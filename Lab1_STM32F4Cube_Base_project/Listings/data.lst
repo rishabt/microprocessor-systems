@@ -1,0 +1,96 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000                 AREA             myData, DATA, READWRITE
+    2 00000000         
+    3 00000000 00000000 
+              00000000 
+              00000000 
+              00000000 input_array_base_address
+                               DCFS             0.0,0.0,0.0,0.0
+    4 00000010 00000000 
+              00000000 
+              00000000 
+              00000000 output_array_base_address
+                               DCFS             0.0,0.0,0.0,0.0
+    5 00000020 00000000 
+              00000000 
+              00000000 
+              00000000 kalman_state_base_address
+                               DCFS             0.0,0.0,0.0,0.0
+    6 00000030 00000000 
+              00000000 
+              00000000 
+              00000000 
+              00000000 
+              00000000 test_status_base_address
+                               DCD              0,0,0,0,0,0 ; Keep status of ea
+                                                            ch test here (1-suc
+                                                            cess, 0-fail)
+    7 00000048         
+    8 00000048         
+    9 00000048                 EXPORT           input_array_base_address
+   10 00000048                 EXPORT           output_array_base_address
+   11 00000048                 EXPORT           kalman_state_base_address
+   12 00000048                 EXPORT           test_status_base_address
+   13 00000048                 END
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
+erwork --depend=.\objects\data.d -o.\objects\data.o -IC:\microprocessor-systems
+\Lab1_STM32F4Cube_Base_project\RTE -IC:\microprocessor-systems\Lab1_STM32F4Cube
+_Base_project\RTE\Device\STM32F407VGTx -IC:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CM
+SIS\Include -IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.7.0\Drivers\CMSIS\Device
+\ST\STM32F4xx\Include -IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.7.0\Drivers\ST
+M32F4xx_HAL_Driver\Inc --predefine="__MICROLIB SETA 1" --predefine="__UVISION_V
+ERSION SETA 515" --predefine="_RTE_ SETA 1" --predefine="STM32F407xx SETA 1" --
+list=.\listings\data.lst Sources\data.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+input_array_base_address 00000000
+
+Symbol: input_array_base_address
+   Definitions
+      At line 3 in file Sources\data.s
+   Uses
+      At line 9 in file Sources\data.s
+Comment: input_array_base_address used once
+kalman_state_base_address 00000020
+
+Symbol: kalman_state_base_address
+   Definitions
+      At line 5 in file Sources\data.s
+   Uses
+      At line 11 in file Sources\data.s
+Comment: kalman_state_base_address used once
+myData 00000000
+
+Symbol: myData
+   Definitions
+      At line 1 in file Sources\data.s
+   Uses
+      None
+Comment: myData unused
+output_array_base_address 00000010
+
+Symbol: output_array_base_address
+   Definitions
+      At line 4 in file Sources\data.s
+   Uses
+      At line 10 in file Sources\data.s
+Comment: output_array_base_address used once
+test_status_base_address 00000030
+
+Symbol: test_status_base_address
+   Definitions
+      At line 6 in file Sources\data.s
+   Uses
+      At line 12 in file Sources\data.s
+Comment: test_status_base_address used once
+5 symbols
+339 symbols in table
