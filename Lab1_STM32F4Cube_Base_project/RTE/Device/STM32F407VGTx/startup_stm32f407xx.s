@@ -184,8 +184,8 @@ __Vectors_Size  EQU  __Vectors_End - __Vectors
 ; Reset handler
 Reset_Handler    PROC
                  EXPORT  Reset_Handler             [WEAK]
-        ;IMPORT  SystemInit
-        ;IMPORT  __main
+        IMPORT  SystemInit
+       IMPORT  __main
 				IMPORT	Kalmanfilter_testbench_asm
 								 ; BEGIN enabling FPU ;
 								 LDR.W		R0, =0xE000ED88
@@ -197,12 +197,12 @@ Reset_Handler    PROC
 								 ; END enabling FPU ;
 								 
 								 
-                 ;LDR     R0, =SystemInit
-                 ;BLX     R0
-                 ;LDR     R0, =__main
+                 LDR     R0, =SystemInit
+                 BLX     R0
+                 LDR     R0, =__main
 								 ;BLX			 R0
                  
-								 LDR			R0, =Kalmanfilter_testbench_asm
+								 ;LDR			R0, =Kalmanfilter_testbench_asm
 								 BX				R0
 								 
 								 ENDP
