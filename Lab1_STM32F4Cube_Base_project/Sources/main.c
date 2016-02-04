@@ -16,6 +16,7 @@ extern int Kalmanfilter_asm(float* InputArray, float* OutputArray, kalman_state*
 int Kalmanfilter_C(float* InputArray, float* OutputArray, kalman_state* kstate, int Length)
 {
 	int i;
+	int tmp;
 	
 	if(InputArray == NULL || kstate == NULL || Length <= 0)
 	{
@@ -25,7 +26,17 @@ int Kalmanfilter_C(float* InputArray, float* OutputArray, kalman_state* kstate, 
 	for(i = 0; i < Length; i++)
 	{
 		kstate->p = kstate->p + kstate->q;
-		kstate->k = kstate->p/(kstate->p + kstate->r);
+		
+		tmp = (kstate->p + kstate->r);
+		if(tmp != 0)
+		{
+			kstate->k = kstate->p/(kstate->p + kstate->r);
+		}
+		else
+		{
+			return 0;
+		}
+		
 		kstate->x = kstate->x + (kstate->k * (InputArray[i] - kstate->x));
 		kstate->p = (1 - kstate->k) * kstate->p;
 		
@@ -39,7 +50,7 @@ int main()
 {
 	float input[4] = {-1, 0.125, 31.0, 1.0625};
 	float output[4];
-	int length = -1;
+	int length = 4;
 	
 	int i;
 	int result;
