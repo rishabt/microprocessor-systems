@@ -20,7 +20,7 @@ int Kalmanfilter_C(float* InputArray, float* OutputArray, kalman_state* kstate, 
 	
 	if(InputArray == NULL || kstate == NULL || Length <= 0)
 	{
-		return 0;
+		return -1;
 	}
 	
 	for(i = 0; i < Length; i++)
@@ -34,7 +34,7 @@ int Kalmanfilter_C(float* InputArray, float* OutputArray, kalman_state* kstate, 
 		}
 		else
 		{
-			return 0;
+			return -1;
 		}
 		
 		kstate->x = kstate->x + (kstate->k * (InputArray[i] - kstate->x));
@@ -43,7 +43,7 @@ int Kalmanfilter_C(float* InputArray, float* OutputArray, kalman_state* kstate, 
 		OutputArray[i] = kstate->x; 
 	}
 	
-	return 1;
+	return 0;
 }
 
 int main()
@@ -69,7 +69,7 @@ int main()
 	
 	result = Kalmanfilter_C(&input[0], &output[0], &ks, length);
 	
-	if(result != 0)
+	if(result != -1)
 	{
 		for(i = 0; i < 5; i++)
 		{
