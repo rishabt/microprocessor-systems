@@ -510,7 +510,7 @@ ARM Macro Assembler    Page 8
   200 00000014 4807            LDR              R0, =SystemInit
   201 00000016 4780            BLX              R0
   202 00000018 4807            LDR              R0, =__main
-  203 0000001A         ;BLX    R0
+  203 0000001A         ;BLX   R0
   204 0000001A         
   205 0000001A         ;LDR   R0, =Kalmanfilter_testbench_asm
   206 0000001A 4700            BX               R0

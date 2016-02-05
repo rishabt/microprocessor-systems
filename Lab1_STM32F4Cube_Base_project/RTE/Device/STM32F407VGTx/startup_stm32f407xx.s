@@ -200,7 +200,7 @@ Reset_Handler    PROC
                  LDR     R0, =SystemInit
                  BLX     R0
                  LDR     R0, =__main
-								 ;BLX			 R0
+								 ;BLX		 R0
                  
 								 ;LDR			R0, =Kalmanfilter_testbench_asm
 								 BX				R0

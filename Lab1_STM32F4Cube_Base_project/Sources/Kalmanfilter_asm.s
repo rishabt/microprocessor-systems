@@ -51,9 +51,12 @@ loop
 		LSR R5, R4, #0x02							; divide i by 4 to normalize to index
 		SUBS R5, R5, R3								; subtract and update APSR
 		BNE loop											; if i != length (in other words i<Length) loop
-		MOVVS	R0, #-1									; Return -1
-		MOVVC R0, #0									; Return 0
-
+		
+		VMRS	R5, FPSCR								; copy the Floating Point Status and Control Register into R5 (set flags)
+		MOVVS	R0, #-1									; Return -1 if overflow set
+		MOVVC R0, #0									; Return 0 if no overflow set
+		ANDS	R5, R5, #2							; bitwise AND to extract the divide by zero exception bit
+		MOVNE	R0, #-1
 		POP {R4-R5, LR}								; Restore state
 		
 		BX	LR

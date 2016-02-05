@@ -21,7 +21,7 @@ extern int Kalmanfilter_asm(float* InputArray, float* OutputArray, kalman_state*
 int Kalmanfilter_C(float* InputArray, float* OutputArray, kalman_state* kstate, int Length)
 {
 	int i;
-	int tmp;
+	float tmp;
 	
 	if(InputArray == NULL || kstate == NULL || Length <= 0)									// Checks if any of the inputs is null or if length <= 0
 	{
@@ -31,7 +31,6 @@ int Kalmanfilter_C(float* InputArray, float* OutputArray, kalman_state* kstate, 
 	for(i = 0; i < Length; i++)
 	{
 		kstate->p = kstate->p + kstate->q;
-		
 		tmp = (kstate->p + kstate->r);
 		if(tmp != 0)																													// Check to avoid getting NaN on division
 		{
@@ -218,33 +217,73 @@ int main(){
 	int length = 4;
 	float input[4] = {-1, 0.125, 31.0, 1.0625};
 	float output[4];
-	
+	float corr[7];
+	float corr_cmis[7];
+	float conv[7];
+	float conv_cmis[7];
+	float diff[4];
+	float diff_cmis[4];
+	float stats[2];
+	float stats_cmis[2];
+
 	int resultStatus = 0;
-	int i;
 
 	kalman_state ks;
-	ks.q = -15.5;
-	ks.r = 2.25;
-	ks.x = -0.59375;
-	ks.p = -0.296875;
-	ks.k = -1.3125;
+	ks.q = 0.1;
+	ks.r = 0.1;
+	ks.x = 0;
+	ks.p = 0.1;
+	ks.k = 0;
 	/*-------------------------------------------------*/
-
 
 	/*----------------------Filter Call-----------------*/
 
-	resultStatus = Kalmanfilter_asm(&input[0], &output[0], &ks, length);	
-	//resultStatus = Kalmanfilter_C(&input[0], &output[0], &ks, length);
-	
-	//calculate_convolution_cmis(&input[0], &output[0], &corr[0], length, length);
-	//calculate_convolution(&input[0], &output[0], &corr[0], length, length);
-	//calculate_stats(&input[0], &corr[0], 4);
+	resultStatus = Kalmanfilter_asm(&input[0], &output[0], &ks, length);
+		printf("Output Array \n");
+		print_array(&output[0], length);
+		printf("\n\n");
+	resultStatus = Kalmanfilter_C(&input[0], &output[0], &ks, length);
+
+	subtract(&input[0], &output[0], &diff[0], length);
+	subtract_cmis(&input[0], &output[0], &diff_cmis[0], length);
+	calculate_stats(&diff[0], &stats[0], length);
+	calculate_stats_cmis(&diff_cmis[0], &stats_cmis[0], length);
+	calculate_correlation(&input[0], &output[0], &corr[0], length, length);
+	calculate_correlation_cmis(&input[0], &output[0], &corr_cmis[0], length, length);
+	calculate_convolution(&input[0], &output[0], &conv[0], length, length);
+	calculate_convolution_cmis(&input[0], &output[0], &conv_cmis[0], length, length);
 	/*--------------------------------------------------*/
 
 	
 	if(resultStatus != -1)
 	{
-		print_array(&output[0], 4);
+		printf("Output Array \n");
+		print_array(&output[0], length);
+		printf("\n\n");
+		printf("Correlation Array \n");
+		print_array(&corr[0], 7);
+		printf("\n\n");
+		printf("Correlation Array in CMIS\n");
+		print_array(&corr_cmis[0], 7);
+		printf("\n\n");
+		printf("Convolution Array \n");
+		print_array(&conv[0], 7);
+		printf("\n\n");
+		printf("Convolution Array in CMIS\n");
+		print_array(&conv_cmis[0], 7);
+		printf("\n\n");
+		printf("Difference Array \n");
+		print_array(&diff[0], length);
+		printf("\n\n");
+		printf("Difference Array in CMIS\n");
+		print_array(&diff_cmis[0], length);
+		printf("\n\n");
+		printf("Stats Array \n");
+		print_array(&stats[0], 2);
+		printf("\n\n");
+		printf("Stats Array in CMIS\n");
+		print_array(&stats_cmis[0], 2);
+		printf("DID WE GET IT??\n");
 	}
 	
 	return 0;
