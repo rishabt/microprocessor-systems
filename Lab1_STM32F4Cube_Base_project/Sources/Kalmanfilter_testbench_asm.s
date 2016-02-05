@@ -1,6 +1,5 @@
 	AREA myCode, CODE, READONLY
 	IMPORT Kalmanfilter_asm
-	IMPORT input_array_base_address
 	IMPORT output_array_base_address
 	IMPORT kalman_state_base_address
 	IMPORT test_status_base_address
@@ -8,15 +7,8 @@
 	EXPORT Kalmanfilter_testbench_asm
 		
 Kalmanfilter_testbench_asm	
-																B	test_general_case
-finish_test_general							B test_all_zero_inputs
-finish_test_all_zero_inputs			NOP
-
-fail_test_general
-	MOV R1, #0
-	LDR R0, =test_status_base_address		; Test Status Address
-	STR	R1,	[R0]												; Set test status to fail
-	B		finish_test_general
+	BL	test_general_case
+	NOP
 	
 test_general_case
 	LDR R0, =input_array_base_address					; Input array base address
@@ -88,7 +80,13 @@ test_single_input
 test_largest_inputs
 test_empty_input
 
+fail_test_general
+	MOV R1, #0
+	LDR R0, =test_status_base_address		; Test Status Address
+	STR	R1,	[R0]												; Set test status to fail
+	B		finish_test_general
+
 	ALIGN
 test_general_result	DCFS	0xBF88A2FE,0x3EC146C4,0x42163165,0xC0D7BB18
-
+input_array_base_address	
 	END

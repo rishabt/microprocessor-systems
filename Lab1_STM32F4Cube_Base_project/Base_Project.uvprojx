@@ -442,11 +442,6 @@
               <FileType>2</FileType>
               <FilePath>.\Sources\data.s</FilePath>
             </File>
-            <File>
-              <FileName>Kalmanfilter_testbench.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Kalmanfilter_testbench.c</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
