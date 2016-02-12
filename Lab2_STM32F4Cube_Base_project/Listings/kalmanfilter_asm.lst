@@ -1,0 +1,146 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000                 AREA             myCode, CODE, READONLY
+    2 00000000                 EXPORT           Kalmanfilter_asm
+    3 00000000         
+    4 00000000         ;------------------Register Allocation----------------;
+    5 00000000         ; R0 --> Input array base address        ;
+    6 00000000         ; R1 --> Output array base address        ;
+    7 00000000         ; R2 --> Kalman state base address : q, r, x, p, k    ;
+    8 00000000         ; R3 --> Length of input array : int       ;
+    9 00000000         ; R4 --> int i            ;
+   10 00000000         ; R5 --> tmp              ;
+   11 00000000         ; S0 --> State variable : x         ;
+   12 00000000         ; S1 --> q                      ;
+   13 00000000         ; S2 --> r                      ;
+   14 00000000         ; S3 --> p                      ;
+   15 00000000         ; S4 --> k                      ;
+   16 00000000         ; S5 --> R0[i]                    ;
+   17 00000000         ; S6 --> tmp                     ;
+   18 00000000         ; S7 --> 1.0                     ;
+   19 00000000         ;-----------------------------------------------------;
+   20 00000000         Kalmanfilter_asm
+   21 00000000         
+   22 00000000         ;----------------------INIT-----------------------;
+   23 00000000 B530            PUSH             {R4-R5, LR} ; save register sta
+                                                            tes
+   24 00000002 EDD2 0A00       VLDR             S1, [R2]    ; load q
+   25 00000006 ED92 1A01       VLDR             S2, [R2, #0X04] ; load r
+   26 0000000A EDD2 1A03       VLDR             S3, [R2, #0X0C] ; load p
+   27 0000000E ED92 2A04       VLDR             S4, [R2, #0X10] ; load k
+   28 00000012 ED92 0A02       VLDR             S0, [R2, #0X08] ; load x_(i-1) 
+                                                            (last state of x)
+   29 00000016 EEF7 3A00       VMOV.F32         S7, #1.0    ; constant register
+                                                             '1'
+   30 0000001A F04F 0400       LDR              R4, =0x0    ; int i = 0
+   31 0000001E         
+   32 0000001E         loop
+   33 0000001E EB00 0504       ADD              R5, R0, R4  ; tmp = R0[i] addre
+                                                            ss
+   34 00000022 EDD5 2A00       VLDR             S5, [R5]    ; Get value of R0[i
+                                                            ]
+   35 00000026         
+   36 00000026         ;-----------------Update Filter State--------------;
+   37 00000026 EE71 1AA0       VADD.F32         S3, S3, S1  ; p = p+q
+   38 0000002A EE31 3A81       VADD.F32         S6, S3, S2  ; tmp = p+r
+   39 0000002E EE81 2A83       VDIV.F32         S4, S3, S6  ; k = p/tmp
+   40 00000032 EE32 3AC0       VSUB.F32         S6, S5, S0  ; tmp = input[i] - 
+                                                            x_(i-1)
+   41 00000036 EE23 3A02       VMUL.F32         S6, S6, S4  ; tmp = tmp * k
+   42 0000003A EE30 0A03       VADD.F32         S0, S0, S6  ; x = x_(i-1) + tmp
+                                                            
+   43 0000003E EE33 3AC2       VSUB.F32         S6, S7, S4  ; tmp = 1 - k
+   44 00000042 EE61 1A83       VMUL.F32         S3, S3, S6  ; p = p * tmp
+   45 00000046         
+   46 00000046         ;----------Save value to output array---------------;
+   47 00000046 EB01 0504       ADD              R5, R1, R4  ; tmp = R1[i] addre
+                                                            ss
+   48 0000004A ED85 0A00       VSTR.F32         S0, [R5]    ; Output[i] = S0
+   49 0000004E F104 0404       ADD              R4, R4, #0x04 ; increment i
+   50 00000052         
+   51 00000052 EA4F 0594       LSR              R5, R4, #0x02 ; divide i by 4 t
+
+
+
+ARM Macro Assembler    Page 2 
+
+
+                                                            o normalize to inde
+                                                            x
+   52 00000056 1AED            SUBS             R5, R5, R3  ; subtract and upda
+                                                            te APSR
+   53 00000058 D1E1            BNE              loop        ; if i != length (i
+                                                            n other words i<Len
+                                                            gth) loop
+   54 0000005A         
+   55 0000005A EEF1 5A10       VMRS             R5, FPSCR   ; copy the Floating
+                                                             Point Status and C
+                                                            ontrol Register int
+                                                            o R5 (set flags)
+   56 0000005E BF6C F04F 
+              30FF             MOVVS            R0, #-1     ; Return -1 if over
+                                                            flow set
+   57 00000064 2000            MOVVC            R0, #0      ; Return 0 if no ov
+                                                            erflow set
+   58 00000066 F015 0502       ANDS             R5, R5, #2  ; bitwise AND to ex
+                                                            tract the divide by
+                                                             zero exception bit
+                                                            
+   59 0000006A BF18 F04F 
+              30FF             MOVNE            R0, #-1
+   60 00000070 E8BD 4030       POP              {R4-R5, LR} ; Restore state
+   61 00000074         
+   62 00000074 4770            BX               LR
+   63 00000076         
+   64 00000076                 END
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
+erwork --depend=.\objects\kalmanfilter_asm.d -o.\objects\kalmanfilter_asm.o -IC
+:\microprocessor-systems\Lab2_STM32F4Cube_Base_project\RTE -IC:\microprocessor-
+systems\Lab2_STM32F4Cube_Base_project\RTE\Device\STM32F407VGTx -IC:\Keil_v5\ARM
+\PACK\ARM\CMSIS\4.5.0\CMSIS\Include -IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.
+7.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include -IC:\Keil_v5\ARM\PACK\Keil\STM32F
+4xx_DFP\2.7.0\Drivers\STM32F4xx_HAL_Driver\Inc --predefine="__MICROLIB SETA 1" 
+--predefine="__UVISION_VERSION SETA 515" --predefine="_RTE_ SETA 1" --predefine
+="STM32F407xx SETA 1" --list=.\listings\kalmanfilter_asm.lst ..\Lab1_STM32F4Cub
+e_Base_project\Sources\Kalmanfilter_asm.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+Kalmanfilter_asm 00000000
+
+Symbol: Kalmanfilter_asm
+   Definitions
+      At line 20 in file ..\Lab1_STM32F4Cube_Base_project\Sources\Kalmanfilter_
+asm.s
+   Uses
+      At line 2 in file ..\Lab1_STM32F4Cube_Base_project\Sources\Kalmanfilter_a
+sm.s
+Comment: Kalmanfilter_asm used once
+loop 0000001E
+
+Symbol: loop
+   Definitions
+      At line 32 in file ..\Lab1_STM32F4Cube_Base_project\Sources\Kalmanfilter_
+asm.s
+   Uses
+      At line 53 in file ..\Lab1_STM32F4Cube_Base_project\Sources\Kalmanfilter_
+asm.s
+Comment: loop used once
+myCode 00000000
+
+Symbol: myCode
+   Definitions
+      At line 1 in file ..\Lab1_STM32F4Cube_Base_project\Sources\Kalmanfilter_a
+sm.s
+   Uses
+      None
+Comment: myCode unused
+3 symbols
+338 symbols in table

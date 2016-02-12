@@ -2,13 +2,13 @@
 	EXPORT Kalmanfilter_asm
 		
 ;------------------Register Allocation----------------;
-; R0 --> Input array base address 										;
-; R1 --> Output array base address 										;
-; R2 --> Kalman state base address : q, r, x, p, k 		;
-; R3 --> Length of input array : int 									;
-; R4 --> int i																				;
-; R5 --> tmp  																				;
-; S0 --> State variable : x														;
+; R0 --> Input array base address 					  ;
+; R1 --> Output array base address 					  ;
+; R2 --> Kalman state base address : q, r, x, p, k 	  ;
+; R3 --> Length of input array : int 				  ;
+; R4 --> int i										  ;
+; R5 --> tmp  										  ;
+; S0 --> State variable : x							  ;
 ; S1 --> q																						;
 ; S2 --> r																						;
 ; S3 --> p																						;
