@@ -41,6 +41,8 @@
 #include "main.h"
 #include "stm32f4xx_it.h"
 
+int INTERRUPT_RECEIVED;
+
 /** @addtogroup STM32F4xx_HAL_Examples
   * @{
   */
@@ -156,6 +158,7 @@ void PendSV_Handler(void)
 void SysTick_Handler(void)
 {
 		HAL_IncTick();
+		INTERRUPT_RECEIVED = 1;
 }
 
 /******************************************************************************/
