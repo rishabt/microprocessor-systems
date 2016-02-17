@@ -28,6 +28,8 @@ Section Cross References
     config.o(i.ADC_Config) refers to stm32f4xx_hal_adc.o(i.HAL_ADC_ConfigChannel) for HAL_ADC_ConfigChannel
     config.o(i.ADC_Config) refers to stm32f4xx_hal_adc.o(i.HAL_ADC_Start) for HAL_ADC_Start
     config.o(i.ADC_Config) refers to config.o(.bss) for ADC1_Handle
+    config.o(i.GPIO_config) refers to stm32f4xx_hal_gpio.o(i.HAL_GPIO_Init) for HAL_GPIO_Init
+    config.o(i.GPIO_config) refers to config.o(.bss) for GPIO_Handle
     config.o(i.config_all) refers to config.o(i.ADC_Config) for ADC_Config
     stm32f4xx_hal.o(i.HAL_DeInit) refers to stm32f4xx_hal.o(i.HAL_MspDeInit) for HAL_MspDeInit
     stm32f4xx_hal.o(i.HAL_Delay) refers to stm32f4xx_hal.o(i.HAL_GetTick) for HAL_GetTick
@@ -929,7 +931,7 @@ Removing Unused input sections from the image.
     Removing config.o(.rev16_text), (4 bytes).
     Removing config.o(.revsh_text), (4 bytes).
     Removing config.o(.rrx_text), (6 bytes).
-    Removing config.o(i.GPIO_config), (2 bytes).
+    Removing config.o(i.GPIO_config), (40 bytes).
     Removing stm32f4xx_hal.o(.rev16_text), (4 bytes).
     Removing stm32f4xx_hal.o(.revsh_text), (4 bytes).
     Removing stm32f4xx_hal.o(.rrx_text), (6 bytes).
@@ -1620,7 +1622,7 @@ Removing Unused input sections from the image.
     Removing cdrcmple.o(.text), (48 bytes).
     Removing depilogue.o(.text), (186 bytes).
 
-702 unused section(s) (total 65322 bytes) removed from the image.
+702 unused section(s) (total 65360 bytes) removed from the image.
 
 ==============================================================================
 
@@ -1802,8 +1804,8 @@ Image Symbol Table
     uwTick                                   0x20000008   Data           4  stm32f4xx_hal.o(.data)
     .data                                    0x2000000c   Section        4  system_stm32f4xx.o(.data)
     .data                                    0x20000010   Section        4  stdout.o(.data)
-    .bss                                     0x20000014   Section       68  config.o(.bss)
-    STACK                                    0x20000058   Section     1024  startup_stm32f407xx.o(STACK)
+    .bss                                     0x20000014   Section       88  config.o(.bss)
+    STACK                                    0x20000070   Section     1024  startup_stm32f407xx.o(STACK)
 
     Global Symbols
 
@@ -2004,7 +2006,8 @@ Image Symbol Table
     SystemCoreClock                          0x2000000c   Data           4  system_stm32f4xx.o(.data)
     __stdout                                 0x20000010   Data           4  stdout.o(.data)
     ADC1_Handle                              0x20000014   Data          68  config.o(.bss)
-    __initial_sp                             0x20000458   Data           0  startup_stm32f407xx.o(STACK)
+    GPIO_Handle                              0x20000058   Data          20  config.o(.bss)
+    __initial_sp                             0x20000470   Data           0  startup_stm32f407xx.o(STACK)
 
 
 
@@ -2096,12 +2099,13 @@ Memory Map of the image
     0x20000010   0x00000004   Data   RW         4751    .data               mc_w.l(stdout.o)
 
 
-    Execution Region ER_ZI (Base: 0x20000014, Size: 0x00000444, Max: 0xffffffff, ABSOLUTE)
+    Execution Region ER_ZI (Base: 0x20000014, Size: 0x0000045c, Max: 0xffffffff, ABSOLUTE)
 
     Base Addr    Size         Type   Attr      Idx    E Section Name        Object
 
-    0x20000014   0x00000044   Zero   RW          306    .bss                config.o
-    0x20000058   0x00000400   Zero   RW         4429    STACK               startup_stm32f407xx.o
+    0x20000014   0x00000058   Zero   RW          306    .bss                config.o
+    0x2000006c   0x00000004   PAD
+    0x20000070   0x00000400   Zero   RW         4429    STACK               startup_stm32f407xx.o
 
 
 ==============================================================================
@@ -2111,9 +2115,9 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Object Name
 
-       148         14          0          0         68       1684   config.o
+       148         14          0          0         88       1936   config.o
         56          4          0          0          0      27335   fput_debug.o
-       380         50          0          4          0     343470   main.o
+       380         50          0          4          0     346770   main.o
         36          8        392          0       1024        868   startup_stm32f407xx.o
        134         16          0          4          0       4396   stm32f4xx_hal.o
       1070         56          0          0          0       4804   stm32f4xx_hal_adc.o
@@ -2124,9 +2128,9 @@ Image component sizes
        100         18          0          4          0       1265   system_stm32f4xx.o
 
     ----------------------------------------------------------------------
-      4628        556        440         16       1092     424986   Object Totals
+      4628        556        440         16       1116     428538   Object Totals
          0          0         32          0          0          0   (incl. Generated)
-         8          0          0          0          0          0   (incl. Padding)
+         8          0          0          0          4          0   (incl. Padding)
 
     ----------------------------------------------------------------------
 
@@ -2166,14 +2170,14 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-      5132        586        440         20       1092     422170   Grand Totals
-      5132        586        440         20       1092     422170   ELF Image Totals
+      5132        586        440         20       1116     425722   Grand Totals
+      5132        586        440         20       1116     425722   ELF Image Totals
       5132        586        440         20          0          0   ROM Totals
 
 ==============================================================================
 
     Total RO  Size (Code + RO Data)                 5572 (   5.44kB)
-    Total RW  Size (RW Data + ZI Data)              1112 (   1.09kB)
+    Total RW  Size (RW Data + ZI Data)              1136 (   1.11kB)
     Total ROM Size (Code + RO Data + RW Data)       5592 (   5.46kB)
 
 ==============================================================================

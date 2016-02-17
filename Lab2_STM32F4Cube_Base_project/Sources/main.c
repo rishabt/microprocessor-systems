@@ -42,7 +42,7 @@ int main(void)
 
   while (1)
 	{
-		if (INTERRUPT_RECEIVED == 1)
+		if (INTERRUPT_RECEIVED)
 		{
 			read_temperature();
 			INTERRUPT_RECEIVED = 0;

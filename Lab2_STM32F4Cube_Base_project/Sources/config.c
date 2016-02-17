@@ -1,13 +1,21 @@
 #include <stdio.h>
 #include "supporting_functions.h"
+#include "stm32f4xx.h"
+#include "stm32f4xx_hal_gpio.h"
 #include "config.h"
 
 ADC_HandleTypeDef ADC1_Handle;
-
+GPIO_InitTypeDef GPIO_Struct;
 
 void GPIO_config(void)
 {
-	
+	//GPIO_StructInit(&GPIO_Handle);
+	GPIO_Struct.Pin = GPIO_PIN_12 | GPIO_PIN_13 | GPIO_PIN_14 | GPIO_PIN_15;
+	GPIO_Struct.Mode = GPIO_MODE_OUTPUT_PP;
+	GPIO_Struct.Pull = GPIO_NOPULL;
+	GPIO_Struct.Speed = GPIO_SPEED_FAST;
+	HAL_GPIO_Init(GPIOD, &GPIO_Struct);
+	//_HAL_RCC_GPIOD_CLK_ENABLE();	
 }
 
 
