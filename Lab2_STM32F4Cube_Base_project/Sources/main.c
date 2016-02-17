@@ -13,6 +13,7 @@
 #include "stm32f4xx_hal.h"
 #include "supporting_functions.h"
 #include "config.h"
+#include "seven_segment.h"
 
 extern ADC_HandleTypeDef ADC1_Handle;
 
@@ -44,7 +45,8 @@ int main(void)
 	{
 		if (INTERRUPT_RECEIVED)
 		{
-			read_temperature();
+			//read_temperature();
+			show_seven_segment(0);
 			INTERRUPT_RECEIVED = 0;
 		}
   }

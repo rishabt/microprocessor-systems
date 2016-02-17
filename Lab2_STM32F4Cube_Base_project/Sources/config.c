@@ -7,15 +7,16 @@
 ADC_HandleTypeDef ADC1_Handle;
 GPIO_InitTypeDef GPIO_Struct;
 
-void GPIO_config(void)
+void GPIO_Config(void)
 {
+	__HAL_RCC_GPIOE_CLK_ENABLE();
 	//GPIO_StructInit(&GPIO_Handle);
-	GPIO_Struct.Pin = GPIO_PIN_12 | GPIO_PIN_13 | GPIO_PIN_14 | GPIO_PIN_15;
+	GPIO_Struct.Pin = GPIO_PIN_4 | GPIO_PIN_5 | GPIO_PIN_6 | GPIO_PIN_7 
+										| GPIO_PIN_8 | GPIO_PIN_9 | GPIO_PIN_10 | GPIO_PIN_11 | GPIO_PIN_12;
 	GPIO_Struct.Mode = GPIO_MODE_OUTPUT_PP;
-	GPIO_Struct.Pull = GPIO_NOPULL;
-	GPIO_Struct.Speed = GPIO_SPEED_FAST;
-	HAL_GPIO_Init(GPIOD, &GPIO_Struct);
-	//_HAL_RCC_GPIOD_CLK_ENABLE();	
+	GPIO_Struct.Pull = GPIO_PULLUP;
+	GPIO_Struct.Speed = GPIO_SPEED_HIGH;
+	HAL_GPIO_Init(GPIOE, &GPIO_Struct);
 }
 
 
@@ -56,5 +57,6 @@ void ADC_Config(void)
 
 void config_all(void)
 {
+	GPIO_Config();
 	ADC_Config();
 }

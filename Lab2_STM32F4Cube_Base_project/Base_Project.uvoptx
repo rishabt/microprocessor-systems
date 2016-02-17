@@ -197,9 +197,9 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-          <LineNumber>51</LineNumber>
+          <LineNumber>48</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134223182</Address>
+          <Address>134223098</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
@@ -208,7 +208,7 @@
           <BreakIfRCount>1</BreakIfRCount>
           <Filename>.\Sources\main.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\Base_Project\Sources/main.c\51</Expression>
+          <Expression>\\Base_Project\Sources/main.c\48</Expression>
         </Bp>
       </Breakpoint>
       <Tracepoint>
@@ -307,6 +307,19 @@
       <bDave2>0</bDave2>
       <PathWithFileName>.\Sources\stm32f4xx_it.c</PathWithFileName>
       <FilenameWithoutPath>stm32f4xx_it.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>1</GroupNumber>
+      <FileNumber>5</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>.\Sources\config.c</PathWithFileName>
+      <FilenameWithoutPath>config.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
