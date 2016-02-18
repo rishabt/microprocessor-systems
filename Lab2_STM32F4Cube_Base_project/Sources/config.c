@@ -19,6 +19,17 @@ void GPIO_Config(void)
 	HAL_GPIO_Init(GPIOE, &GPIO_Struct);
 }
 
+void LED_Config(void)
+{
+	__HAL_RCC_GPIOD_CLK_ENABLE();
+	//GPIO_StructInit(&GPIO_Handle);
+	GPIO_Struct.Pin = GPIO_PIN_12 | GPIO_PIN_13 | GPIO_PIN_14 | GPIO_PIN_15;
+	GPIO_Struct.Mode = GPIO_MODE_OUTPUT_PP;
+	GPIO_Struct.Pull = GPIO_PULLUP;
+	GPIO_Struct.Speed = GPIO_SPEED_HIGH;
+	HAL_GPIO_Init(GPIOD, &GPIO_Struct);
+}
+
 
 /** ADC Configuration */
 
@@ -58,5 +69,6 @@ void ADC_Config(void)
 void config_all(void)
 {
 	GPIO_Config();
+	LED_Config();
 	ADC_Config();
 }

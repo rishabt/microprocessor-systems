@@ -14,6 +14,7 @@
 #include "supporting_functions.h"
 #include "config.h"
 #include "seven_segment.h"
+#include "led_interface.h"
 #include "utils.h"
 
 extern ADC_HandleTypeDef ADC1_Handle;
@@ -23,7 +24,7 @@ extern int UPDATE_TEMP_FLAG;
 extern int DISPLAY_FLAG;
 float temperature_reading;
 float temp_temperature_reading;
-
+int ALARM_COUNTER;
 
 /* Private variables ---------------------------------------------------------*/
 
@@ -45,8 +46,9 @@ int main(void)
 	/* Configure the ADC and GPIO */
 	config_all();
 	
+	ALARM_COUNTER = 0;
 	temp_temperature_reading = temperature_reading;
-
+	
   while (1)
 	{
 		int one, two, three;
@@ -86,7 +88,17 @@ int main(void)
 				DISPLAY_FLAG = -5;
 
 			}
-
+			if (temp_temperature_reading >= 40)
+			{
+				ALARM_COUNTER += 1;
+				raise_alarm();
+				
+				if(ALARM_COUNTER == 2000)
+				{
+					ALARM_COUNTER = 0;
+				}
+			}
+			
 		}
 	}
 	
