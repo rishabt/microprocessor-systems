@@ -46,14 +46,15 @@ int main(void)
 	{
 		if (INTERRUPT_RECEIVED)
 		{
+			int one, two, three;
+			float temperature = temperature_reading;
 			read_temperature();
-			/*int one, two, three;
-			float temperature = 25.3;
 			
 			
 			three = get_digit_in_place(temperature, 1);		
 			activate_digit(3);
 			show_seven_segment(three);
+			//add delay
 			clear_all_segments();
 			deactivate_digit(3);
 			
@@ -61,14 +62,16 @@ int main(void)
 			activate_digit(2);
 			show_seven_segment(two);
 			activate_decimal();
+			//add delay
 			clear_all_segments();
 			deactivate_digit(2);
 			
 			one = get_digit_in_place(temperature, 100);		
 			activate_digit(1);
 			show_seven_segment(one);
+			//add delay
 			clear_all_segments();
-			deactivate_digit(1);*/
+			deactivate_digit(1);
 			
 			INTERRUPT_RECEIVED = 0;
 		}
@@ -79,12 +82,14 @@ int main(void)
 
 void read_temperature(void)
 {
+	float temp;
 	temperature_reading = HAL_ADC_GetValue(&ADC1_Handle);
-	temperature_reading *= (3.3f/ 4096.0f);													// ADC 3.3 Volts per 2^12 steps (12 bit resolution in configuration)
-	temperature_reading -= (float)0.76;															// reference of 25C at 760mV
-	temperature_reading /= (float)0.0025;														// slope of 25mV/1C
-	temperature_reading += 25;																			// add the reference offset back
-	printf("received: %d \n", temperature_reading);
+	
+	temp  = temperature_reading*(3.3f/ 4096.0f);													// ADC 3.3 Volts per 2^12 steps (12 bit resolution in configuration)
+	temp -= (float)0.76;															// reference of 25C at 760mV
+	temp /= (float)0.025;														// slope of 25mV/1C
+	temp += 25;																			// add the reference offset back
+	printf("received: %f \n", temp);
 }
 
 
