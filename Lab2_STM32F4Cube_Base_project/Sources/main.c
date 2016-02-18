@@ -14,6 +14,7 @@
 #include "supporting_functions.h"
 #include "config.h"
 #include "seven_segment.h"
+#include "utils.h"
 
 extern ADC_HandleTypeDef ADC1_Handle;
 
@@ -38,15 +39,37 @@ int main(void)
   /* Configure the system clock */
   SystemClock_Config();
 	
-	/* Configure the ADC */
+	/* Configure the ADC and GPIO */
 	config_all();
 
   while (1)
 	{
 		if (INTERRUPT_RECEIVED)
 		{
-			//read_temperature();
-			show_seven_segment(0);
+			read_temperature();
+			/*int one, two, three;
+			float temperature = 25.3;
+			
+			
+			three = get_digit_in_place(temperature, 1);		
+			activate_digit(3);
+			show_seven_segment(three);
+			clear_all_segments();
+			deactivate_digit(3);
+			
+			two = get_digit_in_place(temperature, 10);		
+			activate_digit(2);
+			show_seven_segment(two);
+			activate_decimal();
+			clear_all_segments();
+			deactivate_digit(2);
+			
+			one = get_digit_in_place(temperature, 100);		
+			activate_digit(1);
+			show_seven_segment(one);
+			clear_all_segments();
+			deactivate_digit(1);*/
+			
 			INTERRUPT_RECEIVED = 0;
 		}
   }

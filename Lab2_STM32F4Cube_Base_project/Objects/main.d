@@ -45,3 +45,4 @@
 .\objects\main.o: .\Headers\supporting_functions.h
 .\objects\main.o: Sources\config.h
 .\objects\main.o: Sources\seven_segment.h
+.\objects\main.o: Sources\utils.h
