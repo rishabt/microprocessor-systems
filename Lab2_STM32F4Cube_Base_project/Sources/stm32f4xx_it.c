@@ -42,6 +42,8 @@
 #include "stm32f4xx_it.h"
 
 int INTERRUPT_RECEIVED;
+int DISPLAY_FLAG;
+int UPDATE_TEMP_FLAG;
 
 /** @addtogroup STM32F4xx_HAL_Examples
   * @{
@@ -159,6 +161,8 @@ void SysTick_Handler(void)
 {
 		HAL_IncTick();
 		INTERRUPT_RECEIVED = 1;
+		DISPLAY_FLAG = DISPLAY_FLAG + 1;
+		UPDATE_TEMP_FLAG = UPDATE_TEMP_FLAG + 1;
 }
 
 /******************************************************************************/
