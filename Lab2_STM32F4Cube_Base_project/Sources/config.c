@@ -1,3 +1,8 @@
+/**
+ * @file config.c
+ * @brief Configurations for LED, 7 segment and ADC
+ **/
+
 #include <stdio.h>
 #include "supporting_functions.h"
 #include "stm32f4xx.h"
@@ -9,11 +14,10 @@ GPIO_InitTypeDef GPIO_Struct;
 
 void GPIO_Config(void)
 {
-	__HAL_RCC_GPIOE_CLK_ENABLE();
-	//GPIO_StructInit(&GPIO_Handle);
+	__HAL_RCC_GPIOE_CLK_ENABLE();																																						// Enable clock for port E
 	GPIO_Struct.Pin = GPIO_PIN_4 | GPIO_PIN_5 | GPIO_PIN_6 | GPIO_PIN_7 | GPIO_PIN_8 | GPIO_PIN_9
-										| GPIO_PIN_10 | GPIO_PIN_11 | GPIO_PIN_12 | GPIO_PIN_13 | GPIO_PIN_14 | GPIO_PIN_15;
-	GPIO_Struct.Mode = GPIO_MODE_OUTPUT_PP;
+										| GPIO_PIN_10 | GPIO_PIN_11 | GPIO_PIN_12 | GPIO_PIN_13 | GPIO_PIN_14 | GPIO_PIN_15;	// Initialize the pins to be used
+	GPIO_Struct.Mode = GPIO_MODE_OUTPUT_PP;																																	// Set mode to push and pull
 	GPIO_Struct.Pull = GPIO_PULLUP;
 	GPIO_Struct.Speed = GPIO_SPEED_HIGH;
 	HAL_GPIO_Init(GPIOE, &GPIO_Struct);
@@ -21,9 +25,8 @@ void GPIO_Config(void)
 
 void LED_Config(void)
 {
-	__HAL_RCC_GPIOD_CLK_ENABLE();
-	//GPIO_StructInit(&GPIO_Handle);
-	GPIO_Struct.Pin = GPIO_PIN_12 | GPIO_PIN_13 | GPIO_PIN_14 | GPIO_PIN_15;
+	__HAL_RCC_GPIOD_CLK_ENABLE();																																						// Enable clock for port D
+	GPIO_Struct.Pin = GPIO_PIN_12 | GPIO_PIN_13 | GPIO_PIN_14 | GPIO_PIN_15;																// Initialize pins corresponding to LEDs
 	GPIO_Struct.Mode = GPIO_MODE_OUTPUT_PP;
 	GPIO_Struct.Pull = GPIO_PULLUP;
 	GPIO_Struct.Speed = GPIO_SPEED_HIGH;

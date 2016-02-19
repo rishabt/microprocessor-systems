@@ -19,16 +19,16 @@
 #include "Kalmanfilter.h"
 
 //extern
-
 extern ADC_HandleTypeDef ADC1_Handle;
-
 extern int INTERRUPT_RECEIVED;
 extern int UPDATE_TEMP_FLAG;
 extern int DISPLAY_FLAG;
+
 float temperature_reading;
 float temp_temperature_reading;
 int ALARM_COUNTER;
 
+// Kalman state
 kalman_state ks;
 
 /* Private variables ---------------------------------------------------------*/
@@ -38,12 +38,20 @@ void SystemClock_Config	(void);
 void ADC_Config (void);
 void read_temperature(void);
 
+/*
+ * @brief Main function for the Temperature reading and display
+ * @param
+ * @return
+ */
 int main(void)
 {
+	/* 
+	 * Set kalman state parameter values 
+	 */
 	ks.k = 0.0;
 	ks.p = 1500.0;
-	ks.q = 0.0000001;
-	ks.r = 3200;
+	ks.q = 8;
+	ks.r = 100;
 	ks.x = 29.4;
 
   /* MCU Configuration----------------------------------------------------------*/
@@ -59,6 +67,11 @@ int main(void)
 	ALARM_COUNTER = 0;
 	temp_temperature_reading = temperature_reading;
 	
+	/*
+	 * Within this loop we check the systick interrupts and update the 
+	 * 7 segment display. In case of high temperature conditions (>= 40)
+	 * the alarm is raised. 
+	*/
   while (1)
 	{
 		int one, two, three;
@@ -68,18 +81,20 @@ int main(void)
 			
 			read_temperature();
 			INTERRUPT_RECEIVED = 0;
-			if (UPDATE_TEMP_FLAG == 500)
+			if (UPDATE_TEMP_FLAG == 500)																				// Check update temperature flag
 			{
 					temp_temperature_reading = temperature_reading;
 					UPDATE_TEMP_FLAG = 0;
+
 			}
-			if (DISPLAY_FLAG == 1)
+			if (DISPLAY_FLAG == 1)																							// Check update display flag
 			{
 				clear_all_segments();
 				deactivate_digit(1);
-				three = get_digit_in_place(temp_temperature_reading, 1);		
+				three = get_digit_in_place(temp_temperature_reading, 1);
 				activate_digit(3);
 				show_seven_segment(three);
+
 			} else if (DISPLAY_FLAG == 5)
 			{
 				clear_all_segments();
@@ -98,7 +113,7 @@ int main(void)
 				DISPLAY_FLAG = -5;
 
 			}
-			if (temp_temperature_reading >= 40)
+			if (temp_temperature_reading >= 32)																	// Raise alarm in case of high temperatures
 			{
 				ALARM_COUNTER += 1;
 				raise_alarm();
@@ -107,6 +122,10 @@ int main(void)
 				{
 					ALARM_COUNTER = 0;
 				}
+			}
+			else
+			{
+				switch_off_alarm();
 			}
 			
 		}
@@ -117,16 +136,23 @@ int main(void)
 
 }
 
+/*
+ * @brief Reads the temperature using ADC and filters it 
+ * 				using Kalman Filter. The value is stored to variable
+ *				temperature_reading.
+ * @param
+ * @return
+ */
 void read_temperature(void)
 {
 	float temp = HAL_ADC_GetValue(&ADC1_Handle);
 	
-	temperature_reading  = temp*(3.3f/ 4096.0f);			// ADC 3.3 Volts per 2^12 steps (12 bit resolution in configuration)
-	temperature_reading -= (float)0.76;															// reference of 25C at 760mV
+	temperature_reading  = temp*(3.3f/ 4096.0f);											// ADC 3.3 Volts per 2^12 steps (12 bit resolution in configuration)
+	temperature_reading -= (float)0.76;																// reference of 25C at 760mV
 	temperature_reading /= (float)0.025;															// slope of 25mV/1C
 	temperature_reading += 25;																				// add the reference offset back
 	
-	temperature_reading = Kalmanfilter(temperature_reading, &ks);
+	temperature_reading = Kalmanfilter(temperature_reading, &ks);			// Use Kalman filter to handle noise
 	printf("%f\n", temperature_reading);
 }
 
