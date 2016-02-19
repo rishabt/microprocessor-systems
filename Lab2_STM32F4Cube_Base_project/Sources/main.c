@@ -16,6 +16,9 @@
 #include "seven_segment.h"
 #include "led_interface.h"
 #include "utils.h"
+#include "Kalmanfilter.h"
+
+//extern
 
 extern ADC_HandleTypeDef ADC1_Handle;
 
@@ -26,6 +29,8 @@ float temperature_reading;
 float temp_temperature_reading;
 int ALARM_COUNTER;
 
+kalman_state ks;
+
 /* Private variables ---------------------------------------------------------*/
 
 /* Private function prototypes -----------------------------------------------*/
@@ -35,6 +40,11 @@ void read_temperature(void);
 
 int main(void)
 {
+	ks.k = 0.0;
+	ks.p = 1500.0;
+	ks.q = 0.0000001;
+	ks.r = 3200;
+	ks.x = 29.4;
 
   /* MCU Configuration----------------------------------------------------------*/
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
@@ -102,6 +112,8 @@ int main(void)
 		}
 	}
 	
+	
+	
 
 }
 
@@ -113,7 +125,9 @@ void read_temperature(void)
 	temperature_reading -= (float)0.76;															// reference of 25C at 760mV
 	temperature_reading /= (float)0.025;															// slope of 25mV/1C
 	temperature_reading += 25;																				// add the reference offset back
-	printf("received: %f \n", temperature_reading);
+	
+	temperature_reading = Kalmanfilter(temperature_reading, &ks);
+	printf("%f\n", temperature_reading);
 }
 
 

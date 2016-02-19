@@ -47,3 +47,4 @@
 .\objects\main.o: Sources\seven_segment.h
 .\objects\main.o: Sources\led_interface.h
 .\objects\main.o: Sources\utils.h
+.\objects\main.o: Sources\Kalmanfilter.h

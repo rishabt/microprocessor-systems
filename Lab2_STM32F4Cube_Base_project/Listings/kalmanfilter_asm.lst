@@ -105,8 +105,8 @@ systems\Lab2_STM32F4Cube_Base_project\RTE\Device\STM32F407VGTx -IC:\Keil_v5\ARM
 7.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include -IC:\Keil_v5\ARM\PACK\Keil\STM32F
 4xx_DFP\2.7.0\Drivers\STM32F4xx_HAL_Driver\Inc --predefine="__MICROLIB SETA 1" 
 --predefine="__UVISION_VERSION SETA 515" --predefine="_RTE_ SETA 1" --predefine
-="STM32F407xx SETA 1" --list=.\listings\kalmanfilter_asm.lst ..\Lab1_STM32F4Cub
-e_Base_project\Sources\Kalmanfilter_asm.s
+="STM32F407xx SETA 1" --list=.\listings\kalmanfilter_asm.lst Sources\Kalmanfilt
+er_asm.s
 
 
 
@@ -117,28 +117,23 @@ Kalmanfilter_asm 00000000
 
 Symbol: Kalmanfilter_asm
    Definitions
-      At line 20 in file ..\Lab1_STM32F4Cube_Base_project\Sources\Kalmanfilter_
-asm.s
+      At line 20 in file Sources\Kalmanfilter_asm.s
    Uses
-      At line 2 in file ..\Lab1_STM32F4Cube_Base_project\Sources\Kalmanfilter_a
-sm.s
+      At line 2 in file Sources\Kalmanfilter_asm.s
 Comment: Kalmanfilter_asm used once
 loop 0000001E
 
 Symbol: loop
    Definitions
-      At line 32 in file ..\Lab1_STM32F4Cube_Base_project\Sources\Kalmanfilter_
-asm.s
+      At line 32 in file Sources\Kalmanfilter_asm.s
    Uses
-      At line 53 in file ..\Lab1_STM32F4Cube_Base_project\Sources\Kalmanfilter_
-asm.s
+      At line 53 in file Sources\Kalmanfilter_asm.s
 Comment: loop used once
 myCode 00000000
 
 Symbol: myCode
    Definitions
-      At line 1 in file ..\Lab1_STM32F4Cube_Base_project\Sources\Kalmanfilter_a
-sm.s
+      At line 1 in file Sources\Kalmanfilter_asm.s
    Uses
       None
 Comment: myCode unused
