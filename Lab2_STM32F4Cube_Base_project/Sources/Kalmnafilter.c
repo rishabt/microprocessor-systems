@@ -1,3 +1,8 @@
+/**
+ * @file kalmanfilter.h
+ * @brief Kalmanfilter fot the lab
+ **/
+ 
 #include <stdio.h>
 #include <stdlib.h>
 #include "Kalmanfilter.h"

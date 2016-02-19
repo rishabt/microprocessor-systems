@@ -1,3 +1,21 @@
+/**
+ * @file seven_segment.h
+ * @brief Functions to control the 7 segment display
+ *
+ * Pin 4  -> Segment a
+ * Pin 5  -> Segment b
+ * Pin 6  -> Segment c
+ * Pin 7  -> Segment d
+ * Pin 8  -> Segment e
+ * Pin 9  -> Segment f
+ * Pin 10 -> Segment g
+ * Pin 11 -> Decimal point
+ * Pin 12 -> Digit 1 selector
+ * Pin 13 -> Digit 2 selector
+ * Pin 14 -> Digit 3 selector
+ * Pin 15 -> Digit 4 selector
+ **/
+
 #include <stdio.h>
 #include "stm32f4xx.h"
 #include "stm32f4xx_hal_gpio.h"
@@ -5,6 +23,10 @@
 
 void show_seven_segment(int number)
 {
+	/*
+	 * Switch statement to light the segments needed 
+	 * to display th number inputted.
+	 */
 	switch(number)
 	{
 		case 0:
@@ -80,6 +102,9 @@ void show_seven_segment(int number)
 
 void clear_all_segments(void)
 {
+	/*
+	 * Reset all pins
+	 */
 	HAL_GPIO_WritePin(GPIOE, GPIO_PIN_4, GPIO_PIN_RESET);
 	HAL_GPIO_WritePin(GPIOE, GPIO_PIN_5, GPIO_PIN_RESET);
 	HAL_GPIO_WritePin(GPIOE, GPIO_PIN_6, GPIO_PIN_RESET);
@@ -130,5 +155,8 @@ void deactivate_digit(int number)
 
 void activate_decimal(void)
 {
+	/*
+	 * Activate decimal pin
+	 */
 	HAL_GPIO_WritePin(GPIOE, GPIO_PIN_11, GPIO_PIN_SET);
 }

@@ -1,3 +1,8 @@
+/**
+ * @file kalmanfilter.h
+ * @brief Kalmanfilter fot the lab
+ **/
+
 #ifndef KALMAN_H
 #define KALMAN_H
 
@@ -10,6 +15,12 @@ typedef struct kalman
 	float k; // kalman gain (gain applied to estimation error and added to previous state estimate to determine the present state estimate)
 } kalman_state;
 
+/**
+ * @brief Kalmanfilter 
+ * @param Input Input number
+ * @param kstate Kalman state
+ * @return Void
+ **/
 float Kalmanfilter(float Input, kalman_state* kstate);
 
 #endif
