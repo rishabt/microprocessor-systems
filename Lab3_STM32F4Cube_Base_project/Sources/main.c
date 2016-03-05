@@ -12,11 +12,13 @@
 #include "stm32f4xx_hal.h"
 #include "supporting_functions.h"
 #include "lis3dsh.h"
+#include "stm32f4xx_hal_gpio.h"
 
 /* Private variables ---------------------------------------------------------*/
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config	(void);
+void LIS3DSH_Config(void);
 
 int main(void)
 {	
@@ -28,10 +30,64 @@ int main(void)
   SystemClock_Config();
 	
   /* Initialize all configured peripherals */
-
+	LIS3DSH_Config();
+	
 	while (1){
 	}
 }
+
+/** Accelerometer (LIS3DSH) Configuration*/
+void LIS3DSH_Config(void){
+	
+	LIS3DSH_InitTypeDef LIS3DSH_InitTypeDef_Struct;
+	LIS3DSH_DRYInterruptConfigTypeDef LIS3DSH_DRYInterruptConfigTypeDef_Struct;
+	GPIO_InitTypeDef GPIO_Struct;
+	
+	/* Initialize accelerometer */
+	LIS3DSH_InitTypeDef_Struct.Power_Mode_Output_DataRate = LIS3DSH_DATARATE_25;								// ODR2 => 25Hz
+	LIS3DSH_InitTypeDef_Struct.Axes_Enable = LIS3DSH_XYZ_ENABLE;																	// enable x (roll) axis only
+	LIS3DSH_InitTypeDef_Struct.Continous_Update = LIS3DSH_ContinousUpdate_Disabled;							// Only update data output registers if MSB and LSB are read
+	LIS3DSH_InitTypeDef_Struct.AA_Filter_BW = LIS3DSH_AA_BW_50;																// Set anti-aliasing filter bandwidth to 50 Hz, since our sampling frequency is only 25Hz
+	LIS3DSH_InitTypeDef_Struct.Full_Scale = LIS3DSH_FULLSCALE_2;																// Set accelerometer range to be plus or minus 2g
+	LIS3DSH_InitTypeDef_Struct.Self_Test = LIS3DSH_SELFTEST_NORMAL;														// Enable self tests
+	
+	
+	/* Setup accelerometer to generate interrupts when inputs are ready */
+	LIS3DSH_DRYInterruptConfigTypeDef_Struct.Dataready_Interrupt = LIS3DSH_DATA_READY_INTERRUPT_ENABLED;														// Dataready Interrupt enable and routed to INT1 line
+	LIS3DSH_DRYInterruptConfigTypeDef_Struct.Interrupt_signal = LIS3DSH_ACTIVE_HIGH_INTERRUPT_SIGNAL;															// Interrupt is active high
+	LIS3DSH_DRYInterruptConfigTypeDef_Struct.Interrupt_type = LIS3DSH_INTERRUPT_REQUEST_PULSED;																// Interrupt pulsed
+	
+	/* Enable GPIO PINE 0 hard-wired to accelerometer's INT1 line */
+	__HAL_RCC_GPIOE_CLK_ENABLE();																											// Enable clock for port E
+	GPIO_Struct.Pin = GPIO_PIN_0;																											// Initialize the pins to be used
+	GPIO_Struct.Mode = GPIO_MODE_IT_RISING;
+	GPIO_Struct.Pull = GPIO_NOPULL;
+	GPIO_Struct.Speed = GPIO_SPEED_MEDIUM;	
+	HAL_GPIO_Init(GPIOE, &GPIO_Struct);
+	
+	printf("* LIS3DSH_Config * \n");
+	
+	HAL_NVIC_EnableIRQ(EXTI0_IRQn);
+	HAL_NVIC_SetPriority(EXTI0_IRQn, 0,1);
+	HAL_NVIC_ClearPendingIRQ(EXTI0_IRQn);
+
+	LIS3DSH_Init(&LIS3DSH_InitTypeDef_Struct);
+	LIS3DSH_DataReadyInterruptConfig(&LIS3DSH_DRYInterruptConfigTypeDef_Struct);
+}
+
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{
+  /* Prevent unused argument(s) compilation warning */
+  __IO uint32_t tmpreg = 0x00;
+  UNUSED(tmpreg); 
+	
+	if (GPIO_Pin == GPIO_PIN_0){
+		float reading;
+		LIS3DSH_ReadACC(&reading);
+		printf("Printing: %f\n", reading);
+	}
+}
+
 
 /** System Clock Configuration*/
 void SystemClock_Config(void){
