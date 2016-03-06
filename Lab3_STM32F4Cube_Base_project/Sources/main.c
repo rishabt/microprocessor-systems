@@ -14,12 +14,23 @@
 #include "lis3dsh.h"
 #include "stm32f4xx_hal_gpio.h"
 #include "math.h"
+#include "kalman_filter.h"
 
 /* Private variables ---------------------------------------------------------*/
+kalman_state ks_x;
+kalman_state ks_y;
+kalman_state ks_z;
+float misalignment_and_offset_matrix[4][3] = {
+	{0.9932,-0.0189,0.0662},
+	{0.0170, 0.9770,0.0493},
+	{-0.0026,-0.01717,0.9498},
+	{0.0023, -0.0051,-0.0495}
+};
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config	(void);
 void LIS3DSH_Config(void);
+void KalmanState_Config(void);
 
 int main(void)
 {	
@@ -30,11 +41,34 @@ int main(void)
   /* Configure the system clock */
   SystemClock_Config();
 	
-  /* Initialize all configured peripherals */
+	/* Initialize kalman state */
+	KalmanState_Config();
+	
+  /* Configure accelerometer */
 	LIS3DSH_Config();
 	
 	while (1){
 	}
+}
+
+void KalmanState_Config(void){
+	ks_x.k = 0.0;
+	ks_x.p = 1500.0;
+	ks_x.q = 8;
+	ks_x.r = 100;
+	ks_x.x = 29.4;
+
+	ks_y.k = 0.0;
+	ks_y.p = 1500.0;
+	ks_y.q = 8;
+	ks_y.r = 100;
+	ks_y.x = 29.4;
+	
+	ks_z.k = 0.0;
+	ks_z.p = 1500.0;
+	ks_z.q = 8;
+	ks_z.r = 100;
+	ks_z.x = 29.4;
 }
 
 /** Accelerometer (LIS3DSH) Configuration*/
@@ -84,10 +118,29 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 	
 	if (GPIO_Pin == GPIO_PIN_0){
 		float readings[3];		// readings[0]->Ax, readings[1]->Ay, readings[2]->Az
-		float pitch;
+		float pitch,x,y,z;
+		float raw_matrix[4] = {0};
+		float callibrated_matrix[3] = {0};
+		int i,j;
+		
 		LIS3DSH_ReadACC(readings);
-		//printf("Printing: (x) %f, (y) %f, (z) %f \n", readings[0], readings[1], readings[2]);
-		pitch = atan2(readings[0], sqrt(readings[1]*readings[1] + readings[2]*readings[2])) * 180/ 3.14159265;
+		
+		raw_matrix[0] = readings[0];
+		raw_matrix[1] = readings[1];
+		raw_matrix[2] = readings[2];
+		raw_matrix[3] = 1;
+
+		for (i=0; i<3; i++){
+			for (j=0; j<4; j++){
+				callibrated_matrix[i] += raw_matrix[j]*misalignment_and_offset_matrix[j][i];
+			}
+		}
+		
+		x = Kalmanfilter(callibrated_matrix[0],&ks_x);
+		y = Kalmanfilter(callibrated_matrix[1],&ks_y);
+		z = Kalmanfilter(callibrated_matrix[2],&ks_z);
+		
+		pitch = atan2(x, sqrt(y*y + z*z)) * 180/ 3.14159265;
 		printf("Pitch: %f\n", pitch);
 		
 	}
