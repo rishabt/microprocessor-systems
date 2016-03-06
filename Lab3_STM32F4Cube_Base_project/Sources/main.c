@@ -27,6 +27,10 @@ float misalignment_and_offset_matrix[4][3] = {
 	{0.0023, -0.0051,-0.0495}
 };
 
+int target_angle = 20;
+int upper_bound;
+int lower_bound;
+
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config	(void);
 void LIS3DSH_Config(void);
@@ -141,7 +145,19 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 		z = Kalmanfilter(callibrated_matrix[2],&ks_z);
 		
 		pitch = atan2(x, sqrt(y*y + z*z)) * 180/ 3.14159265;
-		printf("Pitch: %f\n", pitch);
+		
+		upper_bound = target_angle + 5;
+		lower_bound = target_angle - 5;
+		
+		if(pitch < lower_bound){
+			printf("L\n");
+		}
+		else if(pitch > upper_bound){
+			printf("R\n");
+		}
+		else{
+			printf("Pitch: %f\n", pitch);
+		}
 		
 	}
 }
