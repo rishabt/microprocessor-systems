@@ -15,6 +15,8 @@
 #include "stm32f4xx_hal_gpio.h"
 #include "math.h"
 #include "kalman_filter.h"
+#include "config.h"
+#include "seven_segment.h"
 
 /* Private variables ---------------------------------------------------------*/
 kalman_state ks_x;
@@ -50,6 +52,8 @@ int main(void)
 	
   /* Configure accelerometer */
 	LIS3DSH_Config();
+	
+	config_all();
 	
 	while (1){
 	}
@@ -158,6 +162,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 		else{
 			printf("Pitch: %f\n", pitch);
 		}
+		
 		
 	}
 }
