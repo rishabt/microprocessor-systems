@@ -13,6 +13,7 @@
 #include "supporting_functions.h"
 #include "lis3dsh.h"
 #include "stm32f4xx_hal_gpio.h"
+#include "math.h"
 
 /* Private variables ---------------------------------------------------------*/
 
@@ -45,17 +46,17 @@ void LIS3DSH_Config(void){
 	
 	/* Initialize accelerometer */
 	LIS3DSH_InitTypeDef_Struct.Power_Mode_Output_DataRate = LIS3DSH_DATARATE_25;								// ODR2 => 25Hz
-	LIS3DSH_InitTypeDef_Struct.Axes_Enable = LIS3DSH_XYZ_ENABLE;																	// enable x (roll) axis only
+	LIS3DSH_InitTypeDef_Struct.Axes_Enable = LIS3DSH_XYZ_ENABLE;																// enable X,Y,Z
 	LIS3DSH_InitTypeDef_Struct.Continous_Update = LIS3DSH_ContinousUpdate_Disabled;							// Only update data output registers if MSB and LSB are read
-	LIS3DSH_InitTypeDef_Struct.AA_Filter_BW = LIS3DSH_AA_BW_50;																// Set anti-aliasing filter bandwidth to 50 Hz, since our sampling frequency is only 25Hz
+	LIS3DSH_InitTypeDef_Struct.AA_Filter_BW = LIS3DSH_AA_BW_50;																	// Set anti-aliasing filter bandwidth to 50 Hz, since our sampling frequency is only 25Hz
 	LIS3DSH_InitTypeDef_Struct.Full_Scale = LIS3DSH_FULLSCALE_2;																// Set accelerometer range to be plus or minus 2g
-	LIS3DSH_InitTypeDef_Struct.Self_Test = LIS3DSH_SELFTEST_NORMAL;														// Enable self tests
+	LIS3DSH_InitTypeDef_Struct.Self_Test = LIS3DSH_SELFTEST_NORMAL;															// Enable self tests
 	
 	
 	/* Setup accelerometer to generate interrupts when inputs are ready */
-	LIS3DSH_DRYInterruptConfigTypeDef_Struct.Dataready_Interrupt = LIS3DSH_DATA_READY_INTERRUPT_ENABLED;														// Dataready Interrupt enable and routed to INT1 line
-	LIS3DSH_DRYInterruptConfigTypeDef_Struct.Interrupt_signal = LIS3DSH_ACTIVE_HIGH_INTERRUPT_SIGNAL;															// Interrupt is active high
-	LIS3DSH_DRYInterruptConfigTypeDef_Struct.Interrupt_type = LIS3DSH_INTERRUPT_REQUEST_PULSED;																// Interrupt pulsed
+	LIS3DSH_DRYInterruptConfigTypeDef_Struct.Dataready_Interrupt = LIS3DSH_DATA_READY_INTERRUPT_ENABLED;	// Dataready Interrupt enable and routed to INT1 line
+	LIS3DSH_DRYInterruptConfigTypeDef_Struct.Interrupt_signal = LIS3DSH_ACTIVE_HIGH_INTERRUPT_SIGNAL;			// Interrupt is active high
+	LIS3DSH_DRYInterruptConfigTypeDef_Struct.Interrupt_type = LIS3DSH_INTERRUPT_REQUEST_PULSED;						// Interrupt pulsed
 	
 	/* Enable GPIO PINE 0 hard-wired to accelerometer's INT1 line */
 	__HAL_RCC_GPIOE_CLK_ENABLE();																											// Enable clock for port E
@@ -82,9 +83,13 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
   UNUSED(tmpreg); 
 	
 	if (GPIO_Pin == GPIO_PIN_0){
-		float reading;
-		LIS3DSH_ReadACC(&reading);
-		printf("Printing: %f\n", reading);
+		float readings[3];		// readings[0]->Ax, readings[1]->Ay, readings[2]->Az
+		float pitch;
+		LIS3DSH_ReadACC(readings);
+		//printf("Printing: (x) %f, (y) %f, (z) %f \n", readings[0], readings[1], readings[2]);
+		pitch = atan2(readings[0], sqrt(readings[1]*readings[1] + readings[2]*readings[2])) * 180/ 3.14159265;
+		printf("Pitch: %f\n", pitch);
+		
 	}
 }
 
