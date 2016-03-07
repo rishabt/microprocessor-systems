@@ -44,7 +44,7 @@
 
 extern TIM_HandleTypeDef TIM_Handle;
 
-int digit = 4;
+int digit = 3;
 
 /** @addtogroup STM32F4xx_HAL_Examples
   * @{
@@ -194,6 +194,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
 		{
 			digit = 3;
 		}
+		//printf("%d", digit);
 	}
 }
 /**

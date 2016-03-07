@@ -70,9 +70,9 @@ void Timer_Config(void)
 {
 	TIM_Base_InitTypeDef TIM_TimeBaseStructure;
 	
-	TIM_TimeBaseStructure.Period = 2000 - 1;
-	TIM_TimeBaseStructure.Prescaler = 42000 - 1;
-	TIM_TimeBaseStructure.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+	TIM_TimeBaseStructure.Period = 1;
+	TIM_TimeBaseStructure.Prescaler = 1;
+	TIM_TimeBaseStructure.ClockDivision = TIM_CLOCKDIVISION_DIV4;
 	TIM_TimeBaseStructure.CounterMode = TIM_COUNTERMODE_UP;
 	//TIM_TimeBaseStructure.RepetitionCounter = 0;
 	

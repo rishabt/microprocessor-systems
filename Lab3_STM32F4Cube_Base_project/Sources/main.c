@@ -17,10 +17,9 @@
 #include "kalman_filter.h"
 #include "config.h"
 #include "seven_segment.h"
-
+#include "utils.h"
 
 extern TIM_HandleTypeDef TIM_Handle;
-
 extern int digit;
 
 /* Private variables ---------------------------------------------------------*/
@@ -34,11 +33,12 @@ float misalignment_and_offset_matrix[4][3] = {
 	{0.0023, -0.0051,-0.0495}
 };
 
-int target_angle = 20;
+int target_angle = 40;
 int upper_bound;
 int lower_bound;
 
 int count;
+float pitch;
 
 char up = 'U';
 char down = 'D';
@@ -47,6 +47,7 @@ char down = 'D';
 void SystemClock_Config	(void);
 void LIS3DSH_Config(void);
 void KalmanState_Config(void);
+void display(float number);
 
 int main(void)
 {	
@@ -65,7 +66,7 @@ int main(void)
 	while (1){
 		
 		//count = __HAL_TIM_GET_COUNTER(&TIM_Handle);
-		//printf("%d\n", digit);
+		HAL_Delay(100);
 	}
 }
 
@@ -98,7 +99,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 	
 	if (GPIO_Pin == GPIO_PIN_0){
 		float readings[3];		// readings[0]->Ax, readings[1]->Ay, readings[2]->Az
-		float pitch,x,y,z;
+		float x,y,z;
 		float raw_matrix[4] = {0};
 		float callibrated_matrix[3] = {0};
 		int i,j;
@@ -138,7 +139,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 			show_arrow(down);
 		}
 		else{
-			clear_all_segments();
+			/*clear_all_segments();
 			deactivate_all_digits();
 			
 			if(pitch < 10){																													// Two decimal points
@@ -158,12 +159,101 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 				deactivate_all_digits();
 				
 				
-			}
+			}*/
+			
+			display(pitch);
 			
 		}
 		
 		
 	}
+}
+
+void display(float number)
+{
+	int one, two, three;
+	
+	one = get_digit_in_place(number, 1);
+	two = get_digit_in_place(number, 10);
+	three = get_digit_in_place(number, 100);
+	
+	if(number < 10){																													// Two decimal points
+		
+		if(digit == 1){
+			clear_all_segments();
+			deactivate_digit(2);
+			
+			activate_digit(1);
+			activate_decimal();
+			show_seven_segment(three);
+		}
+		else if(digit == 2){
+			clear_all_segments();
+			deactivate_digit(3);
+			
+			activate_digit(2);
+			show_seven_segment(two);
+		}
+		else if(digit == 3){
+			clear_all_segments();
+			deactivate_digit(1);
+			
+			activate_digit(3);
+			show_seven_segment(one);
+		}	
+		
+	}
+	else if(number > 10 && number < 100){																			// One decimal point
+		
+		if(digit == 1){
+			clear_all_segments();
+			deactivate_digit(2);
+			
+			activate_digit(1);
+			show_seven_segment(three);
+		}
+		else if(digit == 2){
+			clear_all_segments();
+			deactivate_digit(3);
+			
+			activate_digit(2);
+			activate_decimal();
+			show_seven_segment(two);
+		}
+		else if(digit == 3){
+			clear_all_segments();
+			deactivate_digit(1);
+			
+			activate_digit(3);
+			show_seven_segment(one);
+		}	
+		
+	}
+	else if(number > 100){																										// No decimal point
+		
+		if(digit == 1){
+			clear_all_segments();
+			deactivate_digit(2);
+			
+			activate_digit(1);
+			show_seven_segment(three);
+		}
+		else if(digit == 2){
+			clear_all_segments();
+			deactivate_digit(3);
+			
+			activate_digit(2);
+			show_seven_segment(two);
+		}
+		else if(digit == 3){
+			clear_all_segments();
+			deactivate_digit(1);
+			
+			activate_digit(3);
+			show_seven_segment(one);
+		}
+	}
+				
 }
 
 

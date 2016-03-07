@@ -48,3 +48,4 @@
 .\objects\main.o: .\Headers\kalman_filter.h
 .\objects\main.o: Sources\config.h
 .\objects\main.o: Sources\seven_segment.h
+.\objects\main.o: Sources\utils.h
