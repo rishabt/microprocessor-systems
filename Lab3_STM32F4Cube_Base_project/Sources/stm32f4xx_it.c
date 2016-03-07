@@ -42,6 +42,10 @@
 #include "stm32f4xx_it.h"
 #include "lis3dsh.h"
 
+extern TIM_HandleTypeDef TIM_Handle;
+
+int digit = 4;
+
 /** @addtogroup STM32F4xx_HAL_Examples
   * @{
   */
@@ -173,6 +177,24 @@ void SysTick_Handler(void)
 void EXTI0_IRQHandler(void)
 {
 	HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_0);
+}
+
+void TIM3_IRQHandler(void)
+{
+	HAL_TIM_IRQHandler(&TIM_Handle);
+}
+
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
+{
+	if(htim->Instance == TIM3)
+	{
+		digit = digit - 1;
+		
+		if(digit == 0)
+		{
+			digit = 3;
+		}
+	}
 }
 /**
   * @}

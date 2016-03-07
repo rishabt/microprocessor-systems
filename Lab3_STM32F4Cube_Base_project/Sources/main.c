@@ -18,6 +18,11 @@
 #include "config.h"
 #include "seven_segment.h"
 
+
+extern TIM_HandleTypeDef TIM_Handle;
+
+extern int digit;
+
 /* Private variables ---------------------------------------------------------*/
 kalman_state ks_x;
 kalman_state ks_y;
@@ -32,6 +37,8 @@ float misalignment_and_offset_matrix[4][3] = {
 int target_angle = 20;
 int upper_bound;
 int lower_bound;
+
+int count;
 
 char up = 'U';
 char down = 'D';
@@ -56,6 +63,9 @@ int main(void)
 	config_all();
 	
 	while (1){
+		
+		//count = __HAL_TIM_GET_COUNTER(&TIM_Handle);
+		//printf("%d\n", digit);
 	}
 }
 
@@ -128,7 +138,28 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 			show_arrow(down);
 		}
 		else{
-			printf("Pitch: %f\n", pitch);
+			clear_all_segments();
+			deactivate_all_digits();
+			
+			if(pitch < 10){																													// Two decimal points
+				clear_all_segments();
+				deactivate_all_digits();
+				
+				
+			}
+			else if(pitch > 10 && pitch < 100){																			// One decimal point
+				clear_all_segments();
+				deactivate_all_digits();
+				
+				
+			}
+			else if(pitch > 100){																										// No decimal point
+				clear_all_segments();
+				deactivate_all_digits();
+				
+				
+			}
+			
 		}
 		
 		
