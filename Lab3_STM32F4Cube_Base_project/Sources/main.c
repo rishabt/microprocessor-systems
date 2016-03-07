@@ -33,6 +33,9 @@ int target_angle = 20;
 int upper_bound;
 int lower_bound;
 
+char up = 'U';
+char down = 'D';
+
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config	(void);
 void LIS3DSH_Config(void);
@@ -113,10 +116,16 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 		lower_bound = target_angle - 5;
 		
 		if(pitch < lower_bound){
-			printf("L\n");
+			clear_all_segments();
+			deactivate_all_digits();
+			activate_digit(3);
+			show_arrow(up);
 		}
 		else if(pitch > upper_bound){
-			printf("R\n");
+			clear_all_segments();
+			deactivate_all_digits();
+			activate_digit(3);
+			show_arrow(down);
 		}
 		else{
 			printf("Pitch: %f\n", pitch);

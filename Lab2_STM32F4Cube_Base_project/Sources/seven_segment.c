@@ -100,6 +100,25 @@ void show_seven_segment(int number)
 	}
 }
 
+void show_arrow(char c)
+{
+	switch(c)
+	{
+		case 'U':
+			HAL_GPIO_WritePin(GPIOE, GPIO_PIN_4, GPIO_PIN_SET);
+			HAL_GPIO_WritePin(GPIOE, GPIO_PIN_5, GPIO_PIN_SET);
+			HAL_GPIO_WritePin(GPIOE, GPIO_PIN_8, GPIO_PIN_SET);
+			HAL_GPIO_WritePin(GPIOE, GPIO_PIN_9, GPIO_PIN_SET);
+			break;
+		case 'D':
+			HAL_GPIO_WritePin(GPIOE, GPIO_PIN_6, GPIO_PIN_SET);
+			HAL_GPIO_WritePin(GPIOE, GPIO_PIN_7, GPIO_PIN_SET);
+		  HAL_GPIO_WritePin(GPIOE, GPIO_PIN_8, GPIO_PIN_SET);
+			HAL_GPIO_WritePin(GPIOE, GPIO_PIN_9, GPIO_PIN_SET);
+			break;
+	}
+}
+
 void clear_all_segments(void)
 {
 	/*
@@ -151,6 +170,14 @@ void deactivate_digit(int number)
 			HAL_GPIO_WritePin(GPIOE, GPIO_PIN_15, GPIO_PIN_RESET);
 			break;
 	}
+}
+
+void deactivate_all_digits(void)
+{
+	deactivate_digit(1);
+	deactivate_digit(2);
+	deactivate_digit(3);
+	deactivate_digit(4);
 }
 
 void activate_decimal(void)
