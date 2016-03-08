@@ -20,7 +20,8 @@
 #include "utils.h"
 
 extern TIM_HandleTypeDef TIM_Handle;
-extern int digit;
+extern int display_flag;
+//extern int digit;
 
 /* Private variables ---------------------------------------------------------*/
 kalman_state ks_x;
@@ -34,14 +35,11 @@ float misalignment_and_offset_matrix[4][3] = {
 };
 
 int target_angle = 40;
-int upper_bound;
-int lower_bound;
 
 int count;
 float pitch;
-
-char up = 'U';
-char down = 'D';
+float tmp_pitch;
+float degree;
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config	(void);
@@ -62,6 +60,7 @@ int main(void)
 	KalmanState_Config();
 	
 	config_all();
+	tmp_pitch = pitch;
 	
 	while (1){
 		
@@ -123,137 +122,13 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 		
 		pitch = atan2(x, sqrt(y*y + z*z)) * 180/ 3.14159265;
 		
-		upper_bound = target_angle + 5;
-		lower_bound = target_angle - 5;
-		
-		if(pitch < lower_bound){
-			clear_all_segments();
-			deactivate_all_digits();
-			activate_digit(3);
-			show_arrow(up);
-		}
-		else if(pitch > upper_bound){
-			clear_all_segments();
-			deactivate_all_digits();
-			activate_digit(3);
-			show_arrow(down);
-		}
-		else{
-			/*clear_all_segments();
-			deactivate_all_digits();
-			
-			if(pitch < 10){																													// Two decimal points
-				clear_all_segments();
-				deactivate_all_digits();
-				
-				
-			}
-			else if(pitch > 10 && pitch < 100){																			// One decimal point
-				clear_all_segments();
-				deactivate_all_digits();
-				
-				
-			}
-			else if(pitch > 100){																										// No decimal point
-				clear_all_segments();
-				deactivate_all_digits();
-				
-				
-			}*/
-			
-			display(pitch);
-			
+		if(display_flag % 5 == 0)
+		{
+			tmp_pitch = pitch;
 		}
 		
 		
 	}
-}
-
-void display(float number)
-{
-	int one, two, three;
-	
-	one = get_digit_in_place(number, 1);
-	two = get_digit_in_place(number, 10);
-	three = get_digit_in_place(number, 100);
-	
-	if(number < 10){																													// Two decimal points
-		
-		if(digit == 1){
-			clear_all_segments();
-			deactivate_digit(2);
-			
-			activate_digit(1);
-			activate_decimal();
-			show_seven_segment(three);
-		}
-		else if(digit == 2){
-			clear_all_segments();
-			deactivate_digit(3);
-			
-			activate_digit(2);
-			show_seven_segment(two);
-		}
-		else if(digit == 3){
-			clear_all_segments();
-			deactivate_digit(1);
-			
-			activate_digit(3);
-			show_seven_segment(one);
-		}	
-		
-	}
-	else if(number > 10 && number < 100){																			// One decimal point
-		
-		if(digit == 1){
-			clear_all_segments();
-			deactivate_digit(2);
-			
-			activate_digit(1);
-			show_seven_segment(three);
-		}
-		else if(digit == 2){
-			clear_all_segments();
-			deactivate_digit(3);
-			
-			activate_digit(2);
-			activate_decimal();
-			show_seven_segment(two);
-		}
-		else if(digit == 3){
-			clear_all_segments();
-			deactivate_digit(1);
-			
-			activate_digit(3);
-			show_seven_segment(one);
-		}	
-		
-	}
-	else if(number > 100){																										// No decimal point
-		
-		if(digit == 1){
-			clear_all_segments();
-			deactivate_digit(2);
-			
-			activate_digit(1);
-			show_seven_segment(three);
-		}
-		else if(digit == 2){
-			clear_all_segments();
-			deactivate_digit(3);
-			
-			activate_digit(2);
-			show_seven_segment(two);
-		}
-		else if(digit == 3){
-			clear_all_segments();
-			deactivate_digit(1);
-			
-			activate_digit(3);
-			show_seven_segment(one);
-		}
-	}
-				
 }
 
 

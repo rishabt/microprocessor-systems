@@ -41,11 +41,24 @@
 #include "main.h"
 #include "stm32f4xx_it.h"
 #include "lis3dsh.h"
+#include "seven_segment.h"
 
 extern TIM_HandleTypeDef TIM_Handle;
+extern float pitch;
+extern int target_angle;
 
+int upper_bound;
+int lower_bound;
+int in_range = 0;
+extern float tmp_pitch;
+
+int display_flag = 0;
 int digit = 3;
 
+char up = 'U';
+char down = 'D';
+
+void display(float number);
 /** @addtogroup STM32F4xx_HAL_Examples
   * @{
   */
@@ -188,15 +201,50 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
 {
 	if(htim->Instance == TIM3)
 	{
-		digit = digit - 1;
+	
+		display_flag++;
 		
-		if(digit == 0)
+		upper_bound = target_angle + 5;
+		lower_bound = target_angle - 5;
+		
+		
+		if(pitch < lower_bound)
 		{
-			digit = 3;
+			in_range = 0;
+			
+			clear_all_segments();
+			deactivate_all_digits();
+			activate_digit(3);
+			show_arrow(down);
 		}
-		//printf("%d", digit);
+		else if(pitch > upper_bound)
+		{
+			in_range = 0;
+			
+			clear_all_segments();
+			deactivate_all_digits();
+			activate_digit(3);
+			show_arrow(up);
+	}
+		else
+		{
+			in_range = 1;
+		}
+
+		if(in_range == 1)
+		{
+			digit = digit - 1;
+			
+			if(digit == 0)
+			{
+				digit = 4;
+			}
+			
+			display(tmp_pitch);
+		}
 	}
 }
+
 /**
   * @}
   */ 

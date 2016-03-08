@@ -42,6 +42,10 @@ void activate_digit(int number);
  **/
 void activate_decimal(void);
 
+void activate_degree(void);
+
+void deactivate_degree(void);
+
 /**
  * @brief Deactivate the digit
  * @param number Digit number

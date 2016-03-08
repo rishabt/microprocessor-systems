@@ -14,6 +14,7 @@
 
 ADC_HandleTypeDef ADC1_Handle;
 GPIO_InitTypeDef GPIO_Struct;
+GPIO_InitTypeDef Degree_Struct;
 TIM_HandleTypeDef TIM_Handle;
 
 void GPIO_Config(void)
@@ -25,6 +26,13 @@ void GPIO_Config(void)
 	GPIO_Struct.Pull = GPIO_PULLUP;
 	GPIO_Struct.Speed = GPIO_SPEED_HIGH;
 	HAL_GPIO_Init(GPIOE, &GPIO_Struct);
+	
+	__HAL_RCC_GPIOD_CLK_ENABLE();
+	Degree_Struct.Pin = GPIO_PIN_6;
+	Degree_Struct.Mode = GPIO_MODE_OUTPUT_PP;																																	// Set mode to push and pull
+	Degree_Struct.Pull = GPIO_PULLUP;
+	Degree_Struct.Speed = GPIO_SPEED_HIGH;
+	HAL_GPIO_Init(GPIOD, &Degree_Struct);
 }
 
 /** Accelerometer (LIS3DSH) Configuration*/
@@ -70,8 +78,8 @@ void Timer_Config(void)
 {
 	TIM_Base_InitTypeDef TIM_TimeBaseStructure;
 	
-	TIM_TimeBaseStructure.Period = 1;
-	TIM_TimeBaseStructure.Prescaler = 1;
+	TIM_TimeBaseStructure.Period = 2000;																								// 20000 - 1 for 1 second  200
+	TIM_TimeBaseStructure.Prescaler = 42000;																						// 42000 - 1 for 1 second  3000
 	TIM_TimeBaseStructure.ClockDivision = TIM_CLOCKDIVISION_DIV4;
 	TIM_TimeBaseStructure.CounterMode = TIM_COUNTERMODE_UP;
 	//TIM_TimeBaseStructure.RepetitionCounter = 0;
