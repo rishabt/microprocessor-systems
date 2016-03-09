@@ -35,7 +35,7 @@ float misalignment_and_offset_matrix[4][3] = {
 	{0.0023, -0.0051,-0.0495}
 };
 
-int target_angle = 40;
+int target_angle = 5;
 
 int count;
 float pitch;
@@ -61,7 +61,6 @@ int main(void)
 	KalmanState_Config();
 	
 	rows_init();
-	get_input();
 	
 	config_all();
 	tmp_pitch = pitch;
@@ -69,7 +68,7 @@ int main(void)
 	while (1){
 		
 		//count = __HAL_TIM_GET_COUNTER(&TIM_Handle);
-		HAL_Delay(100);
+		//HAL_Delay(100);
 		
 	}
 }
@@ -100,7 +99,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
   /* Prevent unused argument(s) compilation warning */
   __IO uint32_t tmpreg = 0x00;
   UNUSED(tmpreg); 
-	
+
 	if (GPIO_Pin == GPIO_PIN_0){
 		float readings[3];		// readings[0]->Ax, readings[1]->Ay, readings[2]->Az
 		float x,y,z;
@@ -135,29 +134,133 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 		
 	}
 	
-	if(GPIO_Pin == GPIO_PIN_13)
-	{
-		HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_1);
-		printf("GETTING AN A\n");
-	}
-	
-	if(GPIO_Pin == GPIO_PIN_12)
-	{
-		HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_1);
-		printf("YAY\n");
-	}
-	
 	if(GPIO_Pin == GPIO_PIN_5)
 	{
-		HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_1);
-		printf("YAY->YAY\n");
+		//HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_1);
+		//printf("GETTING AN A\n");
+		//int number;
+		//init_columns();
+		
+		//number = ((HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_7) * 10) + HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_8)) * 10 + HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_11);
+		//printf("%d\n", number);
+		//rows_init();
+		
+		init_columns();
+		
+		if(HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_13) == 0)
+		{
+			//HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_7);
+			printf("1");
+		}
+		else if(HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_12) == 0)
+		{
+			//HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_8);
+			printf("2");
+		}
+		else if(HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_11) == 0)
+		{
+			//HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_11);
+			printf("3");
+		}
+		//HAL_Delay(10);
+		rows_init();
+		
+		//__HAL_GPIO_EXTI_CLEAR_IT(GPIO_PIN_13);
+		//__HAL_GPIO_EXTI_CLEAR_IT(GPIO_PIN_12);
+		//__HAL_GPIO_EXTI_CLEAR_IT(GPIO_PIN_5);
+		//__HAL_GPIO_EXTI_CLEAR_IT(GPIO_PIN_4);
 	}
 	
-	if(GPIO_Pin == GPIO_PIN_4)
+	else if(GPIO_Pin == GPIO_PIN_6)
 	{
-		HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_1);
-		printf("WORKS\n");
+		//HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_1);
+		//printf("OH\n");
+
+		init_columns();
+		
+		if(HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_13) == 0)
+		{
+			//HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_7);
+			printf("4");
+		}
+		else if(HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_12) == 0)
+		{
+			//HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_8);
+			printf("5");
+		}
+		else if(HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_11) == 0)
+		{
+			//HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_11);
+			printf("6");
+		}
+		//HAL_Delay(10);
+		rows_init();
+		
+		//__HAL_GPIO_EXTI_CLEAR_IT(GPIO_PIN_5);
+		//__HAL_GPIO_EXTI_CLEAR_IT(GPIO_PIN_4);
 	}
+	
+	else if(GPIO_Pin == GPIO_PIN_8)
+	{
+		//HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_1);
+		//printf("WORKS\n");
+		
+		init_columns();
+		
+		if(HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_13) == 0)
+		{
+			//HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_5);
+			__HAL_GPIO_EXTI_CLEAR_IT(GPIO_PIN_5);
+			printf("7");
+		}
+		else if(HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_12) == 0)
+		{
+			//HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_8);
+			printf("8");
+		}
+		else if(HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_11) == 0)
+		{
+			//HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_11);
+			printf("9");
+		}
+		//HAL_Delay(10);
+		//__HAL_GPIO_EXTI_CLEAR_IT(GPIO_PIN_4);
+		//__HAL_GPIO_EXTI_CLEAR_IT(GPIO_PIN_5);
+		rows_init();
+		
+		//__HAL_GPIO_EXTI_CLEAR_IT(GPIO_PIN_4);		
+		//__HAL_GPIO_EXTI_CLEAR_IT(GPIO_PIN_5);	
+	}
+	
+	else if(GPIO_Pin == GPIO_PIN_9)
+	{
+		//HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_1);
+		//printf("YAY->YAY\n");
+		
+		init_columns();
+		
+		if(HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_13) == 0)
+		{
+			//HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_7);
+			printf("*");
+		}
+		else if(HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_12) == 0)
+		{
+			//HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_8);
+			__HAL_GPIO_EXTI_CLEAR_IT(GPIO_PIN_4);
+			printf("0");
+		}
+		else if(HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_11) == 0)
+		{
+			//HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_11);
+			printf("#");
+		}
+		//HAL_Delay(10);
+		//__HAL_GPIO_EXTI_CLEAR_IT(GPIO_PIN_4);
+		//__HAL_GPIO_EXTI_CLEAR_IT(GPIO_PIN_5);
+		rows_init();
+	}
+	
 }
 
 

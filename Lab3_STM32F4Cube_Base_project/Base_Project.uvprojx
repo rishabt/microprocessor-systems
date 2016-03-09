@@ -530,6 +530,11 @@
               <FileType>5</FileType>
               <FilePath>..\Lab2_STM32F4Cube_Base_project\Sources\utils.h</FilePath>
             </File>
+            <File>
+              <FileName>keypad_interface.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Sources\keypad_interface.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
