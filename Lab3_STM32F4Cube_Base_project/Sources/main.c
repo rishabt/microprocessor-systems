@@ -18,6 +18,7 @@
 #include "config.h"
 #include "seven_segment.h"
 #include "utils.h"
+#include "keypad_interface.h"
 
 extern TIM_HandleTypeDef TIM_Handle;
 extern int display_flag;
@@ -59,6 +60,9 @@ int main(void)
 	/* Initialize kalman state */
 	KalmanState_Config();
 	
+	rows_init();
+	get_input();
+	
 	config_all();
 	tmp_pitch = pitch;
 	
@@ -66,6 +70,7 @@ int main(void)
 		
 		//count = __HAL_TIM_GET_COUNTER(&TIM_Handle);
 		HAL_Delay(100);
+		
 	}
 }
 
@@ -128,6 +133,30 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 		}
 		
 		
+	}
+	
+	if(GPIO_Pin == GPIO_PIN_13)
+	{
+		HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_1);
+		printf("GETTING AN A\n");
+	}
+	
+	if(GPIO_Pin == GPIO_PIN_12)
+	{
+		HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_1);
+		printf("YAY\n");
+	}
+	
+	if(GPIO_Pin == GPIO_PIN_5)
+	{
+		HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_1);
+		printf("YAY->YAY\n");
+	}
+	
+	if(GPIO_Pin == GPIO_PIN_4)
+	{
+		HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_1);
+		printf("WORKS\n");
 	}
 }
 

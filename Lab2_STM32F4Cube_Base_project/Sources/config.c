@@ -62,7 +62,7 @@ void LIS3DSH_Config(void){
 	GPIO_Struct.Mode = GPIO_MODE_IT_RISING;
 	GPIO_Struct.Pull = GPIO_NOPULL;
 	GPIO_Struct.Speed = GPIO_SPEED_MEDIUM;	
-	HAL_GPIO_Init(GPIOE, &GPIO_Struct);
+	//HAL_GPIO_Init(GPIOE, &GPIO_Struct);
 	
 	printf("* LIS3DSH_Config * \n");
 	
@@ -103,7 +103,7 @@ void Timer_Config(void)
 	
 	/* Configure NVIC */
 	HAL_NVIC_EnableIRQ(TIM3_IRQn);
-	HAL_NVIC_SetPriority(TIM3_IRQn, 9,9);
+	HAL_NVIC_SetPriority(TIM3_IRQn, 1,2);
 	//HAL_NVIC_ClearPendingIRQ(TIM3_IRQn);
 }
 

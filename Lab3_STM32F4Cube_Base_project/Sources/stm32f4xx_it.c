@@ -192,6 +192,28 @@ void EXTI0_IRQHandler(void)
 	HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_0);
 }
 
+void EXTI15_10_IRQHandler(void)
+{
+	if(HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_12) == 0)
+	{
+		HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_12);
+	}
+	if(HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_13) == 0)
+	{
+		HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_13);
+	}
+}
+
+void EXTI9_5_IRQHandler(void)
+{
+	HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_5);
+}
+
+void EXTI4_IRQHandler(void)
+{
+	HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_4);
+}
+
 void TIM3_IRQHandler(void)
 {
 	HAL_TIM_IRQHandler(&TIM_Handle);

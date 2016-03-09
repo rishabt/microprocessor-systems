@@ -49,3 +49,4 @@
 .\objects\main.o: Sources\config.h
 .\objects\main.o: Sources\seven_segment.h
 .\objects\main.o: Sources\utils.h
+.\objects\main.o: Sources\keypad_interface.h
