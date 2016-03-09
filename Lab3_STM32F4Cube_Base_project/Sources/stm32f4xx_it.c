@@ -192,39 +192,32 @@ void EXTI0_IRQHandler(void)
 	HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_0);
 }
 
-/*void EXTI15_10_IRQHandler(void)
-{
-	if(HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_12) == 0)
-	{
-		HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_12);
-	}
-	else if(HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_13) == 0)
-	{
-		HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_13);
-	}
-}*/
-
+/**
+  * @brief  This function handles EXTI 9 to 5 interrupt for keypad rows
+  * @param  None
+  * @retval None
+  */
 void EXTI9_5_IRQHandler(void)
 {
-	if(HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_5) == 0)
+	if(HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_5) == 0)																									// Row 1
 	{
 				HAL_Delay(300);
 
 		HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_5);
 	}
-	else if(HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_6) == 0)
+	else if(HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_6) == 0)																							// Row 2
 	{
 						HAL_Delay(300);
 
 		HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_6);
 	} 
-	else if (HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_8) == 0) 
-	{
+	else if (HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_8) == 0) 																						// Row 3
+	{	
 						HAL_Delay(300);
 
 		HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_8);
 	}
-	else if (HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_9) == 0)
+	else if (HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_9) == 0)																						// Row 4
 	{
 						HAL_Delay(300);
 
@@ -232,16 +225,21 @@ void EXTI9_5_IRQHandler(void)
 	}
 }
 
-/*void EXTI4_IRQHandler(void)
-{
-	HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_4);
-}*/
-
+/**
+  * @brief  This function handles TIM3 interrupt
+  * @param  None
+  * @retval None
+  */
 void TIM3_IRQHandler(void)
 {
 	HAL_TIM_IRQHandler(&TIM_Handle);
 }
 
+/**
+  * @brief  This function handles callback for TIM3
+  * @param  htim* Timer handler
+  * @retval None
+  */
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
 {
 	if(htim->Instance == TIM3)

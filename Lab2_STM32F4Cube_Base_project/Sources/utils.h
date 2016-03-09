@@ -18,4 +18,12 @@
  **/
 int get_digit_in_place(float number, int place);
 
+/**
+ * @brief Displays number on 7 segment display using TIM3 interrupts
+ * 
+ * @param number Number to be delayed
+ * @return Void
+ **/
+void display(float number);
+
 #endif
