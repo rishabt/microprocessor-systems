@@ -214,6 +214,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
 			
 			clear_all_segments();
 			deactivate_all_digits();
+			deactivate_degree();
 			activate_digit(3);
 			show_arrow(down);
 		}
@@ -223,9 +224,10 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
 			
 			clear_all_segments();
 			deactivate_all_digits();
+			deactivate_degree();
 			activate_digit(3);
 			show_arrow(up);
-	}
+		}
 		else
 		{
 			in_range = 1;
@@ -242,6 +244,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
 			
 			display(tmp_pitch);
 		}
+		
 	}
 }
 

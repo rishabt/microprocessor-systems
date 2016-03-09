@@ -133,7 +133,7 @@ void clear_all_segments(void)
 	HAL_GPIO_WritePin(GPIOE, GPIO_PIN_10, GPIO_PIN_RESET);
 	HAL_GPIO_WritePin(GPIOE, GPIO_PIN_11, GPIO_PIN_RESET);
 	
-	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_6, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_11, GPIO_PIN_SET);
 }
 
 void activate_digit(int number)
@@ -192,26 +192,19 @@ void activate_decimal(void)
 
 void activate_degree(void)
 {
-	/*deactivate_digit(1);
-	deactivate_digit(2);
-	deactivate_digit(3);
-	deactivate_digit(4);
-	
-	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_6, GPIO_PIN_SET);
-	HAL_GPIO_WritePin(GPIOE, GPIO_PIN_6, GPIO_PIN_SET);
-	HAL_GPIO_WritePin(GPIOE, GPIO_PIN_7, GPIO_PIN_SET);
-	HAL_GPIO_WritePin(GPIOE, GPIO_PIN_8, GPIO_PIN_SET);
-	HAL_GPIO_WritePin(GPIOE, GPIO_PIN_9, GPIO_PIN_SET);*/
-	
 	deactivate_digit(1);
 	deactivate_digit(2);
 	deactivate_digit(3);
 	deactivate_digit(4);
-	show_arrow('D');
+	
+	clear_all_segments();
+	
+	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_11, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(GPIOE, GPIO_PIN_6, GPIO_PIN_SET);
 }
 
 void deactivate_degree(void)
 {
-	clear_all_segments();
-	
+	HAL_GPIO_WritePin(GPIOE, GPIO_PIN_6, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_11, GPIO_PIN_RESET);
 }

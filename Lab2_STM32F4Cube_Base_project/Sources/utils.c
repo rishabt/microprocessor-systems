@@ -126,6 +126,7 @@ void display(float number)
 			show_seven_segment(one);
 		}
 		else if(digit == 4){
+			clear_all_segments();
 			activate_degree();
 		}
 	}
