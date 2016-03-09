@@ -67,7 +67,7 @@ void LIS3DSH_Config(void){
 	printf("* LIS3DSH_Config * \n");
 	
 	HAL_NVIC_EnableIRQ(EXTI0_IRQn);
-	HAL_NVIC_SetPriority(EXTI0_IRQn, 0,1);
+	HAL_NVIC_SetPriority(EXTI0_IRQn, 1,3);
 	HAL_NVIC_ClearPendingIRQ(EXTI0_IRQn);
 
 	LIS3DSH_Init(&LIS3DSH_InitTypeDef_Struct);
@@ -79,7 +79,7 @@ void Timer_Config(void)
 	TIM_Base_InitTypeDef TIM_TimeBaseStructure;
 	
 	TIM_TimeBaseStructure.Period = 200;																								// 20000 - 1 for 1 second  200
-	TIM_TimeBaseStructure.Prescaler = 1000;																						// 42000 - 1 for 1 second  3000
+	TIM_TimeBaseStructure.Prescaler = 1000;																						// 42000 - 1 for 1 second  1000
 	TIM_TimeBaseStructure.ClockDivision = TIM_CLOCKDIVISION_DIV4;
 	TIM_TimeBaseStructure.CounterMode = TIM_COUNTERMODE_UP;
 	//TIM_TimeBaseStructure.RepetitionCounter = 0;

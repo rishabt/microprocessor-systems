@@ -208,18 +208,26 @@ void EXTI9_5_IRQHandler(void)
 {
 	if(HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_5) == 0)
 	{
+				HAL_Delay(300);
+
 		HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_5);
 	}
 	else if(HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_6) == 0)
 	{
+						HAL_Delay(300);
+
 		HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_6);
 	} 
 	else if (HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_8) == 0) 
 	{
+						HAL_Delay(300);
+
 		HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_8);
 	}
 	else if (HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_9) == 0)
 	{
+						HAL_Delay(300);
+
 		HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_9);
 	}
 }
@@ -238,7 +246,6 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
 {
 	if(htim->Instance == TIM3)
 	{
-	
 		display_flag++;
 		
 		upper_bound = target_angle + 5;
@@ -253,7 +260,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
 			deactivate_all_digits();
 			deactivate_degree();
 			activate_digit(3);
-			show_arrow(down);
+			show_arrow(up);
 		}
 		else if(pitch > upper_bound)
 		{
@@ -263,7 +270,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
 			deactivate_all_digits();
 			deactivate_degree();
 			activate_digit(3);
-			show_arrow(up);
+			show_arrow(down);
 		}
 		else
 		{

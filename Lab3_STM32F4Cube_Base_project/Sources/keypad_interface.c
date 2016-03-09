@@ -54,7 +54,7 @@ void rows_init(void)
 //	HAL_NVIC_ClearPendingIRQ(EXTI15_10_IRQn);
 	
 	HAL_NVIC_EnableIRQ(EXTI9_5_IRQn);
-	HAL_NVIC_SetPriority(EXTI9_5_IRQn, 1,3);
+	HAL_NVIC_SetPriority(EXTI9_5_IRQn, 1,2);
 	HAL_NVIC_ClearPendingIRQ(EXTI9_5_IRQn);
 	
 	//HAL_NVIC_EnableIRQ(EXTI4_IRQn);
