@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Objects\Blinky.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\Blinky.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5050169: Last Updated: Sat Mar 12 20:05:18 2016
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5050169: Last Updated: Sat Mar 12 21:20:37 2016
 <BR><P>
 <H3>Maximum Stack Usage =        168 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -385,8 +385,8 @@ Global Symbols
 <P><STRONG><a name="[7f]"></a>HAL_GPIO_Init</STRONG> (Thumb, 476 bytes, Stack size 24 bytes, stm32f4xx_hal_gpio.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = HAL_GPIO_Init
 </UL>
-<BR>[Called By]<UL><LI><a href="#[91]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_MCOConfig
-<LI><a href="#[7b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;initializeLED_IO
+<BR>[Called By]<UL><LI><a href="#[7b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;initializeLED_IO
+<LI><a href="#[91]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_MCOConfig
 </UL>
 
 <P><STRONG><a name="[f0]"></a>HAL_GPIO_DeInit</STRONG> (Thumb, 326 bytes, Stack size 20 bytes, stm32f4xx_hal_gpio.o(.text), UNUSED)
@@ -445,9 +445,9 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_GetSysClockFreq
 </UL>
-<BR>[Called By]<UL><LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_GetPCLK2Freq
+<BR>[Called By]<UL><LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_InitTick
+<LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_GetPCLK2Freq
 <LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_GetPCLK1Freq
-<LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_InitTick
 </UL>
 
 <P><STRONG><a name="[93]"></a>HAL_RCC_GetPCLK1Freq</STRONG> (Thumb, 36 bytes, Stack size 8 bytes, stm32f4xx_hal_rcc.o(.text), UNUSED)
