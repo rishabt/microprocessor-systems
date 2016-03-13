@@ -49,7 +49,7 @@ I (.\Headers\kalman_filter.h)(0x56DC8DFB)
 I (Sources\config.h)(0x56DC8C8E)
 I (Sources\seven_segment.h)(0x56DC8C8E)
 I (Sources\utils.h)(0x56DC8C8E)
-I (Sources\keypad_interface.h)(0x56DFEA0C)
+I (Sources\keypad_interface.h)(0x56E0AA4E)
 F (.\Sources\fput_debug.c)(0x56DC8C8E)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I.\Accelerometer -I.\Headers -I.\Accelerometer\inc-I C:\microprocessor-systems\Lab3_STM32F4Cube_Base_project\RTE-I C:\microprocessor-systems\Lab3_STM32F4Cube_Base_project\RTE\Device\STM32F407VGTx-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.7.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.7.0\Drivers\STM32F4xx_HAL_Driver\Inc-D__UVISION_VERSION="515" -D_RTE_ -DSTM32F407xx -DUSE_HAL_DRIVER -DSTM32F407xx -D__FPU_PRESENT="1" -DHSE_VALUE="8000000"-o .\objects\fput_debug.o --omf_browse .\objects\fput_debug.crf --depend .\objects\fput_debug.d)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x54C2EE78)
 I (C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.7.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h)(0x5644DD48)
@@ -97,7 +97,7 @@ F (.\Sources\supporting_functions.c)(0x56DC8C8E)(-c --cpu Cortex-M4.fp -D__MICRO
 I (.\Headers\supporting_functions.h)(0x56DC8C8E)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x54C2EE78)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x54C2EE78)
-F (.\Sources\stm32f4xx_it.c)(0x56E09C7A)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I.\Accelerometer -I.\Headers -I.\Accelerometer\inc-I C:\microprocessor-systems\Lab3_STM32F4Cube_Base_project\RTE-I C:\microprocessor-systems\Lab3_STM32F4Cube_Base_project\RTE\Device\STM32F407VGTx-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.7.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.7.0\Drivers\STM32F4xx_HAL_Driver\Inc-D__UVISION_VERSION="515" -D_RTE_ -DSTM32F407xx -DUSE_HAL_DRIVER -DSTM32F407xx -D__FPU_PRESENT="1" -DHSE_VALUE="8000000"-o .\objects\stm32f4xx_it.o --omf_browse .\objects\stm32f4xx_it.crf --depend .\objects\stm32f4xx_it.d)
+F (.\Sources\stm32f4xx_it.c)(0x56E0AA82)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I.\Accelerometer -I.\Headers -I.\Accelerometer\inc-I C:\microprocessor-systems\Lab3_STM32F4Cube_Base_project\RTE-I C:\microprocessor-systems\Lab3_STM32F4Cube_Base_project\RTE\Device\STM32F407VGTx-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.7.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.7.0\Drivers\STM32F4xx_HAL_Driver\Inc-D__UVISION_VERSION="515" -D_RTE_ -DSTM32F407xx -DUSE_HAL_DRIVER -DSTM32F407xx -D__FPU_PRESENT="1" -DHSE_VALUE="8000000"-o .\objects\stm32f4xx_it.o --omf_browse .\objects\stm32f4xx_it.crf --depend .\objects\stm32f4xx_it.d)
 I (.\Headers\main.h)(0x56DC8C8E)
 I (C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.7.0\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal.h)(0x5644DD4A)
 I (C:\microprocessor-systems\Lab3_STM32F4Cube_Base_project\RTE\Device\STM32F407VGTx\stm32f4xx_hal_conf.h)(0x56DC8C8E)
@@ -243,9 +243,9 @@ F (..\Lab2_STM32F4Cube_Base_project\Sources\seven_segment.h)(0x56DF1E08)()
 F (..\Lab2_STM32F4Cube_Base_project\Sources\utils.c)(0x56E07425)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I.\Accelerometer -I.\Headers -I.\Accelerometer\inc-I C:\microprocessor-systems\Lab3_STM32F4Cube_Base_project\RTE-I C:\microprocessor-systems\Lab3_STM32F4Cube_Base_project\RTE\Device\STM32F407VGTx-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.7.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.7.0\Drivers\STM32F4xx_HAL_Driver\Inc-D__UVISION_VERSION="515" -D_RTE_ -DSTM32F407xx -DUSE_HAL_DRIVER -DSTM32F407xx -D__FPU_PRESENT="1" -DHSE_VALUE="8000000"-o .\objects\utils.o --omf_browse .\objects\utils.crf --depend .\objects\utils.d)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x54C2EE78)
 I (C:\Keil_v5\ARM\ARMCC\include\math.h)(0x54C2EE78)
-I (..\Lab2_STM32F4Cube_Base_project\Sources\utils.h)(0x56E0992B)
+I (..\Lab2_STM32F4Cube_Base_project\Sources\utils.h)(0x56E0A9F1)
 I (..\Lab2_STM32F4Cube_Base_project\Sources\seven_segment.h)(0x56DF1E08)
-F (..\Lab2_STM32F4Cube_Base_project\Sources\utils.h)(0x56E0992B)()
+F (..\Lab2_STM32F4Cube_Base_project\Sources\utils.h)(0x56E0A9F1)()
 F (.\Sources\keypad_interface.c)(0x56E08075)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I.\Accelerometer -I.\Headers -I.\Accelerometer\inc-I C:\microprocessor-systems\Lab3_STM32F4Cube_Base_project\RTE-I C:\microprocessor-systems\Lab3_STM32F4Cube_Base_project\RTE\Device\STM32F407VGTx-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.7.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.7.0\Drivers\STM32F4xx_HAL_Driver\Inc-D__UVISION_VERSION="515" -D_RTE_ -DSTM32F407xx -DUSE_HAL_DRIVER -DSTM32F407xx -D__FPU_PRESENT="1" -DHSE_VALUE="8000000"-o .\objects\keypad_interface.o --omf_browse .\objects\keypad_interface.crf --depend .\objects\keypad_interface.d)
 I (C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.7.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h)(0x5644DD48)
 I (C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.7.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f407xx.h)(0x5644DD48)
@@ -289,7 +289,7 @@ I (C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.7.0\Drivers\STM32F4xx_HAL_Driver\Inc
 I (C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.7.0\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_tim_ex.h)(0x5644DD4C)
 I (C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.7.0\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_uart.h)(0x5644DD4A)
 I (C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.7.0\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_usart.h)(0x5644DD4C)
-I (Sources\keypad_interface.h)(0x56DFEA0C)
+I (Sources\keypad_interface.h)(0x56E0AA4E)
 F (.\Accelerometer\src\LIS3DSH.c)(0x56DC8C8E)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I "..\..\Workshop Lab 5\Accelerometer_Drivers\inc" -I.\Headers -I.\Accelerometer\inc-I C:\microprocessor-systems\Lab3_STM32F4Cube_Base_project\RTE-I C:\microprocessor-systems\Lab3_STM32F4Cube_Base_project\RTE\Device\STM32F407VGTx-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.7.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.7.0\Drivers\STM32F4xx_HAL_Driver\Inc-D__UVISION_VERSION="515" -D_RTE_ -DSTM32F407xx -DUSE_HAL_DRIVER -DSTM32F407xx -D__FPU_PRESENT="1" -DHSE_VALUE="8000000"-o .\objects\lis3dsh.o --omf_browse .\objects\lis3dsh.crf --depend .\objects\lis3dsh.d)
 I (.\Accelerometer\inc\lis3dsh.h)(0x56DC8C8E)
 I (C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.7.0\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal.h)(0x5644DD4A)
