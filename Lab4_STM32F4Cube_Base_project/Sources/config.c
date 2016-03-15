@@ -103,14 +103,6 @@ void LIS3DSH_Config(void){
 	LIS3DSH_DataReadyInterruptConfig(&LIS3DSH_DRYInterruptConfigTypeDef_Struct);
 }
 
-void EXTI0_IRQHandler(void)
-{
-	HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_0);
-	
-	//HAL_NVIC_ClearPendingIRQ(EXTI0_IRQn);
-	//osSemaphoreRelease(accelerometer_select);
-}
-
 void Timer_Config(void)
 {
 	TIM_Base_InitTypeDef TIM_TimeBaseStructure;

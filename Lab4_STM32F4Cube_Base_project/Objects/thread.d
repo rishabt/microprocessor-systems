@@ -41,3 +41,4 @@
 .\objects\thread.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
 .\objects\thread.o: Sources\thread.h
 .\objects\thread.o: Sources\Kalmanfilter.h
+.\objects\thread.o: Sources\accelerometer_interface.h

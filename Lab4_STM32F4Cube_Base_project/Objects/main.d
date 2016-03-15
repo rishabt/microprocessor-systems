@@ -41,3 +41,4 @@
 .\objects\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
 .\objects\main.o: .\Headers\supporting_functions.h
 .\objects\main.o: .\Accelerometer\inc\lis3dsh.h
+.\objects\main.o: Sources\accelerometer_interface.h

@@ -16,6 +16,7 @@
 #include "math.h"
 #include "supporting_functions.h"
 #include "lis3dsh.h"
+#include "accelerometer_interface.h"
 
 extern void initializeLED_IO			(void);
 extern void start_Thread_LED			(void);
@@ -90,31 +91,14 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 
 	if (GPIO_Pin == GPIO_PIN_0){
 		
-		/*float x,y,z;
-		float raw_matrix[4] = {0};
-		float callibrated_matrix[3] = {0};
-		int i,j;
-		
-		LIS3DSH_ReadACC(readings);
-		
-		raw_matrix[0] = readings[0];
-		raw_matrix[1] = readings[1];
-		raw_matrix[2] = readings[2];
-		raw_matrix[3] = 1;
-
-		for (i=0; i<3; i++){
-			for (j=0; j<4; j++){
-				callibrated_matrix[i] += raw_matrix[j]*misalignment_and_offset_matrix[j][i];
-			}
-		}
-		pitch = atan2(x, sqrt(y*y + z*z)) * 180/ 3.14159265;*/
-		
 		LIS3DSH_ReadACC(readings);
 		
 		HAL_NVIC_ClearPendingIRQ(EXTI0_IRQn);
 		osSemaphoreRelease(accelerometer_select);
 		
 	}
+	
+	
 }
 
 /**
@@ -129,7 +113,8 @@ int main (void) {
   SystemClock_Config();                     /* Configure the System Clock     */
 
 	config_all();
-	KalmanState_Config();
+	
+	acc_kalmanState_Config();
 	
 	accelerometer_select = osSemaphoreCreate(osSemaphore(accelerometer_select), 1);
 	accelerometer_set_semaphore(accelerometer_select);
