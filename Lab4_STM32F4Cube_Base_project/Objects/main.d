@@ -43,3 +43,5 @@
 .\objects\main.o: .\Accelerometer\inc\lis3dsh.h
 .\objects\main.o: Sources\accelerometer_interface.h
 .\objects\main.o: Sources\temperature_interface.h
+.\objects\main.o: Sources\seven_segment.h
+.\objects\main.o: Sources\utils.h

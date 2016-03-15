@@ -95,15 +95,3 @@ void init_columns(void)
 
 }
 
-void get_input(void)
-{
-	
-}
-
-/*void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
-{
-	if(GPIO_Pin == 1)
-	{
-		
-	}
-}*/

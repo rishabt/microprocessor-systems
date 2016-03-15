@@ -21,6 +21,8 @@
 #include "stm32f4xx_hal_gpio.h"
 #include "seven_segment.h"
 
+extern TIM_HandleTypeDef TIM3_Handle;
+
 void show_seven_segment(int number)
 {
 	/*
@@ -178,4 +180,9 @@ void deactivate_degree(void)
 {
 	HAL_GPIO_WritePin(GPIOE, GPIO_PIN_6, GPIO_PIN_RESET);
 	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_11, GPIO_PIN_RESET);
+}
+
+void TIM3_IRQHandler(void)
+{
+	HAL_TIM_IRQHandler(&TIM3_Handle);
 }

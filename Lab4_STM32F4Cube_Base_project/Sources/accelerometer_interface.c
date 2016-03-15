@@ -6,6 +6,10 @@
 #include "stm32f4xx_hal_gpio.h"
 
 extern float readings[3];
+extern int display_flag;
+extern int DISPLAY_ACC;
+
+double tmp_pitch;
 float pitch;
 
 osSemaphoreId semaphore = NULL;
@@ -73,6 +77,14 @@ void accelerometer_mode(void)
 	z = Kalmanfilter(callibrated_matrix[2],&acc_ks_z);
 	
 	pitch = atan2(x, sqrt(y*y + z*z)) * 180/ 3.14159265;
+	
+	if(DISPLAY_ACC == 1)
+	{
+		if(display_flag % 5 == 0)
+		{
+			tmp_pitch = pitch;
+		}
+	}
 	
 	//printf("%f\n", pitch);
 	

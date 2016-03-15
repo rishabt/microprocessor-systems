@@ -18,15 +18,35 @@
 #include "lis3dsh.h"
 #include "accelerometer_interface.h"
 #include "temperature_interface.h"
+#include "seven_segment.h"
+#include "utils.h"
+
+int DISPLAY_ACC = 1;
+int DISPLAY_TEMP = 0;
+
+int ACC_PITCH = 1;
+int ACC_ROLL = 0;
 
 extern void initializeLED_IO			(void);
 extern void start_Thread_LED			(void);
 extern void Thread_LED(void const *argument);
 extern osThreadId tid_Thread_LED;
+extern double tmp_pitch;
+extern int DISPLAY_OPTION;
+
+extern int pitch;
 extern ADC_HandleTypeDef ADC1_Handle;
 float temp;
 
+int digit;
+
 float readings[3];
+
+char down = 'D';
+char up = 'U';
+
+int display_flag, in_range;
+double upper_bound, lower_bound;
 
 osSemaphoreId accelerometer_select;
 osSemaphoreDef(accelerometer_select);
@@ -106,6 +126,24 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
 		temp = HAL_ADC_GetValue(&ADC1_Handle);
 		
 		osSemaphoreRelease(temperature_select);
+	}	
+	
+	if(htim->Instance == TIM3)
+	{
+		display_flag++;
+		
+		if(DISPLAY_ACC == 1)
+		{
+				digit = digit - 1;
+				
+				if(digit == 0)
+				{
+					digit = 4;
+				}
+				
+				display(tmp_pitch);			
+		}
+		
 	}
 }
 

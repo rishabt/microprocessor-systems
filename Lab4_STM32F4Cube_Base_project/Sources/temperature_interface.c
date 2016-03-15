@@ -7,6 +7,8 @@ extern TIM_HandleTypeDef TIM2_Handle;
 extern float temp;
 float temperature_reading;
 
+extern int DISPLAY_TEMP;
+
 osSemaphoreId temp_semaphore = NULL;
 
 kalman_state temp_ks;

@@ -46,4 +46,7 @@ void activate_degree(void);
 
 
 void deactivate_degree(void);
+
+void TIM3_IRQHandler(void);
+	
 #endif
