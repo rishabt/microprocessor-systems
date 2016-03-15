@@ -11,6 +11,7 @@
 #include "stm32f4xx_hal.h"              // Keil::Device:STM32Cube HAL:Common
 #include "cmsis_os.h"                   // ARM::CMSIS:RTOS:Keil RTX
 #include "RTE_Components.h"             // Component selection
+#include "thread.h"
 
 extern void initializeLED_IO			(void);
 extern void start_Thread_LED			(void);
@@ -78,6 +79,8 @@ int main (void) {
 	/* User codes goes here*/
   initializeLED_IO();                       /* Initialize LED GPIO Buttons    */
   start_Thread_LED();                       /* Create LED thread              */
+	
+	start_Thread_Accelerometer();                       /* Create LED thread              */
 	/* User codes ends here*/
   
 	osKernelStart();                          /* start thread execution         */

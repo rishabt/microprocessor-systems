@@ -229,7 +229,6 @@
             <useUlib>1</useUlib>
             <EndSel>0</EndSel>
             <uLtcg>0</uLtcg>
-            <nSecure>0</nSecure>
             <RoSelD>3</RoSelD>
             <RwSelD>3</RwSelD>
             <CodeSel>0</CodeSel>
@@ -366,8 +365,6 @@
             <useXO>0</useXO>
             <v6Lang>0</v6Lang>
             <v6LangP>0</v6LangP>
-            <vShortEn>0</vShortEn>
-            <vShortWch>0</vShortWch>
             <VariousControls>
               <MiscControls></MiscControls>
               <Define>HSE_VALUE=8000000, VECT_TAB_SRAM</Define>
@@ -430,6 +427,61 @@
               <FileType>1</FileType>
               <FilePath>.\Sources\supporting_functions.c</FilePath>
             </File>
+            <File>
+              <FileName>config.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Sources\config.c</FilePath>
+            </File>
+            <File>
+              <FileName>config.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Sources\config.h</FilePath>
+            </File>
+            <File>
+              <FileName>kalman_filter.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Sources\kalman_filter.c</FilePath>
+            </File>
+            <File>
+              <FileName>keypad_interface.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Sources\keypad_interface.c</FilePath>
+            </File>
+            <File>
+              <FileName>keypad_interface.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Sources\keypad_interface.h</FilePath>
+            </File>
+            <File>
+              <FileName>seven_segment.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Sources\seven_segment.c</FilePath>
+            </File>
+            <File>
+              <FileName>seven_segment.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Sources\seven_segment.h</FilePath>
+            </File>
+            <File>
+              <FileName>utils.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Sources\utils.c</FilePath>
+            </File>
+            <File>
+              <FileName>utils.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Sources\utils.h</FilePath>
+            </File>
+            <File>
+              <FileName>Kalmanfilter.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Sources\Kalmanfilter.h</FilePath>
+            </File>
+            <File>
+              <FileName>thread.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\thread.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -454,7 +506,6 @@
       <TargetName>Lab4</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
-      <pCCUsed>5060061::V5.06 update 1 (build 61)::ARMCC</pCCUsed>
       <TargetOption>
         <TargetCommonOption>
           <Device>STM32F407VGTx</Device>
@@ -674,7 +725,6 @@
             <useUlib>1</useUlib>
             <EndSel>0</EndSel>
             <uLtcg>0</uLtcg>
-            <nSecure>0</nSecure>
             <RoSelD>3</RoSelD>
             <RwSelD>3</RwSelD>
             <CodeSel>0</CodeSel>
@@ -811,8 +861,6 @@
             <useXO>0</useXO>
             <v6Lang>0</v6Lang>
             <v6LangP>0</v6LangP>
-            <vShortEn>0</vShortEn>
-            <vShortWch>0</vShortWch>
             <VariousControls>
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER, STM32F407xx ,  __FPU_PRESENT=1 , HSE_VALUE=8000000</Define>
@@ -874,6 +922,61 @@
               <FileName>supporting_functions.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\Sources\supporting_functions.c</FilePath>
+            </File>
+            <File>
+              <FileName>config.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Sources\config.c</FilePath>
+            </File>
+            <File>
+              <FileName>config.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Sources\config.h</FilePath>
+            </File>
+            <File>
+              <FileName>kalman_filter.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Sources\kalman_filter.c</FilePath>
+            </File>
+            <File>
+              <FileName>keypad_interface.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Sources\keypad_interface.c</FilePath>
+            </File>
+            <File>
+              <FileName>keypad_interface.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Sources\keypad_interface.h</FilePath>
+            </File>
+            <File>
+              <FileName>seven_segment.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Sources\seven_segment.c</FilePath>
+            </File>
+            <File>
+              <FileName>seven_segment.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Sources\seven_segment.h</FilePath>
+            </File>
+            <File>
+              <FileName>utils.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Sources\utils.c</FilePath>
+            </File>
+            <File>
+              <FileName>utils.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Sources\utils.h</FilePath>
+            </File>
+            <File>
+              <FileName>Kalmanfilter.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Sources\Kalmanfilter.h</FilePath>
+            </File>
+            <File>
+              <FileName>thread.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\thread.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -1118,7 +1221,6 @@
             <useUlib>1</useUlib>
             <EndSel>0</EndSel>
             <uLtcg>0</uLtcg>
-            <nSecure>0</nSecure>
             <RoSelD>3</RoSelD>
             <RwSelD>3</RwSelD>
             <CodeSel>0</CodeSel>
@@ -1255,8 +1357,6 @@
             <useXO>0</useXO>
             <v6Lang>0</v6Lang>
             <v6LangP>0</v6LangP>
-            <vShortEn>0</vShortEn>
-            <vShortWch>0</vShortWch>
             <VariousControls>
               <MiscControls></MiscControls>
               <Define>HSE_VALUE=8000000</Define>
@@ -1318,6 +1418,61 @@
               <FileName>supporting_functions.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\Sources\supporting_functions.c</FilePath>
+            </File>
+            <File>
+              <FileName>config.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Sources\config.c</FilePath>
+            </File>
+            <File>
+              <FileName>config.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Sources\config.h</FilePath>
+            </File>
+            <File>
+              <FileName>kalman_filter.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Sources\kalman_filter.c</FilePath>
+            </File>
+            <File>
+              <FileName>keypad_interface.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Sources\keypad_interface.c</FilePath>
+            </File>
+            <File>
+              <FileName>keypad_interface.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Sources\keypad_interface.h</FilePath>
+            </File>
+            <File>
+              <FileName>seven_segment.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Sources\seven_segment.c</FilePath>
+            </File>
+            <File>
+              <FileName>seven_segment.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Sources\seven_segment.h</FilePath>
+            </File>
+            <File>
+              <FileName>utils.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Sources\utils.c</FilePath>
+            </File>
+            <File>
+              <FileName>utils.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Sources\utils.h</FilePath>
+            </File>
+            <File>
+              <FileName>Kalmanfilter.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Sources\Kalmanfilter.h</FilePath>
+            </File>
+            <File>
+              <FileName>thread.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\thread.c</FilePath>
             </File>
           </Files>
         </Group>

@@ -6,7 +6,7 @@
 #include <math.h>
 #include "utils.h"
 
-extern int digit;
+/*extern */int digit;
 
 int get_digit_in_place(float number, int place)
 {
