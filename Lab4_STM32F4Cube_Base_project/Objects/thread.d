@@ -36,4 +36,8 @@
 .\objects\thread.o: C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.7.0\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_tim_ex.h
 .\objects\thread.o: C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.7.0\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_uart.h
 .\objects\thread.o: C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.7.0\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_usart.h
+.\objects\thread.o: .\Headers\supporting_functions.h
+.\objects\thread.o: .\Accelerometer\inc\lis3dsh.h
+.\objects\thread.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
 .\objects\thread.o: Sources\thread.h
+.\objects\thread.o: Sources\Kalmanfilter.h

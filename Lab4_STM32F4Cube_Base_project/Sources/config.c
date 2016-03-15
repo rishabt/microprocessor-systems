@@ -11,6 +11,7 @@
 #include "config.h"
 #include "stm32f4xx_hal_tim.h"
 #include "stm32f4xx_hal_rcc.h"
+#include "cmsis_os.h"     
 
 ADC_HandleTypeDef ADC1_Handle;
 GPIO_InitTypeDef GPIO_Struct;
@@ -92,7 +93,7 @@ void LIS3DSH_Config(void){
 	GPIO_Struct.Speed = GPIO_SPEED_MEDIUM;	
 	HAL_GPIO_Init(GPIOE, &GPIO_Struct);
 	
-	printf("* LIS3DSH_Config * \n");
+	//printf("* LIS3DSH_Config * \n");
 	
 	HAL_NVIC_EnableIRQ(EXTI0_IRQn);
 	HAL_NVIC_SetPriority(EXTI0_IRQn, 0,1);
@@ -100,6 +101,14 @@ void LIS3DSH_Config(void){
 
 	LIS3DSH_Init(&LIS3DSH_InitTypeDef_Struct);
 	LIS3DSH_DataReadyInterruptConfig(&LIS3DSH_DRYInterruptConfigTypeDef_Struct);
+}
+
+void EXTI0_IRQHandler(void)
+{
+	HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_0);
+	
+	//HAL_NVIC_ClearPendingIRQ(EXTI0_IRQn);
+	//osSemaphoreRelease(accelerometer_select);
 }
 
 void Timer_Config(void)
@@ -138,7 +147,7 @@ void Timer_Config(void)
 void config_all(void)
 {
 	GPIO_Config();
-	ADC_Config();
+	//ADC_Config();
 	LIS3DSH_Config();
-	Timer_Config();
+	//Timer_Config();
 }

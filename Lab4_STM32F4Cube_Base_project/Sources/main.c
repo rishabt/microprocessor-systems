@@ -12,11 +12,28 @@
 #include "cmsis_os.h"                   // ARM::CMSIS:RTOS:Keil RTX
 #include "RTE_Components.h"             // Component selection
 #include "thread.h"
+#include "config.h"
+#include "math.h"
+#include "supporting_functions.h"
+#include "lis3dsh.h"
 
 extern void initializeLED_IO			(void);
 extern void start_Thread_LED			(void);
 extern void Thread_LED(void const *argument);
 extern osThreadId tid_Thread_LED;
+int done = 0;
+float readings[3];
+
+osSemaphoreId accelerometer_select;
+osSemaphoreDef(accelerometer_select);
+
+
+/*float misalignment_and_offset_matrix[4][3] = {
+	{0.9932,-0.0189,0.0662},
+	{0.0170, 0.9770,0.0493},
+	{-0.0026,-0.01717,0.9498},
+	{0.0023, -0.0051,-0.0495}
+};*/
 
 /**
 	These lines are mandatory to make CMSIS-RTOS RTX work with te new Cube HAL
@@ -65,6 +82,41 @@ void SystemClock_Config(void) {
   HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_5);
 }
 
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{
+  /* Prevent unused argument(s) compilation warning */
+  __IO uint32_t tmpreg = 0x00;
+  UNUSED(tmpreg); 
+
+	if (GPIO_Pin == GPIO_PIN_0){
+		
+		/*float x,y,z;
+		float raw_matrix[4] = {0};
+		float callibrated_matrix[3] = {0};
+		int i,j;
+		
+		LIS3DSH_ReadACC(readings);
+		
+		raw_matrix[0] = readings[0];
+		raw_matrix[1] = readings[1];
+		raw_matrix[2] = readings[2];
+		raw_matrix[3] = 1;
+
+		for (i=0; i<3; i++){
+			for (j=0; j<4; j++){
+				callibrated_matrix[i] += raw_matrix[j]*misalignment_and_offset_matrix[j][i];
+			}
+		}
+		pitch = atan2(x, sqrt(y*y + z*z)) * 180/ 3.14159265;*/
+		
+		LIS3DSH_ReadACC(readings);
+		
+		HAL_NVIC_ClearPendingIRQ(EXTI0_IRQn);
+		osSemaphoreRelease(accelerometer_select);
+		
+	}
+}
+
 /**
   * Main function
   */
@@ -76,6 +128,12 @@ int main (void) {
 
   SystemClock_Config();                     /* Configure the System Clock     */
 
+	config_all();
+	KalmanState_Config();
+	
+	accelerometer_select = osSemaphoreCreate(osSemaphore(accelerometer_select), 1);
+	accelerometer_set_semaphore(accelerometer_select);
+	
 	/* User codes goes here*/
   initializeLED_IO();                       /* Initialize LED GPIO Buttons    */
   start_Thread_LED();                       /* Create LED thread              */
