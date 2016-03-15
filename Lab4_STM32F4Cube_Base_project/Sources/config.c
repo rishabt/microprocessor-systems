@@ -108,8 +108,8 @@ void Tim3_Config(void)
 {
 	TIM_Base_InitTypeDef TIM_TimeBaseStructure;
 	
-	TIM_TimeBaseStructure.Period = 200;
-	TIM_TimeBaseStructure.Prescaler = 1000;
+	TIM_TimeBaseStructure.Period = 20;
+	TIM_TimeBaseStructure.Prescaler = 100;
 	TIM_TimeBaseStructure.ClockDivision = TIM_CLOCKDIVISION_DIV4;
 	TIM_TimeBaseStructure.CounterMode = TIM_COUNTERMODE_UP;
 	//TIM_TimeBaseStructure.RepetitionCounter = 0;
@@ -133,7 +133,7 @@ void Tim3_Config(void)
 	
 	/* Configure NVIC */
 	HAL_NVIC_EnableIRQ(TIM3_IRQn);
-	HAL_NVIC_SetPriority(TIM3_IRQn, 2,2);
+	HAL_NVIC_SetPriority(TIM3_IRQn, 6,6);
 	//HAL_NVIC_ClearPendingIRQ(TIM3_IRQn);
 }
 

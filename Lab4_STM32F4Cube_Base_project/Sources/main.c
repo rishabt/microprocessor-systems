@@ -38,7 +38,7 @@ extern int pitch;
 extern ADC_HandleTypeDef ADC1_Handle;
 float temp;
 
-int digit;
+int digit = 4;
 
 float readings[3];
 
