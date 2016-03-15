@@ -42,3 +42,4 @@
 .\objects\thread.o: Sources\thread.h
 .\objects\thread.o: Sources\Kalmanfilter.h
 .\objects\thread.o: Sources\accelerometer_interface.h
+.\objects\thread.o: Sources\temperature_interface.h

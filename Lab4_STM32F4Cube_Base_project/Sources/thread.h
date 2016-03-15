@@ -5,8 +5,10 @@ int start_Thread_Accelerometer (void);
 
 void accelerometer_set_semaphore(osSemaphoreId sem);
 
-void Thread_Accelrometer (void const *argument);
+void Thread_Accelerometer (void const *argument);
 
-void accelerometer_mode(void);
+int start_Thread_Temperature_Sensor (void);
+
+void Thread_Temperature_Sensor (void const *argument);
 
 #endif

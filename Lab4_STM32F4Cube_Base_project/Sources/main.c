@@ -17,24 +17,23 @@
 #include "supporting_functions.h"
 #include "lis3dsh.h"
 #include "accelerometer_interface.h"
+#include "temperature_interface.h"
 
 extern void initializeLED_IO			(void);
 extern void start_Thread_LED			(void);
 extern void Thread_LED(void const *argument);
 extern osThreadId tid_Thread_LED;
-int done = 0;
+extern ADC_HandleTypeDef ADC1_Handle;
+float temp;
+
 float readings[3];
 
 osSemaphoreId accelerometer_select;
 osSemaphoreDef(accelerometer_select);
 
+osSemaphoreId temperature_select;
+osSemaphoreDef(temperature_select);
 
-/*float misalignment_and_offset_matrix[4][3] = {
-	{0.9932,-0.0189,0.0662},
-	{0.0170, 0.9770,0.0493},
-	{-0.0026,-0.01717,0.9498},
-	{0.0023, -0.0051,-0.0495}
-};*/
 
 /**
 	These lines are mandatory to make CMSIS-RTOS RTX work with te new Cube HAL
@@ -98,7 +97,16 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 		
 	}
 	
-	
+}
+
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
+{
+	if(htim->Instance == TIM2)
+	{
+		temp = HAL_ADC_GetValue(&ADC1_Handle);
+		
+		osSemaphoreRelease(temperature_select);
+	}
 }
 
 /**
@@ -114,16 +122,25 @@ int main (void) {
 
 	config_all();
 	
+	initializeLED_IO();                       /* Initialize LED GPIO Buttons    */
+  start_Thread_LED();                       /* Create LED thread              */
+	
+	/**************** Accelerometer thread setup *********************************/
 	acc_kalmanState_Config();
 	
 	accelerometer_select = osSemaphoreCreate(osSemaphore(accelerometer_select), 1);
 	accelerometer_set_semaphore(accelerometer_select);
 	
-	/* User codes goes here*/
-  initializeLED_IO();                       /* Initialize LED GPIO Buttons    */
-  start_Thread_LED();                       /* Create LED thread              */
-	
 	start_Thread_Accelerometer();                       /* Create LED thread              */
+	
+	/************** Temperature Sensor Thread Setup *****************************/
+	temp_kalmanState_Config();
+	
+	temperature_select = osSemaphoreCreate(osSemaphore(temperature_select), 1);
+	temperature_set_semaphore(temperature_select);
+	
+	start_Thread_Temperature_Sensor();                       /* Create LED thread              */
+	
 	/* User codes ends here*/
   
 	osKernelStart();                          /* start thread execution         */

@@ -10,9 +10,9 @@ float pitch;
 
 osSemaphoreId semaphore = NULL;
 
-kalman_state ks_x;
-kalman_state ks_y;
-kalman_state ks_z;
+kalman_state acc_ks_x;
+kalman_state acc_ks_y;
+kalman_state acc_ks_z;
 
 void accelerometer_set_semaphore(osSemaphoreId sem)
 {
@@ -20,23 +20,23 @@ void accelerometer_set_semaphore(osSemaphoreId sem)
 }
 
 void acc_kalmanState_Config(void){
-	ks_x.k = 0.0;
-	ks_x.p = 1500.0;
-	ks_x.q = 8;
-	ks_x.r = 100;
-	ks_x.x = 29.4;
+	acc_ks_x.k = 0.0;
+	acc_ks_x.p = 1500.0;
+	acc_ks_x.q = 8;
+	acc_ks_x.r = 100;
+	acc_ks_x.x = 29.4;
 
-	ks_y.k = 0.0;
-	ks_y.p = 1500.0;
-	ks_y.q = 8;
-	ks_y.r = 100;
-	ks_y.x = 29.4;
+	acc_ks_y.k = 0.0;
+	acc_ks_y.p = 1500.0;
+	acc_ks_y.q = 8;
+	acc_ks_y.r = 100;
+	acc_ks_y.x = 29.4;
 	
-	ks_z.k = 0.0;
-	ks_z.p = 1500.0;
-	ks_z.q = 8;
-	ks_z.r = 100;
-	ks_z.x = 29.4;
+	acc_ks_z.k = 0.0;
+	acc_ks_z.p = 1500.0;
+	acc_ks_z.q = 8;
+	acc_ks_z.r = 100;
+	acc_ks_z.x = 29.4;
 }
 
 float misalignment_and_offset_matrix[4][3] = {
@@ -68,13 +68,13 @@ void accelerometer_mode(void)
 		}
 	}
 	
-	x = Kalmanfilter(callibrated_matrix[0],&ks_x);
-	y = Kalmanfilter(callibrated_matrix[1],&ks_y);
-	z = Kalmanfilter(callibrated_matrix[2],&ks_z);
+	x = Kalmanfilter(callibrated_matrix[0],&acc_ks_x);
+	y = Kalmanfilter(callibrated_matrix[1],&acc_ks_y);
+	z = Kalmanfilter(callibrated_matrix[2],&acc_ks_z);
 	
 	pitch = atan2(x, sqrt(y*y + z*z)) * 180/ 3.14159265;
 	
-	printf("%f\n", pitch);
+	//printf("%f\n", pitch);
 	
 }
 
