@@ -21,8 +21,8 @@
 #include "seven_segment.h"
 #include "utils.h"
 
-int DISPLAY_ACC = 0;
-int DISPLAY_TEMP = 1;
+int DISPLAY_ACC = 1;
+int DISPLAY_TEMP = 0;
 
 int ACC_PITCH = 1;
 int ACC_ROLL = 0;
@@ -139,7 +139,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
 				
 				if(digit == 0)
 				{
-					digit = 5;
+					digit = 4;
 				}
 				
 				display(tmp_pitch);			
@@ -151,7 +151,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
 				
 				if(digit == 0)
 				{
-					digit = 5;
+					digit = 4;
 				}
 				
 				display(tmp_temperature);			
