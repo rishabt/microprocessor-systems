@@ -138,12 +138,23 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
 				
 				if(digit == 0)
 				{
-					digit = 4;
+					digit = 5;
 				}
 				
 				display(tmp_pitch);			
 		}
 		
+		/*else if(DISPLAY_TEMP == 1)
+		{
+				digit = digit - 1;
+				
+				if(digit == 0)
+				{
+					digit = 5;
+				}
+				
+				display(tmp_temperature);			
+		}*/
 	}
 }
 
@@ -169,15 +180,15 @@ int main (void) {
 	accelerometer_select = osSemaphoreCreate(osSemaphore(accelerometer_select), 1);
 	accelerometer_set_semaphore(accelerometer_select);
 	
-	start_Thread_Accelerometer();                       /* Create LED thread              */
-	
 	/************** Temperature Sensor Thread Setup *****************************/
 	temp_kalmanState_Config();
 	
 	temperature_select = osSemaphoreCreate(osSemaphore(temperature_select), 1);
 	temperature_set_semaphore(temperature_select);
 	
-	start_Thread_Temperature_Sensor();                       /* Create LED thread              */
+	
+	start_Thread_Accelerometer();                       /* Create accelerometer thread              */
+	start_Thread_Temperature_Sensor();                       /* Create Temperature sensor thread              */
 	
 	/* User codes ends here*/
   

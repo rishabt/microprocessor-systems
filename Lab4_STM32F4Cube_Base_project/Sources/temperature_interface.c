@@ -7,7 +7,9 @@ extern TIM_HandleTypeDef TIM2_Handle;
 extern float temp;
 float temperature_reading;
 
+float tmp_temperature;
 extern int DISPLAY_TEMP;
+extern int display_flag;
 
 osSemaphoreId temp_semaphore = NULL;
 
@@ -34,7 +36,15 @@ void temperature_mode(void)
 	temperature_reading += 25;																				// add the reference offset back
 	
 	temperature_reading = Kalmanfilter(temperature_reading, &temp_ks);			// Use Kalman filter to handle noise
-	printf("%f\n", temperature_reading);
+	printf("temp: %f\n", temperature_reading);
+	
+	if(DISPLAY_TEMP == 1)
+	{
+		if(display_flag % 5 == 0)
+		{
+			tmp_temperature = temperature_reading;
+		}
+	}
 }
 
 void temp_kalmanState_Config(void){

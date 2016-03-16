@@ -86,7 +86,7 @@ void accelerometer_mode(void)
 		}
 	}
 	
-	//printf("%f\n", pitch);
+	printf("pitch: %f\n", pitch);
 	
 }
 

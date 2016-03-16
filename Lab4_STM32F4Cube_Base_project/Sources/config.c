@@ -15,6 +15,7 @@
 
 ADC_HandleTypeDef ADC1_Handle;
 GPIO_InitTypeDef GPIO_Struct;
+GPIO_InitTypeDef Degree_Struct;
 TIM_HandleTypeDef TIM2_Handle;
 TIM_HandleTypeDef TIM3_Handle;
 
@@ -27,6 +28,13 @@ void GPIO_Config(void)
 	GPIO_Struct.Pull = GPIO_PULLUP;
 	GPIO_Struct.Speed = GPIO_SPEED_HIGH;
 	HAL_GPIO_Init(GPIOE, &GPIO_Struct);
+	
+	__HAL_RCC_GPIOC_CLK_ENABLE();
+	Degree_Struct.Pin = GPIO_PIN_11;
+	Degree_Struct.Mode = GPIO_MODE_OUTPUT_PP;																																	// Set mode to push and pull
+	Degree_Struct.Pull = GPIO_PULLUP;
+	Degree_Struct.Speed = GPIO_SPEED_HIGH;
+	HAL_GPIO_Init(GPIOC, &Degree_Struct);
 }
 
 /** ADC Configuration */
@@ -133,7 +141,7 @@ void Tim3_Config(void)
 	
 	/* Configure NVIC */
 	HAL_NVIC_EnableIRQ(TIM3_IRQn);
-	HAL_NVIC_SetPriority(TIM3_IRQn, 6,6);
+	HAL_NVIC_SetPriority(TIM3_IRQn, 8,8);
 	//HAL_NVIC_ClearPendingIRQ(TIM3_IRQn);
 }
 
@@ -166,7 +174,7 @@ void Tim2_Config(void)
 	
 	/* Configure NVIC */
 	HAL_NVIC_EnableIRQ(TIM2_IRQn);
-	HAL_NVIC_SetPriority(TIM2_IRQn, 9,9);
+	HAL_NVIC_SetPriority(TIM2_IRQn, 0,0);
 	//HAL_NVIC_ClearPendingIRQ(TIM3_IRQn);
 }
 

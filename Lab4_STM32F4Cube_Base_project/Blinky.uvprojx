@@ -478,9 +478,34 @@
               <FilePath>.\Sources\Kalmanfilter.h</FilePath>
             </File>
             <File>
+              <FileName>thread.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Sources\thread.h</FilePath>
+            </File>
+            <File>
               <FileName>thread.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\thread.c</FilePath>
+              <FilePath>.\Sources\thread.c</FilePath>
+            </File>
+            <File>
+              <FileName>fput_debug.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Sources\fput_debug.c</FilePath>
+            </File>
+            <File>
+              <FileName>accelerometer_interface.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Sources\accelerometer_interface.c</FilePath>
+            </File>
+            <File>
+              <FileName>temperature_interface.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Sources\temperature_interface.c</FilePath>
+            </File>
+            <File>
+              <FileName>temperature_interface.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Sources\temperature_interface.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -974,9 +999,34 @@
               <FilePath>.\Sources\Kalmanfilter.h</FilePath>
             </File>
             <File>
+              <FileName>thread.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Sources\thread.h</FilePath>
+            </File>
+            <File>
               <FileName>thread.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\thread.c</FilePath>
+              <FilePath>.\Sources\thread.c</FilePath>
+            </File>
+            <File>
+              <FileName>fput_debug.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Sources\fput_debug.c</FilePath>
+            </File>
+            <File>
+              <FileName>accelerometer_interface.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Sources\accelerometer_interface.c</FilePath>
+            </File>
+            <File>
+              <FileName>temperature_interface.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Sources\temperature_interface.c</FilePath>
+            </File>
+            <File>
+              <FileName>temperature_interface.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Sources\temperature_interface.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -1470,9 +1520,34 @@
               <FilePath>.\Sources\Kalmanfilter.h</FilePath>
             </File>
             <File>
+              <FileName>thread.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Sources\thread.h</FilePath>
+            </File>
+            <File>
               <FileName>thread.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\thread.c</FilePath>
+              <FilePath>.\Sources\thread.c</FilePath>
+            </File>
+            <File>
+              <FileName>fput_debug.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Sources\fput_debug.c</FilePath>
+            </File>
+            <File>
+              <FileName>accelerometer_interface.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Sources\accelerometer_interface.c</FilePath>
+            </File>
+            <File>
+              <FileName>temperature_interface.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Sources\temperature_interface.c</FilePath>
+            </File>
+            <File>
+              <FileName>temperature_interface.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Sources\temperature_interface.h</FilePath>
             </File>
           </Files>
         </Group>

@@ -18,4 +18,6 @@
  **/
 int get_digit_in_place(float number, int place);
 
+void display(float number);
+
 #endif
