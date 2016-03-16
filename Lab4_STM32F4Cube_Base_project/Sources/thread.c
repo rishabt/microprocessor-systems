@@ -38,7 +38,7 @@ void Thread_Accelerometer (void const *argument) {
 ***********************************************************************************************************/
 
 osThreadId tid_Temperature_Sensor;
-osThreadDef(Thread_Temperature_Sensor, osPriorityNormal, 0, 0);
+osThreadDef(Thread_Temperature_Sensor, osPriorityNormal, 1, 0);
 
 int start_Thread_Temperature_Sensor (void) {
 

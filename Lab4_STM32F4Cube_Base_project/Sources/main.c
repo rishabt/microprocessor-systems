@@ -21,8 +21,8 @@
 #include "seven_segment.h"
 #include "utils.h"
 
-int DISPLAY_ACC = 1;
-int DISPLAY_TEMP = 0;
+int DISPLAY_ACC = 0;
+int DISPLAY_TEMP = 1;
 
 int ACC_PITCH = 1;
 int ACC_ROLL = 0;
@@ -31,6 +31,7 @@ extern void initializeLED_IO			(void);
 extern void start_Thread_LED			(void);
 extern void Thread_LED(void const *argument);
 extern osThreadId tid_Thread_LED;
+extern double tmp_temperature;
 extern double tmp_pitch;
 extern int DISPLAY_OPTION;
 
@@ -144,7 +145,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
 				display(tmp_pitch);			
 		}
 		
-		/*else if(DISPLAY_TEMP == 1)
+		else if(DISPLAY_TEMP == 1)
 		{
 				digit = digit - 1;
 				
@@ -154,7 +155,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
 				}
 				
 				display(tmp_temperature);			
-		}*/
+		}
 	}
 }
 
@@ -172,7 +173,7 @@ int main (void) {
 	config_all();
 	
 	initializeLED_IO();                       /* Initialize LED GPIO Buttons    */
-  start_Thread_LED();                       /* Create LED thread              */
+  //start_Thread_LED();                       /* Create LED thread              */
 	
 	/**************** Accelerometer thread setup *********************************/
 	acc_kalmanState_Config();
