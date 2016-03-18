@@ -7,10 +7,15 @@
 
 extern float readings[3];
 extern int display_flag;
-extern int DISPLAY_ACC;
 
-double tmp_pitch;
-float pitch;
+extern int DISPLAY_ACC;
+extern int DISPLAY_TEMP;
+
+extern int ACC_PITCH;
+extern int ACC_ROLL;
+
+double tmp_pitch, tmp_roll;
+float pitch, roll;
 
 osSemaphoreId semaphore = NULL;
 
@@ -76,21 +81,20 @@ void accelerometer_mode(void)
 	y = Kalmanfilter(callibrated_matrix[1],&acc_ks_y);
 	z = Kalmanfilter(callibrated_matrix[2],&acc_ks_z);
 	
-	pitch = atan2(x, sqrt(y*y + z*z)) * 180/ 3.14159265;
 	
-	if ( (y<0) && (x>0)){
-			pitch = (90-pitch) + 90;
-		} else if ( (y<0) && (x<0) ) {
-			pitch = 180 + (-1*pitch);
-		} else if ( (x<0) && (y>0) ) {
-			pitch = 360 + pitch;
-		}
+	pitch = atan2(x,((atan2(z,y))/fabs(atan2(z,y)))*sqrt(y*y + z*z)) * 180/ 3.14159265;
+	//pitch = atan(x / sqrt(y*y + z*z)) * 180/ 3.14159265;
+	roll = atan2(y,((atan2(z,x))/fabs(atan2(z,x)))*sqrt(x*x + z*z)) * 180/ 3.14159265;
+	
+	if (pitch<0) pitch += 360;
+	if (roll<0) roll += 360;
 	
 	if(DISPLAY_ACC == 1)
 	{
 		if(display_flag % 2 == 0)
 		{
 			tmp_pitch = pitch;
+			tmp_roll = roll;
 		}
 	}
 	

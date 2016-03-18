@@ -20,8 +20,13 @@
  
 GPIO_InitTypeDef Rows_Struct;
 GPIO_InitTypeDef Columns_Struct;
-
 int key_number;
+
+extern int DISPLAY_ACC;
+extern int DISPLAY_TEMP;
+
+extern int ACC_PITCH;
+extern int ACC_ROLL;
 
 osSemaphoreId keypad_semaphore = NULL;
 
@@ -33,53 +38,49 @@ void keypad_set_semaphore(osSemaphoreId sem)
 void keypad_mode(void)
 {
 	osSemaphoreWait(keypad_semaphore, osWaitForever);
+	switch (key_number){
+		case 1:
+			DISPLAY_TEMP=1;
+			DISPLAY_ACC =0;
+			ACC_PITCH = 1;
+			ACC_ROLL = 0;
+			break;
+		case 2:
+			DISPLAY_TEMP=0;
+			DISPLAY_ACC =1;
+			ACC_PITCH = 1;
+			ACC_ROLL = 0;
+			break;
+		case 3:
+			DISPLAY_TEMP=0;
+			DISPLAY_ACC =1;
+			ACC_PITCH = 0;
+			ACC_ROLL = 1;
+			break;
+		default:
+			break;
+	}
+	
 	rows_init();
 	if(HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_5) == 0)
 	{
-		init_columns();
-		if(HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_13) == 0)		
+			init_columns();
+			if(HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_13) == 0)		
 			{
 				key_number = 1;
-				printf("1");
 			}
 			else if(HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_12) == 0)
 			{
 				key_number = 2;
-				printf("2");
 			}
 			else if(HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_11) == 0)
 			{
 				key_number = 3;
-				printf("3");
 			}
-		}
+			
+		}  		
+
 }
-
-void EXTI9_5_IRQHandler(void)
-{
-	if(HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_5) == 0)																									// Row 1
-	{
-		HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_5);
-	}
-	else if(HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_6) == 0)																							// Row 2
-	{
-		HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_6);
-	} 
-	else if (HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_8) == 0) 																						// Row 3
-	{	
-		HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_8);
-	}
-	else if (HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_9) == 0)																						// Row 4
-	{
-		HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_9);
-	}
-}
-
-
-
-
-
-
 
 
 
@@ -151,4 +152,11 @@ void init_columns(void)
 	//HAL_NVIC_DisableIRQ(EXTI9_5_IRQn);
 
 }
+extern TIM_HandleTypeDef TIM4_Handle;
+
+void TIM4_IRQHandler(void)
+{
+	HAL_TIM_IRQHandler(&TIM4_Handle);
+}
+
 
