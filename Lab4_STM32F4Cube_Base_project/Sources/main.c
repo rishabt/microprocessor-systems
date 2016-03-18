@@ -18,6 +18,7 @@
 #include "lis3dsh.h"
 #include "accelerometer_interface.h"
 #include "temperature_interface.h"
+#include "keypad_interface.h"
 #include "seven_segment.h"
 #include "utils.h"
 
@@ -31,11 +32,12 @@ extern void initializeLED_IO			(void);
 extern void start_Thread_LED			(void);
 extern void Thread_LED(void const *argument);
 extern osThreadId tid_Thread_LED;
-extern double tmp_temperature;
+double tmp_temperature;
 extern double tmp_pitch;
 extern int DISPLAY_OPTION;
-
+extern int key_number;
 extern int pitch;
+
 extern ADC_HandleTypeDef ADC1_Handle;
 float temp;
 
@@ -48,6 +50,12 @@ char up = 'U';
 
 int display_flag, in_range;
 double upper_bound, lower_bound;
+
+osMutexId display_flag_mutex;
+osMutexDef (display_flag_mutex);
+
+osSemaphoreId keypad_select;
+osSemaphoreDef(keypad_select);
 
 osSemaphoreId accelerometer_select;
 osSemaphoreDef(accelerometer_select);
@@ -109,7 +117,8 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
   __IO uint32_t tmpreg = 0x00;
   UNUSED(tmpreg); 
 
-	if (GPIO_Pin == GPIO_PIN_0){
+	if (GPIO_Pin == GPIO_PIN_0)
+	{
 		
 		LIS3DSH_ReadACC(readings);
 		
@@ -127,12 +136,18 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
 		temp = HAL_ADC_GetValue(&ADC1_Handle);
 		
 		osSemaphoreRelease(temperature_select);
+		osSemaphoreRelease(keypad_select);
+
 	}	
 	
-	if(htim->Instance == TIM3)
+	else if(htim->Instance == TIM3)
 	{
+		osMutexWait(display_flag_mutex, osWaitForever);
+	
 		display_flag++;
-		
+
+		osMutexRelease(display_flag_mutex);
+
 		if(DISPLAY_ACC == 1)
 		{
 				digit = digit - 1;
@@ -153,9 +168,11 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
 				{
 					digit = 4;
 				}
-				
+
 				display(tmp_temperature);			
 		}
+		
+		
 	}
 }
 
@@ -171,8 +188,8 @@ int main (void) {
   SystemClock_Config();                     /* Configure the System Clock     */
 
 	config_all();
-	
-	initializeLED_IO();                       /* Initialize LED GPIO Buttons    */
+		
+	//initializeLED_IO();                       /* Initialize LED GPIO Buttons    */
   //start_Thread_LED();                       /* Create LED thread              */
 	
 	/**************** Accelerometer thread setup *********************************/
@@ -187,7 +204,15 @@ int main (void) {
 	temperature_select = osSemaphoreCreate(osSemaphore(temperature_select), 1);
 	temperature_set_semaphore(temperature_select);
 	
+	/************** Keyboard Thread Setup *****************************/
 	
+	keypad_select = osSemaphoreCreate(osSemaphore(keypad_select), 1);
+	keypad_set_semaphore(keypad_select);
+
+	
+	display_flag_mutex = osMutexCreate(osMutex(display_flag_mutex));
+
+	start_Thread_Keypad();
 	start_Thread_Accelerometer();                       /* Create accelerometer thread              */
 	start_Thread_Temperature_Sensor();                       /* Create Temperature sensor thread              */
 	

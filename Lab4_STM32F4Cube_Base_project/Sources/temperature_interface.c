@@ -7,7 +7,7 @@ extern TIM_HandleTypeDef TIM2_Handle;
 extern float temp;
 float temperature_reading;
 
-float tmp_temperature;
+extern double tmp_temperature;
 extern int DISPLAY_TEMP;
 extern int display_flag;
 
@@ -25,6 +25,8 @@ void TIM2_IRQHandler(void)
 	HAL_TIM_IRQHandler(&TIM2_Handle);
 }
 
+extern osMutexId display_flag_mutex;
+
 void temperature_mode(void)
 {
 	
@@ -36,12 +38,11 @@ void temperature_mode(void)
 	temperature_reading += 25;																				// add the reference offset back
 	
 	temperature_reading = Kalmanfilter(temperature_reading, &temp_ks);			// Use Kalman filter to handle noise
-	printf("temp: %f\n", temperature_reading);
-	
+
 	if(DISPLAY_TEMP == 1)
 	{
-		if(display_flag % 5 == 0)
-		{
+		if(display_flag % 9 == 0)
+		{			
 			tmp_temperature = temperature_reading;
 		}
 	}

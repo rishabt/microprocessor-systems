@@ -105,7 +105,7 @@ void LIS3DSH_Config(void){
 	//printf("* LIS3DSH_Config * \n");
 	
 	HAL_NVIC_EnableIRQ(EXTI0_IRQn);
-	HAL_NVIC_SetPriority(EXTI0_IRQn, 0,1);
+	HAL_NVIC_SetPriority(EXTI0_IRQn, 0,6);
 	HAL_NVIC_ClearPendingIRQ(EXTI0_IRQn);
 
 	LIS3DSH_Init(&LIS3DSH_InitTypeDef_Struct);
@@ -141,7 +141,7 @@ void Tim3_Config(void)
 	
 	/* Configure NVIC */
 	HAL_NVIC_EnableIRQ(TIM3_IRQn);
-	HAL_NVIC_SetPriority(TIM3_IRQn, 6,6);
+	HAL_NVIC_SetPriority(TIM3_IRQn, 0,0);
 	//HAL_NVIC_ClearPendingIRQ(TIM3_IRQn);
 }
 

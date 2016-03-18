@@ -20,7 +20,71 @@
  
 GPIO_InitTypeDef Rows_Struct;
 GPIO_InitTypeDef Columns_Struct;
+
+int key_number;
+
+osSemaphoreId keypad_semaphore = NULL;
+
+void keypad_set_semaphore(osSemaphoreId sem)
+{
+	keypad_semaphore = sem;
+}
  
+void keypad_mode(void)
+{
+	osSemaphoreWait(keypad_semaphore, osWaitForever);
+	rows_init();
+	if(HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_5) == 0)
+	{
+		init_columns();
+		if(HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_13) == 0)		
+			{
+				key_number = 1;
+				printf("1");
+			}
+			else if(HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_12) == 0)
+			{
+				key_number = 2;
+				printf("2");
+			}
+			else if(HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_11) == 0)
+			{
+				key_number = 3;
+				printf("3");
+			}
+		}
+}
+
+void EXTI9_5_IRQHandler(void)
+{
+	if(HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_5) == 0)																									// Row 1
+	{
+		HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_5);
+	}
+	else if(HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_6) == 0)																							// Row 2
+	{
+		HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_6);
+	} 
+	else if (HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_8) == 0) 																						// Row 3
+	{	
+		HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_8);
+	}
+	else if (HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_9) == 0)																						// Row 4
+	{
+		HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_9);
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
 void rows_init(void)
 {
 	//__HAL_RCC_SYSCFG_CLK_ENABLE();
@@ -53,13 +117,10 @@ void rows_init(void)
 //	HAL_NVIC_SetPriority(EXTI15_10_IRQn, 0,0);
 //	HAL_NVIC_ClearPendingIRQ(EXTI15_10_IRQn);
 	
-	HAL_NVIC_EnableIRQ(EXTI9_5_IRQn);
-	HAL_NVIC_SetPriority(EXTI9_5_IRQn, 1,2);
-	HAL_NVIC_ClearPendingIRQ(EXTI9_5_IRQn);
+	//HAL_NVIC_EnableIRQ(EXTI9_5_IRQn);
+	//HAL_NVIC_SetPriority(EXTI9_5_IRQn, 1,2);
+	//HAL_NVIC_ClearPendingIRQ(EXTI9_5_IRQn);
 	
-	//HAL_NVIC_EnableIRQ(EXTI4_IRQn);
-	//HAL_NVIC_SetPriority(EXTI4_IRQn, 1,1);
-	//HAL_NVIC_ClearPendingIRQ(EXTI4_IRQn);
 }
 
 void init_columns(void)
@@ -86,12 +147,8 @@ void init_columns(void)
 	Rows_Struct.Speed = GPIO_SPEED_LOW;
 	HAL_GPIO_Init(GPIOC, &Rows_Struct);
 	
-	//HAL_NVIC_ClearPendingIRQ(EXTI15_10_IRQn);
-	HAL_NVIC_ClearPendingIRQ(EXTI9_5_IRQn);
-	//HAL_NVIC_ClearPendingIRQ(EXTI4_IRQn);
-	//HAL_NVIC_DisableIRQ(EXTI15_10_IRQn);
-	HAL_NVIC_DisableIRQ(EXTI9_5_IRQn);
-	//HAL_NVIC_DisableIRQ(EXTI4_IRQn);
+	//HAL_NVIC_ClearPendingIRQ(EXTI9_5_IRQn);
+	//HAL_NVIC_DisableIRQ(EXTI9_5_IRQn);
 
 }
 

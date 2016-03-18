@@ -1,7 +1,7 @@
 .\objects\main.o: Sources\main.c
 .\objects\main.o: C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.7.0\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal.h
-.\objects\main.o: C:\microprocessor-systems\Lab4_STM32F4Cube_Base_project\RTE\Device\STM32F407VGTx\stm32f4xx_hal_conf.h
-.\objects\main.o: C:\microprocessor-systems\Lab4_STM32F4Cube_Base_project\RTE\RTE_Components.h
+.\objects\main.o: \\campus.mcgill.ca\EMF\ELE\massra\Desktop\microprocessor-systems\Lab4_STM32F4Cube_Base_project\RTE\Device\STM32F407VGTx\stm32f4xx_hal_conf.h
+.\objects\main.o: \\campus.mcgill.ca\EMF\ELE\massra\Desktop\microprocessor-systems\Lab4_STM32F4Cube_Base_project\RTE\RTE_Components.h
 .\objects\main.o: C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.7.0\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_rcc.h
 .\objects\main.o: C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.7.0\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_def.h
 .\objects\main.o: C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.7.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h
@@ -43,5 +43,6 @@
 .\objects\main.o: .\Accelerometer\inc\lis3dsh.h
 .\objects\main.o: Sources\accelerometer_interface.h
 .\objects\main.o: Sources\temperature_interface.h
+.\objects\main.o: Sources\keypad_interface.h
 .\objects\main.o: Sources\seven_segment.h
 .\objects\main.o: Sources\utils.h

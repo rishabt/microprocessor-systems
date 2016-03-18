@@ -1,6 +1,14 @@
 #ifndef KEYPAD_H
 #define KEYPAD_H
 
+#include "cmsis_os.h"                   // ARM::CMSIS:RTOS:Keil RTX
+
+void keypad_set_semaphore(osSemaphoreId sem);
+
+void keypad_mode(void);
+
+void EXTI9_5_IRQHandler(void);
+
 /**
  * @brief Initialize rows as input and columns as output
  * 

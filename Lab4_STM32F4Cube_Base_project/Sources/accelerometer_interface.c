@@ -78,15 +78,23 @@ void accelerometer_mode(void)
 	
 	pitch = atan2(x, sqrt(y*y + z*z)) * 180/ 3.14159265;
 	
+	if ( (y<0) && (x>0)){
+			pitch = (90-pitch) + 90;
+		} else if ( (y<0) && (x<0) ) {
+			pitch = 180 + (-1*pitch);
+		} else if ( (x<0) && (y>0) ) {
+			pitch = 360 + pitch;
+		}
+	
 	if(DISPLAY_ACC == 1)
 	{
-		if(display_flag % 5 == 0)
+		if(display_flag % 2 == 0)
 		{
 			tmp_pitch = pitch;
 		}
 	}
 	
-	printf("pitch: %f\n", pitch);
+	//printf("pitch: %f\n", pitch);
 	
 }
 

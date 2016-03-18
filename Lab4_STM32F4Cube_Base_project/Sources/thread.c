@@ -8,6 +8,29 @@
 #include "Kalmanfilter.h"
 #include "accelerometer_interface.h"
 #include "temperature_interface.h"
+#include "keypad_interface.h"
+
+/**********************************************************************************************************
+																				KEYPAD
+***********************************************************************************************************/
+
+osThreadId tid_Thread_Keypad;
+osThreadDef(Thread_Keypad, osPriorityHigh, 1, 0);
+
+int start_Thread_Keypad (void) {
+
+  tid_Thread_Keypad = osThreadCreate(osThread(Thread_Keypad), NULL); // Start Keypad Thread
+  if (!tid_Thread_Keypad) return(-1); 
+  return(0);
+}
+
+
+void Thread_Keypad (void const *argument) {
+	while(1){
+		keypad_mode();
+	}
+	
+}
 
 
 /**********************************************************************************************************
