@@ -4,28 +4,29 @@
 #include "Kalmanfilter.h"
 
 extern TIM_HandleTypeDef TIM2_Handle;
-extern float temp;
-float temperature_reading;
-int RAISE_ALARM = 0;
-extern double tmp_temperature;
-extern int DISPLAY_TEMP;
-extern int display_flag;
 
-osSemaphoreId temp_semaphore = NULL;
+extern float temp; 								// Temperature polled inside the TIM2 callback
+float temperature_reading;				// Filtered "temp" temperature reading
+extern double tmp_temperature;		// Temperature value to be displayed (hard-coded to 30 degrees... just kidding!)
+int RAISE_ALARM = 0;							// Overheat alarm 1:on/0:off
+extern int display_flag;					// External counter used to create a frequency divider for updating tmp_temperature
+extern osMutexId display_flag_mutex;
 
-kalman_state temp_ks;
+osSemaphoreId temp_semaphore = NULL;	// Semaphore used for synchronization of thread with TIM2 callback
 
-void temperature_set_semaphore(osSemaphoreId sem)
-{
+kalman_state temp_ks;									// Kalman state for kalman filter
+
+void temperature_set_semaphore(osSemaphoreId sem) {
 	temp_semaphore = sem;
 }
 
-void TIM2_IRQHandler(void)
-{
+/*
+ * Timer interrupt request received to poll
+ * ADC. (Callback implemented in main.c)
+*/
+void TIM2_IRQHandler(void) {
 	HAL_TIM_IRQHandler(&TIM2_Handle);
 }
-
-extern osMutexId display_flag_mutex;
 
 void temperature_mode(void)
 {
@@ -39,18 +40,17 @@ void temperature_mode(void)
 	
 	temperature_reading = Kalmanfilter(temperature_reading, &temp_ks);			// Use Kalman filter to handle noise
 
-	if (temperature_reading > 30)
+	if (temperature_reading > 28)
 		RAISE_ALARM = 1;
 	else
 		RAISE_ALARM = 0;
 	
-	if(DISPLAY_TEMP == 1)
-	{
-		if(display_flag % 9 == 0)
-		{			
-			tmp_temperature = temperature_reading;
-		}
+	osMutexWait(display_flag_mutex, osWaitForever);
+	if(display_flag % 300 == 0){			
+		tmp_temperature = temperature_reading;
 	}
+	osMutexRelease(display_flag_mutex);
+
 }
 
 void temp_kalmanState_Config(void){

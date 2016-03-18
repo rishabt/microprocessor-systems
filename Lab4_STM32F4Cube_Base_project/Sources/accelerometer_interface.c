@@ -33,19 +33,19 @@ void acc_kalmanState_Config(void){
 	acc_ks_x.p = 1500.0;
 	acc_ks_x.q = 8;
 	acc_ks_x.r = 100;
-	acc_ks_x.x = 29.4;
+	acc_ks_x.x = 0;
 
 	acc_ks_y.k = 0.0;
 	acc_ks_y.p = 1500.0;
 	acc_ks_y.q = 8;
 	acc_ks_y.r = 100;
-	acc_ks_y.x = 29.4;
+	acc_ks_y.x = 0;
 	
 	acc_ks_z.k = 0.0;
 	acc_ks_z.p = 1500.0;
 	acc_ks_z.q = 8;
 	acc_ks_z.r = 100;
-	acc_ks_z.x = 29.4;
+	acc_ks_z.x = 0;
 }
 
 float misalignment_and_offset_matrix[4][3] = {
@@ -98,7 +98,7 @@ void accelerometer_mode(void)
 		}
 	}
 	
-	//printf("pitch: %f\n", pitch);
+	printf("%f\n", roll);
 	
 }
 

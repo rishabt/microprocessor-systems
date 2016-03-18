@@ -22,35 +22,38 @@
 #include "seven_segment.h"
 #include "utils.h"
 
-int DISPLAY_ACC = 1;
-int DISPLAY_TEMP = 0;
-extern int RAISE_ALARM;
-int ACC_PITCH = 1;
-int ACC_ROLL = 0;
-int toggle_on = 0;
 
-extern void initializeLED_IO			(void);
-extern void start_Thread_LED			(void);
-extern void Thread_LED(void const *argument);
-extern osThreadId tid_Thread_LED;
-double tmp_temperature;
-extern double tmp_pitch, tmp_roll;
-extern int DISPLAY_OPTION;
-extern int key_number;
-extern int pitch;
+/** 
+ * Display configuration parameters
+ * used to set display state.
+*/
+int DISPLAY_ACC = 1;			// Accelerometer display 1:on/0:off
+int DISPLAY_TEMP = 0; 		// Temperature display 1:on/0:off
+int ACC_PITCH = 1;				// Pitch display 1:on/0:off
+int ACC_ROLL = 0;					// Roll display 1:on/0:off
+int toggle_on = 0;				// Toggle (counter) for flashing alarm (display on / display off)
+extern int RAISE_ALARM;		// Raise alarm 1:on/0:off
+int digit = 4;						// 7-Segment parameter used to select one of the 4 7-segs
+int display_flag;					// counter incremented in timer and accessed/reset by threads to update the temporary reading at a slower frequency than acquisition
 
+/**
+ * Acceleration and temperature reading
+ * configuration and data parameters.
+*/
+double tmp_temperature;							// temperature to be displayed
+extern double tmp_pitch, tmp_roll;	// pitch and roll to be displayed
 extern ADC_HandleTypeDef ADC1_Handle;
-float temp;
+float temp;													// instantaneous ADC polled temperature (from interrupt callback)
+float readings[3];									// instantaneous accelerometer readings (from interrupt callback)
 
-int digit = 4;
-
-float readings[3];
-
-char down = 'D';
-char up = 'U';
-
-int display_flag, in_range;
-double upper_bound, lower_bound;
+/**
+ * Configure semaphores to synchronize interrupts
+ * with thread mode execution, and configure
+ * mutex's to protect resources modified
+ * across multiple threads.
+*/
+osMutexId kalman_filter_mutex;
+osMutexDef (kalman_filter_mutex);
 
 osMutexId display_flag_mutex;
 osMutexDef (display_flag_mutex);
@@ -112,68 +115,60 @@ void SystemClock_Config(void) {
   HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_5);
 }
 
-void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
-{
+
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
   /* Prevent unused argument(s) compilation warning */
   __IO uint32_t tmpreg = 0x00;
   UNUSED(tmpreg); 
 
-	if (GPIO_Pin == GPIO_PIN_0)
-	{
-		
+	if (GPIO_Pin == GPIO_PIN_0) { // Accelerometer external interrupt through NVIC
 		LIS3DSH_ReadACC(readings);
-		
 		HAL_NVIC_ClearPendingIRQ(EXTI0_IRQn);
 		osSemaphoreRelease(accelerometer_select);
-		
 	}
-	
 }
 
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
-{
-	if (htim->Instance == TIM4)
-	{
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim) {
+	
+	if (htim->Instance == TIM4){ // scan keypad
 			osSemaphoreRelease(keypad_select);
-	}
-	else if(htim->Instance == TIM2)
-	{
+	}	
+	else if(htim->Instance == TIM2) { // poll adc configured to read temperature sensor
 		temp = HAL_ADC_GetValue(&ADC1_Handle);
-		
+
 		osSemaphoreRelease(temperature_select);
 	}	
-	
-	else if(htim->Instance == TIM3)
-	{
+	else if(htim->Instance == TIM3){ // update the display
+		
+		/*
+		 * Increment counter used to update the display 
+		 * value of temperature/pitch/roll at a
+		 * slower frequency than acquisition.
+		*/
 		osMutexWait(display_flag_mutex, osWaitForever);
-		display_flag++;
+		display_flag++;								
 		osMutexRelease(display_flag_mutex);
 
-		if (((toggle_on < 10000) && RAISE_ALARM == 1) || (RAISE_ALARM == 0))
-		{
-			if(DISPLAY_ACC == 1)
-			{
+		
+		if (((toggle_on < 10000) && RAISE_ALARM == 1) || (RAISE_ALARM == 0)) { // Enable display
+			if(DISPLAY_ACC == 1){ // Show accelerometer reading
 					digit = digit - 1;
 					if(digit == 0)
-					{
 						digit = 4;
-					}
+					
 					if (ACC_PITCH==1) 
 						display(tmp_pitch);			
 					else if (ACC_ROLL==1) 
 						display(tmp_roll);			
 			}
-			else if(DISPLAY_TEMP == 1)
-			{
+			else if(DISPLAY_TEMP == 1) { // Show temperature value
 					digit = digit - 1;
 					if(digit == 0)
-					{
 						digit = 4;
-					}
 					display(tmp_temperature);			
 			}
 			toggle_on++;
-		} else if ((toggle_on >= 10000) && RAISE_ALARM == 1){
+		} else if ((toggle_on >= 10000) && RAISE_ALARM == 1){ // Disable the display
 			clear_all_segments();
 			toggle_on++;
 			if (toggle_on > 20000)
@@ -194,9 +189,7 @@ int main (void) {
   SystemClock_Config();                     /* Configure the System Clock     */
 
 	config_all();
-		
-	//initializeLED_IO();                       /* Initialize LED GPIO Buttons    */
-  //start_Thread_LED();                       /* Create LED thread              */
+
 	
 	/**************** Accelerometer thread setup *********************************/
 	acc_kalmanState_Config();
@@ -210,17 +203,20 @@ int main (void) {
 	temperature_select = osSemaphoreCreate(osSemaphore(temperature_select), 1);
 	temperature_set_semaphore(temperature_select);
 	
-	/************** Keyboard Thread Setup *****************************/
+	/************** Keyboard Thread Setup ***************************************/
 	
 	keypad_select = osSemaphoreCreate(osSemaphore(keypad_select), 1);
 	keypad_set_semaphore(keypad_select);
 
+	/************** Mutex's for Shared Resources *****************************/
 	
 	display_flag_mutex = osMutexCreate(osMutex(display_flag_mutex));
+	kalman_filter_mutex = osMutexCreate(osMutex(kalman_filter_mutex));
 
-	start_Thread_Keypad();
-	start_Thread_Accelerometer();                       /* Create accelerometer thread              */
-	start_Thread_Temperature_Sensor();                       /* Create Temperature sensor thread              */
+
+	start_Thread_Keypad();																	 /* Create keypad thread 							*/
+	start_Thread_Accelerometer();                       		 /* Create accelerometer thread       */
+	start_Thread_Temperature_Sensor();                       /* Create Temperature sensor thread  */
 	
 	/* User codes ends here*/
   
