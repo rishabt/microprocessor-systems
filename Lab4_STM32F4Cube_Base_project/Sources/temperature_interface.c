@@ -6,7 +6,7 @@
 extern TIM_HandleTypeDef TIM2_Handle;
 extern float temp;
 float temperature_reading;
-
+int RAISE_ALARM = 0;
 extern double tmp_temperature;
 extern int DISPLAY_TEMP;
 extern int display_flag;
@@ -39,6 +39,11 @@ void temperature_mode(void)
 	
 	temperature_reading = Kalmanfilter(temperature_reading, &temp_ks);			// Use Kalman filter to handle noise
 
+	if (temperature_reading > 30)
+		RAISE_ALARM = 1;
+	else
+		RAISE_ALARM = 0;
+	
 	if(DISPLAY_TEMP == 1)
 	{
 		if(display_flag % 9 == 0)

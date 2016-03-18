@@ -24,16 +24,17 @@
 
 int DISPLAY_ACC = 1;
 int DISPLAY_TEMP = 0;
-
+extern int RAISE_ALARM;
 int ACC_PITCH = 1;
 int ACC_ROLL = 0;
+int toggle_on = 0;
 
 extern void initializeLED_IO			(void);
 extern void start_Thread_LED			(void);
 extern void Thread_LED(void const *argument);
 extern osThreadId tid_Thread_LED;
 double tmp_temperature;
-extern double tmp_pitch;
+extern double tmp_pitch, tmp_roll;
 extern int DISPLAY_OPTION;
 extern int key_number;
 extern int pitch;
@@ -131,48 +132,53 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
 {
-	if(htim->Instance == TIM2)
+	if (htim->Instance == TIM4)
+	{
+			osSemaphoreRelease(keypad_select);
+	}
+	else if(htim->Instance == TIM2)
 	{
 		temp = HAL_ADC_GetValue(&ADC1_Handle);
 		
 		osSemaphoreRelease(temperature_select);
-		osSemaphoreRelease(keypad_select);
-
 	}	
 	
 	else if(htim->Instance == TIM3)
 	{
 		osMutexWait(display_flag_mutex, osWaitForever);
-	
 		display_flag++;
-
 		osMutexRelease(display_flag_mutex);
 
-		if(DISPLAY_ACC == 1)
+		if (((toggle_on < 10000) && RAISE_ALARM == 1) || (RAISE_ALARM == 0))
 		{
-				digit = digit - 1;
-				
-				if(digit == 0)
-				{
-					digit = 4;
-				}
-				
-				display(tmp_pitch);			
+			if(DISPLAY_ACC == 1)
+			{
+					digit = digit - 1;
+					if(digit == 0)
+					{
+						digit = 4;
+					}
+					if (ACC_PITCH==1) 
+						display(tmp_pitch);			
+					else if (ACC_ROLL==1) 
+						display(tmp_roll);			
+			}
+			else if(DISPLAY_TEMP == 1)
+			{
+					digit = digit - 1;
+					if(digit == 0)
+					{
+						digit = 4;
+					}
+					display(tmp_temperature);			
+			}
+			toggle_on++;
+		} else if ((toggle_on >= 10000) && RAISE_ALARM == 1){
+			clear_all_segments();
+			toggle_on++;
+			if (toggle_on > 20000)
+				toggle_on = 0;
 		}
-		
-		else if(DISPLAY_TEMP == 1)
-		{
-				digit = digit - 1;
-				
-				if(digit == 0)
-				{
-					digit = 4;
-				}
-
-				display(tmp_temperature);			
-		}
-		
-		
 	}
 }
 

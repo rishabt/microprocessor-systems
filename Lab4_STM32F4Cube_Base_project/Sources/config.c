@@ -18,6 +18,7 @@ GPIO_InitTypeDef GPIO_Struct;
 GPIO_InitTypeDef Degree_Struct;
 TIM_HandleTypeDef TIM2_Handle;
 TIM_HandleTypeDef TIM3_Handle;
+TIM_HandleTypeDef TIM4_Handle;
 
 void GPIO_Config(void)
 {
@@ -112,6 +113,39 @@ void LIS3DSH_Config(void){
 	LIS3DSH_DataReadyInterruptConfig(&LIS3DSH_DRYInterruptConfigTypeDef_Struct);
 }
 
+void Tim4_Config(void)
+{
+	TIM_Base_InitTypeDef TIM_TimeBaseStructure;
+	
+	TIM_TimeBaseStructure.Period = 200;
+	TIM_TimeBaseStructure.Prescaler = 42000;
+	TIM_TimeBaseStructure.ClockDivision = TIM_CLOCKDIVISION_DIV4;
+	TIM_TimeBaseStructure.CounterMode = TIM_COUNTERMODE_UP;
+	//TIM_TimeBaseStructure.RepetitionCounter = 0;
+	
+	/* Fill in the TIM handle with the required timer and init struct*/
+	TIM4_Handle.Instance = TIM4;
+	TIM4_Handle.Init = TIM_TimeBaseStructure;
+	TIM4_Handle.Channel = HAL_TIM_ACTIVE_CHANNEL_CLEARED;
+	TIM4_Handle.Lock = HAL_UNLOCKED;
+	TIM4_Handle.State = HAL_TIM_STATE_READY;
+
+	HAL_TIM_Base_MspInit(&TIM4_Handle);
+	
+	/* Enable clock for TIM4 */
+	__TIM4_CLK_ENABLE();
+	
+	HAL_TIM_Base_Init(&TIM4_Handle);
+	HAL_TIM_Base_Start_IT(&TIM4_Handle);
+	
+	//TIM_Base_SetConfig(TIM3, &TIM_TimeBaseStructure);
+	
+	/* Configure NVIC */
+	HAL_NVIC_EnableIRQ(TIM4_IRQn);
+	HAL_NVIC_SetPriority(TIM4_IRQn, 0,0);
+	//HAL_NVIC_ClearPendingIRQ(TIM3_IRQn);
+}
+
 void Tim3_Config(void)
 {
 	TIM_Base_InitTypeDef TIM_TimeBaseStructure;
@@ -185,4 +219,5 @@ void config_all(void)
 	LIS3DSH_Config();
 	Tim2_Config();
 	Tim3_Config();
+	Tim4_Config();
 }
