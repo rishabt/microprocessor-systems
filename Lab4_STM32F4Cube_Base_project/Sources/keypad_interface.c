@@ -77,7 +77,8 @@ void keypad_mode(void)
 			{
 				key_number = 3;
 			}
-			
+			printf("%d\n", key_number);
+
 		}  		
 
 }

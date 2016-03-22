@@ -15,7 +15,7 @@
 ***********************************************************************************************************/
 
 osThreadId tid_Thread_Keypad;
-osThreadDef(Thread_Keypad, osPriorityHigh, 1, 0);
+osThreadDef(Thread_Keypad, osPriorityLow, 1, 0);
 
 int start_Thread_Keypad (void) {
 
@@ -38,7 +38,7 @@ void Thread_Keypad (void const *argument) {
 ***********************************************************************************************************/
 
 osThreadId tid_Thread_Accelerometer;
-osThreadDef(Thread_Accelerometer, osPriorityNormal, 1, 0);
+osThreadDef(Thread_Accelerometer, osPriorityHigh, 1, 0);
 
 int start_Thread_Accelerometer (void) {
 

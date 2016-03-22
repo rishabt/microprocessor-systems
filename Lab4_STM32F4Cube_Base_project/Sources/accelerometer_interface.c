@@ -97,9 +97,7 @@ void accelerometer_mode(void)
 			tmp_roll = roll;
 		}
 	}
-	
-	printf("%f\n", roll);
-	
+		
 }
 
 void EXTI0_IRQHandler(void)

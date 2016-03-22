@@ -115,9 +115,9 @@ void Tim4_Config(void)
 {
 	TIM_Base_InitTypeDef TIM_TimeBaseStructure;
 	
-	TIM_TimeBaseStructure.Period = 200;
+	TIM_TimeBaseStructure.Period = 20;
 	TIM_TimeBaseStructure.Prescaler = 42000;
-	TIM_TimeBaseStructure.ClockDivision = TIM_CLOCKDIVISION_DIV4;
+	TIM_TimeBaseStructure.ClockDivision = TIM_CLOCKDIVISION_DIV1;
 	TIM_TimeBaseStructure.CounterMode = TIM_COUNTERMODE_UP;
 	//TIM_TimeBaseStructure.RepetitionCounter = 0;
 	
@@ -145,9 +145,9 @@ void Tim3_Config(void)
 {
 	TIM_Base_InitTypeDef TIM_TimeBaseStructure;
 	
-	TIM_TimeBaseStructure.Period = 20;
-	TIM_TimeBaseStructure.Prescaler = 100;
-	TIM_TimeBaseStructure.ClockDivision = TIM_CLOCKDIVISION_DIV4;
+	TIM_TimeBaseStructure.Period = 100;
+	TIM_TimeBaseStructure.Prescaler = 4000;
+	TIM_TimeBaseStructure.ClockDivision = TIM_CLOCKDIVISION_DIV1;
 	TIM_TimeBaseStructure.CounterMode = TIM_COUNTERMODE_UP;
 	//TIM_TimeBaseStructure.RepetitionCounter = 0;
 	
@@ -176,8 +176,8 @@ void Tim2_Config(void)
 	TIM_Base_InitTypeDef TIM_TimeBaseStructure;
 	
 	TIM_TimeBaseStructure.Period = 20;
-	TIM_TimeBaseStructure.Prescaler = 2100;
-	TIM_TimeBaseStructure.ClockDivision = TIM_CLOCKDIVISION_DIV4;
+	TIM_TimeBaseStructure.Prescaler = 42000;
+	TIM_TimeBaseStructure.ClockDivision = TIM_CLOCKDIVISION_DIV1;
 	TIM_TimeBaseStructure.CounterMode = TIM_COUNTERMODE_UP;
 	//TIM_TimeBaseStructure.RepetitionCounter = 0;
 	

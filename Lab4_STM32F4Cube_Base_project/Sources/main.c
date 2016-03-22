@@ -134,8 +134,6 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim) {
 			osSemaphoreRelease(keypad_select);
 	}	
 	else if(htim->Instance == TIM2) { // poll adc configured to read temperature sensor
-		temp = HAL_ADC_GetValue(&ADC1_Handle);
-
 		osSemaphoreRelease(temperature_select);
 	}	
 	else if(htim->Instance == TIM3){ // update the display
@@ -145,9 +143,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim) {
 		 * value of temperature/pitch/roll at a
 		 * slower frequency than acquisition.
 		*/
-		osMutexWait(display_flag_mutex, osWaitForever);
 		display_flag++;								
-		osMutexRelease(display_flag_mutex);
 
 		
 		if (((toggle_on < 10000) && RAISE_ALARM == 1) || (RAISE_ALARM == 0)) { // Enable display

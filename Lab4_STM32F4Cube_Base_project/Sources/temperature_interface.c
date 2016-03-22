@@ -27,12 +27,13 @@ void temperature_set_semaphore(osSemaphoreId sem) {
 void TIM2_IRQHandler(void) {
 	HAL_TIM_IRQHandler(&TIM2_Handle);
 }
-
+extern ADC_HandleTypeDef ADC1_Handle;
 void temperature_mode(void)
 {
 	
 	osSemaphoreWait(temp_semaphore, osWaitForever);
-	
+	temp = HAL_ADC_GetValue(&ADC1_Handle);
+
 	temperature_reading  = temp*(3.3f/ 4096.0f);											// ADC 3.3 Volts per 2^12 steps (12 bit resolution in configuration)
 	temperature_reading -= (float)0.76;																// reference of 25C at 760mV
 	temperature_reading /= (float)0.025;															// slope of 25mV/1C
@@ -45,11 +46,9 @@ void temperature_mode(void)
 	else
 		RAISE_ALARM = 0;
 	
-	osMutexWait(display_flag_mutex, osWaitForever);
 	if(display_flag % 300 == 0){			
 		tmp_temperature = temperature_reading;
 	}
-	osMutexRelease(display_flag_mutex);
 
 }
 
